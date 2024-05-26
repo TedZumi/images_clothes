@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="{{ url_for('static', filename='js/api.js') }}" type="module"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css' ) }}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <img class="logo" src="{{ url_for('static', filename='CloSet.png' ) }}" alt="Логотип" onclick="location.href='/'">
+        <nav>
+            <ul class="menu_ul">
+                <li class="menu_li"><a class="menu_a" href="/">Главная</a></li>
+                <li class="menu_li"><a class="menu_a" href="#">Создать образ</a></li>
+                <li class="menu_li"><a class="menu_a" href="#">Контакты</a></li>
+            </ul>
+        </nav>
+        <img class="me" src="{{ url_for('static', filename='me.png') }}" alt="Личный кабинет" onclick="location.href='/profile'">
+    </header>
+
+    <main class="container mt-5">  <!-- Added main and container -->
+        {% block body %}{% endblock %}
+    </main>
+
+</body>
+</html>

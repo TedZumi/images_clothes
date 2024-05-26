@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Гардероб
+{% endblock %}
+
+{% block body %}
+  <h1>Ваш гардероб</h1>
+    <div class="wardrobe">
+        <script>
+            // Получаем массив clothes_id из Javascript
+            const wardrobeIds = JSON.parse('{{ person_wardrobe | tojson }}');
+
+            fetch('/api/v1/wardrobe/' + wardrobeIds.join(',')) // Запрос к API
+                .then(response => response.json())
+                .then(clothesData => {
+                    const wardrobeContainer = document.querySelector('.wardrobe');
+                    clothesData.forEach(clothesItem => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.classList.add('wardrobe-item');
+
+                        // Добавляем информацию о clothesItem в div
+                        itemDiv.innerHTML = `
+                            <img src="/static/clothes_image/${clothesItem.image}" alt="${clothesItem.type}">
+                            <p>${clothesItem.category}</p>
+                            <p>${clothesItem.brend}</p>
+                        `;
+
+                        // Добавляем div в контейнер
+                        wardrobeContainer.appendChild(itemDiv);
+                    });
+                });
+        </script>
+    </div>
+
+
+
+<div class="sidebar">
+  <ul>
+    <li><a href="/profile">Личный кабинет</a></li>
+    <li><a href="/wardrobe">Мой гардероб</a></li>
+    <li><a href="#">Мои образы</a></li>
+  </ul>
+</div>
+
+
+{% endblock %}

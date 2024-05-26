@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Профиль
+{% endblock %}
+
+{% block body %}
+<div class="user-info-container">
+  <div id="user-info">
+
+    <script>
+        // Fetch user data from the API
+        fetch(`/api/v1/users/{{ person_id }}`)
+            .then(response => response.json())
+            .then(data => {
+                // Update the user-info div with the fetched data
+                document.getElementById('user-info').innerHTML = `
+                    <p>Личная информация</p>
+                    <p>ФИО: ${data.username}</p>
+                    <p>E-mail: ${data.email}</p>
+                `;
+            })
+            .catch(error => console.error('Error fetching user data:', error));
+    </script>
+  </div>
+
+  <div class="change-password">
+  <p>Изменить пароль</p>
+    <form id="change-password-form" method="post">
+      <label for="password">Старый пароль:</label>
+      <input type="password" id="password" name="password" required><br><br>
+
+      <label for="new_password">Новый пароль:</label>
+      <input type="password" id="new_password" name="new_password" required><br><br>
+
+      <label for="repeat_new_password">Повторите новый пароль:</label>
+      <input type="password" id="repeat_new_password" name="repeat_new_password" required><br><br>
+      {% if error %}
+		  <div class="error">
+			{{ error }}
+		  </div>
+      {% endif %}
+      <button type="submit">Сохранить</button>
+    </form>
+  </div>
+</div>
+
+</div>
+  <div class="logout-container">  <!-- Added container for logout button -->
+  <form method="POST" action="{{ logout_url }}">
+    <button type="submit" class="btn btn-danger" id="buttn">Выйти</button>
+  </form>
+</div>
+
+<div class="sidebar">
+  <ul>
+    <li><a href="/profile">Личный кабинет</a></li>
+    <li><a href="/wardrobe">Мой гардероб</a></li>
+    <li><a href="#">Мои образы</a></li>
+  </ul>
+</div>
+
+
+{% endblock %}

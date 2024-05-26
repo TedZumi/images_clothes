@@ -1,0 +1,188 @@
+body{
+	font-family: Microsoft Yahei;
+}
+
+header {
+	display: block; /* Для старых браузеров */
+	height: 85px; /* Высота шапки */
+	width: 100%;
+	position: fixed;
+	display: flex;
+	border-bottom: 0.5mm solid #E5E5E5;
+}
+
+.menu_ul{
+	list-style: none;
+    /*position: absolute;*/
+	display: flex;
+	flex-direction: row;
+	position: relative;
+	top: 15px;
+	left: 150px;
+}
+
+.menu_li{
+	margin-left: 65px;
+	/*border-bottom*/
+}
+
+.menu_a{
+	text-decoration: none;
+	color: black;
+	font-family: Microsoft Yahei;
+	font-size: 14px;
+}
+
+.logo{
+	width: 148px;
+	height: 85px;
+	margin-left: 85px;
+	cursor: pointer;
+}
+
+.me {
+	width: 35px;
+	height: 38px;
+	position: relative;
+	top: 23px;
+	left: 440px;
+	cursor: pointer;
+}
+
+form.reg{
+	padding-top: 230px;
+	padding-left: 500px;
+	width: 300px;
+}
+
+legend{
+	border: none;
+}
+
+input.reg{
+	margin-top: 30px;
+	width: 250px;
+	height: 40px;
+	border: 0.5mm solid #D4D4D4;
+	border-radius: 20px;
+	padding-left: 30px;
+	font-size: 11px;
+}
+
+#buttn{
+	margin-top: 30px;
+	width: 285px;
+	height: 43px;
+	border: none;
+	border-radius: 20px;
+	font-size: 11px;
+	background-color: #FBB03B;
+	text-align: center;
+}
+
+.btn btn-danger {
+    margin-top: 230px;
+    color: red;
+    }
+
+
+/* Меню в профиле */
+.sidebar {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-left: 1px solid #ddd;
+    margin-top: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin-bottom: 10px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px solid #ddd;
+}
+
+.sidebar a:hover {
+    background-color: #eee;
+}
+
+.container {
+    max-width: 800px; /* Adjust the max width as needed */
+    margin: 0 auto;  /* Center the container horizontally */
+
+}
+
+#user-info {
+    /* ... Any other styles for the user-info block */
+    width: 400px;
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto 1fr; /* Header takes auto height, content takes remaining */
+}
+
+header {
+    grid-row: 1; /* Header occupies the first row */
+}
+
+main {
+    grid-row: 2; /* Main content occupies the second row */
+}
+.user-info-container {
+    display: flex;
+    justify-content: space-between;  /* Distribute space evenly */
+    margin-bottom: 20px;  /* Add spacing below */
+    position: fixed;
+    left: 25%;
+    top: 30%;
+}
+
+.change-password {
+    /* ... */
+    padding-left: 50px;
+}
+.logout-container {
+    justify-content: center; /* Center horizontally */
+padding-top: 170%;
+}
+
+
+
+.wardrobe {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.wardrobe-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: calc(33.33% - 20px);
+    box-sizing: border-box;
+    text-align: center; /* Выравниваем текст по центру */
+}
+
+.wardrobe-item img {
+    max-width: 100%;
+    height: auto;
+}
+
+.wardrobe-item p {
+    margin: 5px 0; /* Отступы сверху и снизу для текста */
+}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Вход
+{% endblock %}
+
+{% block body %}
+<form method="post" class="reg">
+	<fieldset>
+		<legend align="center">Вход</legend>
+		<input class="reg" name="email" id="email" type="email" required placeholder="E-mail">
+		<input class="reg" name="password" id="password" type="password" required placeholder="Пароль">
+		{% if error %}
+		  <div class="error">
+			{{ error }}
+		  </div>
+		{% endif %}
+		<input id="buttn" type="submit" value="Войти">
+	</fieldset>
+</form>
+{% endblock %}

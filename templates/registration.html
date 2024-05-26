@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Страница регистрации
+{% endblock %}
+
+{% block body %}
+<form method="post" class="reg">
+	<fieldset>
+		<legend align="center">Создайте учетную запись</legend>
+		<input class="reg" name="name" id="name" type="text" required placeholder="ФИО">
+		<input class="reg" name="email" id="email" type="email" required placeholder="E-mail">
+		<input class="reg" name="password" id="password" type="password" required placeholder="Пароль">
+		{% if error %}
+		  <div class="error">
+			{{ error }}
+		  </div>
+		{% endif %}
+		<input id="buttn" type="submit" value="Зарегистрироваться">
+	</fieldset>
+</form>
+
+{% endblock %}
