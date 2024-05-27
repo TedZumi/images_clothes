@@ -132,6 +132,56 @@ class Database:
             else:
                 return None
 
+    """Получает все поля из таблицы clothes."""
+
+    def get_all_clothes(self):
+        with self.Session() as session:
+            results = session.execute(text("SELECT * FROM clothes")).fetchall()
+            clothes_list = []
+            for result in results:
+                clothes_list.append({
+                    'clothes_id': result[0],
+                    'type': result[1],
+                    'category': result[2],
+                    'gender': result[3],
+                    'brend': result[4],
+                    'season': result[5],
+                    'color': result[6],
+                    'image': result[7]
+                })
+            return clothes_list
+
+    """Удаляет запись из таблицы clothes по clothes_id."""
+    def delete_clothes_by_id(self, clothes_id):
+        with self.Session() as session:
+            try:
+                # Используем delete() для удаления записи
+                session.execute(
+                    text("DELETE FROM clothes WHERE clothes_id = :clothes_id"),
+                    {"clothes_id": clothes_id}
+                )
+                session.commit()
+                return True  # Удаление успешно
+            except Exception as e:
+                print(f"Ошибка при удалении вещи: {e}")
+                return False  # Возникла ошибка
+
+    """Удаляет запись из таблицы person, удаляя clothes_id из массива wardrobe."""
+    def delete_clothes_from_person_wardrobe(self, person_id, clothes_id):
+        with self.Session() as session:
+            try:
+                # Используем update() для обновления записи
+                session.execute(
+                    text(
+                        "UPDATE person SET wardrobe = array_remove(wardrobe, :clothes_id) WHERE person_id = :person_id"),
+                    {"clothes_id": clothes_id, "person_id": person_id}
+                )
+                session.commit()
+                return True  # Удаление успешно
+            except Exception as e:
+                print(f"Ошибка при удалении вещи из гардероба: {e}")
+                return False  # Возникла ошибка
+
     """Получает массив clothes_id из гардероба пользователя."""
     def get_wardrobe(self, person_id):
         with self.Session() as session:

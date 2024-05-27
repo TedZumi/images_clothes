@@ -12,7 +12,8 @@ from data_base import Database
 from werkzeug.security import generate_password_hash, check_password_hash
 import mimetypes
 import auth
-from profile import get_person_wardrobe
+from profile import get_person_wardrobe, get_clothes_info
+from clothes import get_all_clothes
 
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
@@ -54,7 +55,8 @@ def unauthorized_callback():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    clouthes_all = get_all_clothes(app, g.db)
+    return render_template('index.html', clouthes_all=clouthes_all)
 
 
 @app.route('/profile', methods=['GET', 'POST'])
@@ -78,12 +80,20 @@ def profile():
     return render_template('profile.html', logout_url=logout_url, person_id=person_id)
 
 
-@app.route('/wardrobe', methods=['GET', 'POST'])
+@app.route('/wardrobe', methods=['GET'])
 @login_required
 def wardrobe():
     person_id = current_user.get_id()
     person_wardrobe = get_person_wardrobe(app, person_id, g.db)
-    return render_template('wardrobe.html', person_wardrobe=person_wardrobe)
+    return render_template('wardrobe.html', person_wardrobe=person_wardrobe, person_id=person_id)
+
+
+@app.route('/product_card/<int:clothes_id>')
+@login_required
+def product_card(clothes_id):
+    person_id = current_user.get_id()
+    clothes_data = get_clothes_info(app, clothes_id, g.db)
+    return render_template('product_card.html', clothes_data=clothes_data, person_id=person_id)
 
 
 api = API(app)  # Передаем app в API

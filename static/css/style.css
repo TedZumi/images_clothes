@@ -2,66 +2,98 @@ body{
 	font-family: Microsoft Yahei;
 }
 
+a{
+	color: #111111;
+}
+
+p{
+	font-size: 14px;
+}
+
+.error{
+	font-size: 12px;
+	color: #8B0000;
+}
+
+/*------------------------ HEADER -----------------------------*/
+
 header {
-	display: block; /* Для старых браузеров */
+	display: grid;
+	grid-template-columns: 1.1fr 1.5fr 1fr;
 	height: 85px; /* Высота шапки */
 	width: 100%;
-	position: fixed;
-	display: flex;
 	border-bottom: 0.5mm solid #E5E5E5;
+}
+
+.grid_header{
+	display: flex;
+	justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 .menu_ul{
 	list-style: none;
-    /*position: absolute;*/
+    position: absolute;
 	display: flex;
 	flex-direction: row;
 	position: relative;
-	top: 15px;
-	left: 150px;
 }
 
 .menu_li{
-	margin-left: 65px;
+	margin-right: 80px;
 	/*border-bottom*/
 }
 
 .menu_a{
 	text-decoration: none;
-	color: black;
-	font-family: Microsoft Yahei;
 	font-size: 14px;
 }
 
 .logo{
-	width: 148px;
-	height: 85px;
-	margin-left: 85px;
-	cursor: pointer;
+	text-decoration: none;
+    position: absolute;
+	display: flex;
+	flex-direction: row;
+	position: relative;
 }
 
-.me {
+.logo_img{
+	width: 68px;
+	height: 68px;
+}
+
+#logo1{
+	margin-left: 15px;
+	color: #FBB03B;
+}
+
+.me_img{
 	width: 35px;
 	height: 38px;
-	position: relative;
-	top: 23px;
-	left: 440px;
-	cursor: pointer;
 }
 
+/*-----------------------------------------------------*/
+
 form.reg{
-	padding-top: 230px;
-	padding-left: 500px;
+	padding-top: 160px;
+	padding-left: 470px;
 	width: 300px;
 }
 
-legend{
+form.filters{
+	padding-top: 170px;
+	width: 300px;
+}
+
+fieldset.reg_en{
 	border: none;
+	font-size: 18px;
 }
 
 input.reg{
-	margin-top: 30px;
-	width: 250px;
+	margin-top: 20px;
+	width: 300px;
 	height: 40px;
 	border: 0.5mm solid #D4D4D4;
 	border-radius: 20px;
@@ -69,16 +101,94 @@ input.reg{
 	font-size: 11px;
 }
 
-#buttn{
-	margin-top: 30px;
-	width: 285px;
+.button{
 	height: 43px;
+	margin-top: 30px;
 	border: none;
 	border-radius: 20px;
-	font-size: 11px;
+	font-size: 12px;
 	background-color: #FBB03B;
 	text-align: center;
+	cursor: pointer;
 }
+
+.reg_en_button{
+	width: 335px;
+}
+
+.question{
+	font-size: 12px;
+	margin-left: 26%;
+	cursor: pointer;
+	padding-top: 5px;
+	text-decoration: underline ;
+}
+
+/*------*/
+
+.persona{
+	display: grid;
+	grid-template-columns: 1fr 1.5fr 0.8fr;
+	height: 480px;
+	width: 100%;
+	margin-top: 35px;
+}
+
+.persona_grid{
+	/*border: 1mm solid red;*/
+	display: flex;
+	justify-content: center;
+    align-items: center;
+}
+
+.prof_grid1{
+	display: flex;
+	margin-left: 30%;
+	align-items: center;
+	/*border-right: 0.5mm solid #E5E5E5;*/
+}
+
+.right_grid{
+	border-left: 0.5mm solid #E5E5E5;
+	padding-left: 8%;
+}
+
+#info{
+	margin-bottom: 40px;
+	font-size: 18px;
+}
+
+.profile_lab{
+	font-size: 13.5px;
+	margin-right: 12px;
+}
+
+input.profile_inp{
+	width: 200px;
+}
+
+.persona_ul{
+	list-style: none;
+}
+
+.persona_a{
+	text-decoration: none;
+}
+
+.persona_li{
+	margin-top: 20px;
+}
+
+.persona_fieldset{
+	border: none;
+	font-size: 18px;
+}
+
+.persona_button{
+	width: 215px;
+}
+
+/*----------------------- СТИЛИ КАТИ -----------------------------*/
 
 .btn btn-danger {
     margin-top: 230px;
@@ -120,21 +230,12 @@ input.reg{
     background-color: #eee;
 }
 
-.container {
-    max-width: 800px; /* Adjust the max width as needed */
-    margin: 0 auto;  /* Center the container horizontally */
-
-}
-
 #user-info {
     /* ... Any other styles for the user-info block */
+    font-size: 18px;
     width: 400px;
 }
 
-body {
-    display: grid;
-    grid-template-rows: auto 1fr; /* Header takes auto height, content takes remaining */
-}
 
 header {
     grid-row: 1; /* Header occupies the first row */
@@ -143,6 +244,7 @@ header {
 main {
     grid-row: 2; /* Main content occupies the second row */
 }
+
 .user-info-container {
     display: flex;
     justify-content: space-between;  /* Distribute space evenly */
@@ -162,27 +264,51 @@ padding-top: 170%;
 }
 
 
+/* .........wardrobe........... */
 
 .wardrobe {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+margin-right: 250px;
 }
 
 .wardrobe-item {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
-    width: calc(33.33% - 20px);
-    box-sizing: border-box;
-    text-align: center; /* Выравниваем текст по центру */
+border: 1px solid #ccc;
+padding: 10px;
+margin-bottom: 10px;
+width: calc(33.33% - 20px);
+box-sizing: border-box;
+text-align: center; /* Выравниваем текст по центру */
 }
 
 .wardrobe-item img {
-    max-width: 100%;
-    height: auto;
+max-width: 100%;
+height: auto;
 }
 
 .wardrobe-item p {
-    margin: 5px 0; /* Отступы сверху и снизу для текста */
+margin: 5px 0; /* Отступы сверху и снизу для текста */
 }
+
+/* главная */
+.clothes-item {
+    display: inline-block;
+    width: 200px; /* Ширина блока */
+    margin: 10px; /* Отступы */
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+.clothes-item img {
+    max-width: 100%;
+    height: auto;
+}
+.show-more {
+            display: block;
+            margin: 20px auto; /* Центрируем кнопку */
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Зеленый цвет */
+            color: white;
+            border: none;
+            cursor: pointer;
+        }

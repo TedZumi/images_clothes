@@ -5,5 +5,42 @@
 {% endblock %}
 
 {% block body %}
+<h1>Каталог одежды</h1>
+<div class="clothes-container">
+    {% for clothes in clouthes_all[:50] %}
+        <div class="clothes-item">
+            <img src="/static/clothes_image/{{ clothes['image'] }}" alt="{{ clothes['type'] }}">
+            <p>{{ clothes['category'] }}</p>
+            <p>{{ clothes['brend'] }}</p>
+        </div>
+    {% endfor %}
+</div>
+<button class="show-more">Показать ещё</button>
+<script>
+    const showMoreButton = document.querySelector('.show-more');
+    const clothesContainer = document.querySelector('.clothes-container');
+    const clothesItems = document.querySelectorAll('.clothes-item');
+    let showCount = 50;
+    const allClothes = {{ clouthes_all | tojson }}; // Преобразование списка в JSON
 
+    showMoreButton.addEventListener('click', () => {
+        showCount += 10;
+
+        // Добавляем элементы из allClothes
+        for (let i = showCount; i < showCount + 10 && i < allClothes.length; i++) {
+            let clothesItem = document.createElement('div');
+            clothesItem.classList.add('clothes-item');
+            clothesItem.innerHTML = `
+                <img src="/static/clothes_image/${allClothes[i].image}" alt="${allClothes[i].type}">
+                <p>${allClothes[i].category}</p>
+                <p>${allClothes[i].brend}</p>
+            `;
+            clothesContainer.appendChild(clothesItem);
+        }
+
+        if (showCount >= allClothes.length) {
+            showMoreButton.style.display = 'none';
+        }
+    });
+</script>
 {% endblock %}

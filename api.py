@@ -3,6 +3,7 @@ from user import User
 from data_base import Database
 from auth import login as auth_login, logout as auth_logout, registration as auth_registration
 from flask_login import current_user
+from profile import get_clothes_info, del_clothes
 
 
 class API:
@@ -79,3 +80,17 @@ class API:
                 if clothes_info:
                     clothes_data.append(clothes_info)
             return jsonify(clothes_data)
+
+
+        @self.app.route('/api/v1/wardrobe/delete/<int:clothes_id>', methods=['DELETE'])
+        def delete_clothes_item(clothes_id):
+            person_id = request.args.get('person_id')
+            if person_id:
+                del_clothes(self.app, person_id, clothes_id, self.dbase)
+                return jsonify({'message': 'Вещь успешно удалена из гардероба'}), 200
+            else:
+                return jsonify({'error': 'Не указан person_id'}), 400
+        # @self.app.route('/product_card/<int:clothes_id>')
+        # def get_wardrobe(clothes_id):
+        #     cloth_data = get_clothes_info(self.app, clothes_id, self.dbase)
+        #     return jsonify(cloth_data)

@@ -6,7 +6,7 @@
 
 {% block body %}
 <form method="post" class="reg">
-	<fieldset>
+	<fieldset class="reg_en">
 		<legend align="center">Создайте учетную запись</legend>
 		<input class="reg" name="name" id="name" type="text" required placeholder="ФИО">
 		<input class="reg" name="email" id="email" type="email" required placeholder="E-mail">
@@ -16,7 +16,8 @@
 			{{ error }}
 		  </div>
 		{% endif %}
-		<input id="buttn" type="submit" value="Зарегистрироваться">
+		<input class="button reg_en_button" type="submit" value="Зарегистрироваться">
+		<a class="question" onclick="location.href='/login'">Уже есть учетная запись?</a>
 	</fieldset>
 </form>
 

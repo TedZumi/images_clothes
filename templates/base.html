@@ -11,15 +11,27 @@
 </head>
 <body>
     <header>
-        <img class="logo" src="{{ url_for('static', filename='CloSet.png' ) }}" alt="Логотип" onclick="location.href='/'">
-        <nav>
-            <ul class="menu_ul">
-                <li class="menu_li"><a class="menu_a" href="/">Главная</a></li>
-                <li class="menu_li"><a class="menu_a" href="#">Создать образ</a></li>
-                <li class="menu_li"><a class="menu_a" href="#">Контакты</a></li>
-            </ul>
-        </nav>
-        <img class="me" src="{{ url_for('static', filename='me.png') }}" alt="Личный кабинет" onclick="location.href='/profile'">
+        <div class="grid_header" onclick="location.href='/'">
+            <a class="logo">
+                <img class="logo_img" src="{{ url_for('static', filename='logo.png' ) }}" alt="Логотип">
+                <h2 id="logo1">Get</h2>
+                <h2 id="logo2">Closet</h2>
+            </a>
+        </div>
+        <div class="grid_header">
+            <nav>
+                <ul class="menu_ul">
+                    <li class="menu_li"><a class="menu_a" href="/">Главная</a></li>
+                    <li class="menu_li"><a class="menu_a" href="#">Создать образ</a></li>
+                    <li class="menu_li"><a class="menu_a" href="#">Мода</a></li>
+                </ul>
+            </nav>
+	    </div>
+        <div class="grid_header">
+            <a class="me">
+                <img class="me_img" src="{{ url_for('static', filename='me.png') }}" alt="Личный кабинет" onclick="location.href='/profile'">
+            </a>
+        </div>
     </header>
 
     <main class="container mt-5">  <!-- Added main and container -->
