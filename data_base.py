@@ -151,6 +151,72 @@ class Database:
                 })
             return clothes_list
 
+    """Возвращает список одежды с ограничением по количеству и смещением."""
+    def get_all_clothes_limit(self, offset, limit):
+        with self.Session() as session:
+            if limit is None:
+                # Выполните запрос без LIMIT, чтобы получить все товары
+                results = session.execute(
+                    text("SELECT * FROM clothes OFFSET :offset"),
+                    {"offset": offset}
+                ).fetchall()
+            else:
+                # Выполните запрос с LIMIT
+                results = session.execute(
+                    text("SELECT * FROM clothes LIMIT :limit OFFSET :offset"),
+                    {"limit": limit, "offset": offset}
+                ).fetchall()
+
+            clothes_list = []
+            for result in results:
+                clothes_list.append({
+                    'clothes_id': result[0],
+                    'type': result[1],
+                    'category': result[2],
+                    'gender': result[3],
+                    'brend': result[4],
+                    'season': result[5],
+                    'color': result[6],
+                    'image': result[7]
+                })
+            return clothes_list
+
+    """Возвращает список всех уникальных категорий одежды."""
+    def get_all_categories(self):
+        with self.Session() as session:
+            results = session.execute(
+                text("SELECT DISTINCT category FROM clothes")
+            ).fetchall()
+            categories = [result[0] for result in results]
+            return categories
+
+    """Возвращает список всех уникальных брендов одежды."""
+    def get_all_brends(self):
+        with self.Session() as session:
+            results = session.execute(
+                text("SELECT DISTINCT brend FROM clothes")
+            ).fetchall()
+            brends = [result[0] for result in results]
+            return brends
+
+    """Возвращает список всех уникальных сезонов одежды."""
+    def get_all_seasons(self):
+        with self.Session() as session:
+            results = session.execute(
+                text("SELECT DISTINCT season FROM clothes")
+            ).fetchall()
+            season = [result[0] for result in results]
+            return season
+
+    """Возвращает список всех уникальных сезонов одежды."""
+    def get_all_colors(self):
+        with self.Session() as session:
+            results = session.execute(
+                text("SELECT DISTINCT color FROM clothes")
+            ).fetchall()
+            color = [result[0] for result in results]
+            return color
+
     """Удаляет запись из таблицы clothes по clothes_id."""
     def delete_clothes_by_id(self, clothes_id):
         with self.Session() as session:
@@ -180,6 +246,23 @@ class Database:
                 return True  # Удаление успешно
             except Exception as e:
                 print(f"Ошибка при удалении вещи из гардероба: {e}")
+                return False  # Возникла ошибка
+
+    """Добавляет clothes_id в массив wardrobe записи person."""
+
+    def add_clothes_to_person_wardrobe(self, person_id, clothes_id):
+        with self.Session() as session:
+            try:
+                # Используем update() для обновления записи
+                session.execute(
+                    text(
+                        "UPDATE person SET wardrobe = array_append(wardrobe, :clothes_id) WHERE person_id = :person_id"),
+                    {"clothes_id": clothes_id, "person_id": person_id}
+                )
+                session.commit()
+                return True  # Добавление успешно
+            except Exception as e:
+                print(f"Ошибка при добавлении вещи в гардероб: {e}")
                 return False  # Возникла ошибка
 
     """Получает массив clothes_id из гардероба пользователя."""

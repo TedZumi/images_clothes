@@ -6,41 +6,200 @@
 
 {% block body %}
 <h1>Каталог одежды</h1>
+<form action="/api/v1/clothes/filter" method="get">
+    <label for="type">Тип вещи:</label>
+    <select name="type" id="type">
+        <option value="">Все типы</option>
+        <option value="Обувь">Обувь</option>
+        <option value="Одежда">Одежда</option>
+    </select>
+
+    <label for="category">Категория:</label>
+    <select name="category" id="category">
+        <option value="">Все категории</option>
+        {% for category in categories %}
+            <option value="{{ category }}">{{ category }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="gender">Пол:</label>
+    <select name="gender" id="gender">
+        <option value="">Все полы</option>
+        <option value="male">Мужской</option>
+        <option value="female">Женский</option>
+    </select>
+
+    <label for="brend">Бренд:</label>
+    <select name="brend" id="brend">
+        <option value="">Все бренды</option>
+        {% for brend in brends %}
+            <option value="{{ brend }}">{{ brend }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="season">Сезон:</label>
+    <select name="season" id="season">
+        <option value="">Все сезоны</option>
+        {% for season in seasons %}
+            <option value="{{ season }}">{{ season }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="color">Цвет:</label>
+    <select name="color" id="color">
+        <option value="">Все цвета</option>
+        {% for color in colors %}
+            <option value="{{ color }}">{{ color }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Фильтровать</button>
+</form>
+
 <div class="clothes-container">
-    {% for clothes in clouthes_all[:50] %}
-        <div class="clothes-item">
-            <img src="/static/clothes_image/{{ clothes['image'] }}" alt="{{ clothes['type'] }}">
-            <p>{{ clothes['category'] }}</p>
-            <p>{{ clothes['brend'] }}</p>
-        </div>
-    {% endfor %}
+    <!-- Здесь будет отображаться список товаров -->
 </div>
+
 <button class="show-more">Показать ещё</button>
 <script>
-    const showMoreButton = document.querySelector('.show-more');
+    const filterForm = document.querySelector('form');
     const clothesContainer = document.querySelector('.clothes-container');
-    const clothesItems = document.querySelectorAll('.clothes-item');
     let showCount = 50;
-    const allClothes = {{ clouthes_all | tojson }}; // Преобразование списка в JSON
 
-    showMoreButton.addEventListener('click', () => {
-        showCount += 10;
-
-        // Добавляем элементы из allClothes
-        for (let i = showCount; i < showCount + 10 && i < allClothes.length; i++) {
-            let clothesItem = document.createElement('div');
-            clothesItem.classList.add('clothes-item');
-            clothesItem.innerHTML = `
-                <img src="/static/clothes_image/${allClothes[i].image}" alt="${allClothes[i].type}">
-                <p>${allClothes[i].category}</p>
-                <p>${allClothes[i].brend}</p>
-            `;
-            clothesContainer.appendChild(clothesItem);
-        }
-
-        if (showCount >= allClothes.length) {
+    // Функция для обновления списка товаров
+        function updateClothes(clothesData) {
+        clothesContainer.innerHTML = ''; // Очищаем контейнер
+        // Проверяем, не пуст ли список товаров
+        if (clothesData.clothes.length === 0) {
+            // Скрываем кнопку "Показать еще"
             showMoreButton.style.display = 'none';
+        } else {
+            // Отображаем товары
+            clothesData.clothes.forEach(clothes => {
+                // Создаем элемент товара и добавляем в контейнер
+                const clothesItem = document.createElement('div');
+                clothesItem.classList.add('clothes-item');
+                clothesItem.innerHTML = `
+                    <a href="/product_card/${clothes.clothes_id}" data-id="${clothes.clothes_id}">
+                      <img src="/static/clothes_image/${clothes.image}" alt="${clothes.type}">
+                    </a>
+                    <p>${clothes.category}</p>
+                    <p>${clothes.brend}</p>
+                    <button class="add-button" data-id="${clothes.clothes_id}">Добавить в гардероб</button>
+                `;
+                clothesContainer.appendChild(clothesItem);
+
+                // Добавляем обработчик клика на кнопку
+                const addToWardrobeButton = clothesItem.querySelector('.add-button');
+                addToWardrobeButton.addEventListener('click', handleAddToWardrobeClick);
+            });
         }
+    }
+
+    function handleAddToWardrobeClick(event) {
+    const clothesId = event.target.dataset.id; // Получаем ID товара из атрибута data-id
+
+    fetch(`/api/v1/wardrobe/add/${clothesId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+    })
+    .then(response => {
+    if (response.status === 401) {
+      // Не авторизован
+      window.location.href = '/login'; // Перенаправляем на страницу входа
+    } else {
+      return response.json();
+    }
+    })
+    .then(data => {
+    if (data.message) {
+      // Успешное добавление в гардероб (например, показать сообщение)
+      alert(data.message);
+    } else if (data.error) {
+      // Ошибка (например, показать сообщение об ошибке)
+      alert(data.error);
+    }
+    })
+    .catch(error => {
+    // Обработка ошибок при запросе
+    console.error('Ошибка при добавлении в гардероб:', error);
+    });
+    }
+
+    // Инициализация списка товаров
+    fetch('/api/v1/clothes/filter?offset=0&limit=50')
+        .then(response => response.json())
+        .then(data => updateClothes(data));
+
+    // Обработка отправки формы
+    filterForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Предотвращаем стандартную отправку формы
+
+        // Получаем значения из формы
+        const type = document.getElementById('type').value;
+        const category = document.getElementById('category').value;
+        const gender = document.getElementById('gender').value;
+        const brend = document.getElementById('brend').value;
+        const season = document.getElementById('season').value;
+        const color = document.getElementById('color').value;
+
+        // Сохраняем текущие значения фильтров
+        currentFilters = {
+            type, category, gender, brend, season, color
+        };
+
+
+
+        // Собираем URL для запроса
+        const url = `/api/v1/clothes/filter?limit=50&${
+            type ? `type=${type}&` : ''
+        }${
+            category ? `category=${category}&` : ''
+        }${
+            gender ? `gender=${gender}&` : ''
+        }${
+            brend ? `brend=${brend}&` : ''
+        }${
+            season ? `season=${season}&` : ''
+        }${
+            color ? `color=${color}` : ''
+        }`;
+
+        // Отправляем AJAX-запрос
+        fetch(url)
+            .then(response => response.json())
+            .then(data => updateClothes(data));
+    });
+
+    // Обработка кнопки "Показать ещё" (пагинация)
+    const showMoreButton = document.querySelector('.show-more');
+    showMoreButton.addEventListener('click', () => {
+        showCount += 50; // Добавьте 50 элементов
+        // Собираем URL с offset и текущими фильтрами, обрабатывая пустые значения
+        const url = `/api/v1/clothes/filter?limit=50&offset=${showCount}${
+            currentFilters.type ? `&type=${currentFilters.type}` : ''
+        }${
+            currentFilters.category ? `&category=${currentFilters.category}` : ''
+        }${
+            currentFilters.gender ? `&gender=${currentFilters.gender}` : ''
+        }${
+            currentFilters.brend ? `&brend=${currentFilters.brend}` : ''
+        }${
+            currentFilters.season ? `&season=${currentFilters.season}` : ''
+        }${
+            currentFilters.color ? `&color=${currentFilters.color}` : ''
+        }`;
+
+        // Отправляем AJAX-запрос
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                // Обновляем список товаров с помощью updateClothes(data.clothes)
+                updateClothes(data);
+            });
     });
 </script>
 {% endblock %}

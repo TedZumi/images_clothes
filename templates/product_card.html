@@ -12,12 +12,4 @@
   <p>Пол: {% if clothes_data.gender == 'female' %}Женский{% elif clothes_data.gender == 'male' %}Мужской{% else %}Неизвестный{% endif %}</p>
   <p>Сезон: {{ clothes_data.season }}</p>
   <p>Цвет: {{ clothes_data.color }}</p>
-
-  <div class="sidebar">
-    <ul>
-      <li><a href="/profile">Личный кабинет</a></li>
-      <li><a href="/wardrobe">Мой гардероб</a></li>
-      <li><a href="#">Мои образы</a></li>
-    </ul>
-  </div>
 {% endblock %}

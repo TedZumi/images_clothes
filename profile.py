@@ -17,3 +17,8 @@ def get_clothes_info(app, clothes_id, dbase):
 def del_clothes(app, person_id, clothes_id, dbase):
     with app.app_context():
         dbase.delete_clothes_from_person_wardrobe(person_id, clothes_id)
+
+
+def add_clothes(app, person_id, clothes_id, dbase):
+    with app.app_context():
+        dbase.add_clothes_to_person_wardrobe(person_id, clothes_id)

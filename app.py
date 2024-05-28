@@ -13,7 +13,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import mimetypes
 import auth
 from profile import get_person_wardrobe, get_clothes_info
-from clothes import get_all_clothes
+from clothes import get_all_clothes, get_categories, get_brends, get_seasons, get_colors
 
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
@@ -56,7 +56,12 @@ def unauthorized_callback():
 @app.route('/')
 def index():
     clouthes_all = get_all_clothes(app, g.db)
-    return render_template('index.html', clouthes_all=clouthes_all)
+    categories = get_categories(app, g.db)
+    brends = get_brends(app, g.db)
+    seasons = get_seasons(app, g.db)
+    colors = get_colors(app, g.db)
+    return render_template('index.html', clouthes_all=clouthes_all, categories=categories, brends=brends,
+                           seasons=seasons, colors=colors)
 
 
 @app.route('/profile', methods=['GET', 'POST'])
