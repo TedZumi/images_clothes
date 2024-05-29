@@ -276,8 +276,9 @@ margin-right: 250px;
 .wardrobe-item {
 border: 1px solid #ccc;
 padding: 10px;
+flex: 1 0 20%;
 margin-bottom: 10px;
-width: calc(33.33% - 20px);
+/*width: calc(33.33% - 20px);*/
 box-sizing: border-box;
 text-align: center; /* Выравниваем текст по центру */
 }

@@ -133,7 +133,6 @@ class Database:
                 return None
 
     """Получает все поля из таблицы clothes."""
-
     def get_all_clothes(self):
         with self.Session() as session:
             results = session.execute(text("SELECT * FROM clothes")).fetchall()
@@ -150,6 +149,53 @@ class Database:
                     'image': result[7]
                 })
             return clothes_list
+
+    """ Возвращает отфильтрованный список одежды с использованием SQL-запроса. """
+    def get_filtered_clothes(self, type=None, category=None, gender=None, brend=None, season=None, color=None, limit=50,
+                             offset=0):
+        sql_query = """
+        SELECT * FROM clothes
+        WHERE 
+            (:type IS NULL OR type = :type)
+            AND (:category IS NULL OR category = :category)
+            AND (:gender IS NULL OR gender = :gender)
+            AND (:brend IS NULL OR brend = :brend)
+            AND (:season IS NULL OR season = :season)
+            AND (:color IS NULL OR color = :color)
+        LIMIT :limit OFFSET :offset
+        """
+
+        with self.Session() as session:
+            results = session.execute(
+                text(sql_query),
+                {
+                    'type': type,
+                    'category': category,
+                    'gender': gender,
+                    'brend': brend,
+                    'season': season,
+                    'color': color,
+                    'limit': limit,
+                    'offset': offset
+                }
+            ).fetchall()
+
+        # Преобразуем результаты в список словарей для JSON
+        filtered_clothes = [
+            {
+                'clothes_id': result[0],
+                'type': result[1],
+                'category': result[2],
+                'gender': result[3],
+                'brend': result[4],
+                'season': result[5],
+                'color': result[6],
+                'image': result[7]
+            } for result in results
+        ]
+        print(f"Отфильтрованный список: {filtered_clothes}")  # Вывод отфильтрованного списка
+
+        return filtered_clothes
 
     """Возвращает список одежды с ограничением по количеству и смещением."""
     def get_all_clothes_limit(self, offset, limit):
@@ -253,7 +299,17 @@ class Database:
     def add_clothes_to_person_wardrobe(self, person_id, clothes_id):
         with self.Session() as session:
             try:
-                # Используем update() для обновления записи
+                # Проверяем, есть ли уже эта вещь в гардеробе
+                result = session.execute(
+                    text("SELECT 1 FROM person WHERE person_id = :person_id AND :clothes_id = ANY(wardrobe)"),
+                    {"person_id": person_id, "clothes_id": clothes_id}
+                )
+
+                # Если вещь уже есть, ничего не делаем
+                if result.fetchone() is not None:
+                    return True  # Добавление не требуется, т.к. вещь уже в гардеробе
+
+                # Если вещи нет, добавляем ее в гардероб
                 session.execute(
                     text(
                         "UPDATE person SET wardrobe = array_append(wardrobe, :clothes_id) WHERE person_id = :person_id"),
@@ -263,7 +319,7 @@ class Database:
                 return True  # Добавление успешно
             except Exception as e:
                 print(f"Ошибка при добавлении вещи в гардероб: {e}")
-                return False  # Возникла ошибка
+                return False
 
     """Получает массив clothes_id из гардероба пользователя."""
     def get_wardrobe(self, person_id):

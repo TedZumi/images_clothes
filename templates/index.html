@@ -64,69 +64,73 @@
 <script>
     const filterForm = document.querySelector('form');
     const clothesContainer = document.querySelector('.clothes-container');
+    const showMoreButton = document.querySelector('.show-more');
     let showCount = 50;
+    let currentFilters = {}; // Храним текущие фильтры
 
     // Функция для обновления списка товаров
-        function updateClothes(clothesData) {
+    function updateClothes(clothesData) {
+        console.log("Полученные данные:", clothesData);
         clothesContainer.innerHTML = ''; // Очищаем контейнер
+        // Отображаем товары
+        clothesData.clothes.forEach(clothes => {
+            console.log("Текущий товар:", clothes);
+            // Создаем элемент товара и добавляем в контейнер
+            const clothesItem = document.createElement('div');
+            clothesItem.classList.add('clothes-item');
+            clothesItem.innerHTML = `
+                <a href="/product_card/${clothes.clothes_id}" data-id="${clothes.clothes_id}">
+                  <img src="/static/clothes_image/${clothes.image}" alt="${clothes.type}">
+                </a>
+                <p>${clothes.category}</p>
+                <p>${clothes.brend}</p>
+                <button class="add-button" data-id="${clothes.clothes_id}">Добавить в гардероб</button>
+            `;
+            clothesContainer.appendChild(clothesItem);
+            });
         // Проверяем, не пуст ли список товаров
         if (clothesData.clothes.length === 0) {
-            // Скрываем кнопку "Показать еще"
+            // Нет товаров по текущим фильтрам
+            showMoreButton.style.display = 'none'; // Скрыть кнопку "Показать ещё"
+        } else if (clothesData.clothes.length < 50) {
+            // Если товаров меньше 50, то кнопка "Показать ещё" не нужна
             showMoreButton.style.display = 'none';
         } else {
-            // Отображаем товары
-            clothesData.clothes.forEach(clothes => {
-                // Создаем элемент товара и добавляем в контейнер
-                const clothesItem = document.createElement('div');
-                clothesItem.classList.add('clothes-item');
-                clothesItem.innerHTML = `
-                    <a href="/product_card/${clothes.clothes_id}" data-id="${clothes.clothes_id}">
-                      <img src="/static/clothes_image/${clothes.image}" alt="${clothes.type}">
-                    </a>
-                    <p>${clothes.category}</p>
-                    <p>${clothes.brend}</p>
-                    <button class="add-button" data-id="${clothes.clothes_id}">Добавить в гардероб</button>
-                `;
-                clothesContainer.appendChild(clothesItem);
+            showMoreButton.style.display = 'block'; // Показать кнопку "Показать ещё"
 
-                // Добавляем обработчик клика на кнопку
-                const addToWardrobeButton = clothesItem.querySelector('.add-button');
-                addToWardrobeButton.addEventListener('click', handleAddToWardrobeClick);
-            });
         }
     }
 
     function handleAddToWardrobeClick(event) {
-    const clothesId = event.target.dataset.id; // Получаем ID товара из атрибута data-id
+        const clothesId = event.target.dataset.id; // Получаем ID товара из атрибута data-id
 
-    fetch(`/api/v1/wardrobe/add/${clothesId}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
-    })
-    .then(response => {
-    if (response.status === 401) {
-      // Не авторизован
-      window.location.href = '/login'; // Перенаправляем на страницу входа
-    } else {
-      return response.json();
-    }
-    })
-    .then(data => {
-    if (data.message) {
-      // Успешное добавление в гардероб (например, показать сообщение)
-      alert(data.message);
-    } else if (data.error) {
-      // Ошибка (например, показать сообщение об ошибке)
-      alert(data.error);
-    }
-    })
-    .catch(error => {
-    // Обработка ошибок при запросе
-    console.error('Ошибка при добавлении в гардероб:', error);
-    });
+        fetch(`/api/v1/wardrobe/add/${clothesId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        .then(response => {
+            if (response.status === 401) {
+                // Не авторизован
+                window.location.href = '/login'; // Перенаправляем на страницу входа
+            } else {
+                return response.json();
+            }
+        })
+        .then(data => {
+            if (data.message) {
+                // Успешное добавление в гардероб (например, показать сообщение)
+            } else if (data.error) {
+                // Ошибка (например, показать сообщение об ошибке)
+                alert(data.error);
+            }
+        })
+        .catch(error => {
+            // Обработка ошибок при запросе
+            console.error('Ошибка при добавлении в гардероб:', error);
+        });
     }
 
     // Инициализация списка товаров
@@ -150,8 +154,7 @@
         currentFilters = {
             type, category, gender, brend, season, color
         };
-
-
+        showCount = 50; // Сбрасываем счетчик товаров при фильтрации
 
         // Собираем URL для запроса
         const url = `/api/v1/clothes/filter?limit=50&${
@@ -174,11 +177,9 @@
             .then(data => updateClothes(data));
     });
 
-    // Обработка кнопки "Показать ещё" (пагинация)
-    const showMoreButton = document.querySelector('.show-more');
     showMoreButton.addEventListener('click', () => {
-        showCount += 50; // Добавьте 50 элементов
-        // Собираем URL с offset и текущими фильтрами, обрабатывая пустые значения
+        showCount += 50; // Увеличиваем счетчик товаров
+        // Собираем URL с offset и текущими фильтрами
         const url = `/api/v1/clothes/filter?limit=50&offset=${showCount}${
             currentFilters.type ? `&type=${currentFilters.type}` : ''
         }${

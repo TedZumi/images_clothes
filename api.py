@@ -93,6 +93,16 @@ class API:
                 return jsonify({'authenticated': False})
 
         # Маршрут для получения информации о гардеробе
+        # @self.app.route('/api/v1/wardrobe/<string:wardrobe_ids>')
+        # def get_wardrobe(wardrobe_ids):
+        #     wardrobe_ids_list = wardrobe_ids.split(',')
+        #     clothes_data = []
+        #     for clothes_id in wardrobe_ids_list:
+        #         clothes_info = self.dbase.get_clothes_by_id(clothes_id)
+        #         if clothes_info:
+        #             clothes_data.append(clothes_info)
+        #     return jsonify(clothes_data)
+
         @self.app.route('/api/v1/wardrobe/<string:wardrobe_ids>')
         def get_wardrobe(wardrobe_ids):
             wardrobe_ids_list = wardrobe_ids.split(',')
@@ -101,7 +111,22 @@ class API:
                 clothes_info = self.dbase.get_clothes_by_id(clothes_id)
                 if clothes_info:
                     clothes_data.append(clothes_info)
-            return jsonify(clothes_data)
+
+            # Получение параметров фильтрации из запроса
+            search_filter = request.args.get('search')
+
+            # Фильтрация данных
+            filtered_clothes_data = []
+            for clothes_item in clothes_data:
+                if (
+                        (not search_filter or search_filter.lower() in clothes_item['type'].lower()) or
+                        (not search_filter or search_filter.lower() in clothes_item['category'].lower()) or
+                        (not search_filter or search_filter.lower() in clothes_item['brend'].lower()) or
+                        (not search_filter or search_filter.lower() in clothes_item['season'].lower())
+                ):
+                    filtered_clothes_data.append(clothes_item)
+
+            return jsonify(filtered_clothes_data)
 
         @self.app.route('/api/v1/wardrobe/delete/<int:clothes_id>', methods=['DELETE'])
         def delete_clothes_item(clothes_id):
@@ -135,25 +160,18 @@ class API:
             offset = int(request.args.get('offset', 0))
 
             # Получаем limit
-            limit = int(request.args.get('limit', 50))  # Обрабатываем limit
+            limit = int(request.args.get('limit', 50))
 
-            # Получаем ВСЕ товары из базы данных
-            clothes_all = self.dbase.get_all_clothes()  # Изменить метод на получение всех товаров
-
-            # Фильтруем данные на стороне сервера
-            filtered_clothes = []
-            for clothes in clothes_all:
-                if (
-                        (not type or clothes['type'] == type) and
-                        (not category or clothes['category'] == category) and
-                        (not gender or clothes['gender'] == gender) and
-                        (not brend or clothes['brend'] == brend) and
-                        (not season or clothes['season'] == season) and
-                        (not color or clothes['color'] == color)
-                ):
-                    filtered_clothes.append(clothes)
-
-            # Ограничиваем количество товаров на стороне сервера
-            filtered_clothes = filtered_clothes[offset:offset + limit]
+            # Вызов метода из класса Database
+            filtered_clothes = self.dbase.get_filtered_clothes(
+                type=type,
+                category=category,
+                gender=gender,
+                brend=brend,
+                season=season,
+                color=color,
+                limit=limit,
+                offset=offset
+            )
 
             return jsonify({'clothes': filtered_clothes})
