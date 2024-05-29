@@ -101,37 +101,43 @@
         }
     }
 
-    function handleAddToWardrobeClick(event) {
-        const clothesId = event.target.dataset.id; // Получаем ID товара из атрибута data-id
+    // Обработчик событий для кнопок "Добавить в гардероб"
+    clothesContainer.addEventListener('click', (event) => {
+        if (event.target.classList.contains('add-button')) {
+            const clothesId = event.target.dataset.id; // Получаем clothes_id из data-id кнопки
 
-        fetch(`/api/v1/wardrobe/add/${clothesId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        })
-        .then(response => {
-            if (response.status === 401) {
-                // Не авторизован
-                window.location.href = '/login'; // Перенаправляем на страницу входа
-            } else {
-                return response.json();
-            }
-        })
-        .then(data => {
-            if (data.message) {
-                // Успешное добавление в гардероб (например, показать сообщение)
-            } else if (data.error) {
-                // Ошибка (например, показать сообщение об ошибке)
-                alert(data.error);
-            }
-        })
-        .catch(error => {
-            // Обработка ошибок при запросе
-            console.error('Ошибка при добавлении в гардероб:', error);
-        });
-    }
+            fetch(`/api/v1/wardrobe/add/${clothesId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            .then(response => {
+                if (response.status === 401) {
+                    // Не авторизован
+                    window.location.href = '/login'; // Перенаправляем на страницу входа
+                } else {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                if (data.message) {
+                    // Успешное добавление в гардероб (например, показать сообщение)
+                    alert(data.message);
+                } else if (data.error) {
+                    // Ошибка (например, показать сообщение об ошибке)
+                    alert(data.error);
+                }
+            })
+            .catch(error => {
+                // Обработка ошибок при запросе
+                console.error('Ошибка при добавлении в гардероб:', error);
+            });
+        }
+    });
+
+
 
     // Инициализация списка товаров
     fetch('/api/v1/clothes/filter?offset=0&limit=50')

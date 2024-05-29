@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Выбор вещи
+{% endblock %}
+
+{% block body %}
+  {% if error %}
+    <h1>{{ error }}{{ position_name }}</h1>
+  {% else %}
+    <h1>Выберите элемент одежды для {{position_name}}</h1>
+    <div class="clothes-grid">
+      {% for cloth in clothes %}
+        <div class="cloth-item">
+          <a href="#" data-cloth='{{ json.dumps(cloth) }}' data-position="{{ position }}">
+            <img src="/static/clothes_image/{{cloth.image}}" class="cloth-image">
+          </a>
+          <div class="cloth-info">
+            <p>Тип: {{ cloth.category }}</p>
+            <p>Бренд: {{ cloth.brend }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  <script>
+    const clothesGrid = document.querySelector('.clothes-grid');
+
+    clothesGrid.addEventListener('click', (event) => {
+      if (event.target.tagName === 'IMG') {
+        const clothData = JSON.parse(event.target.closest('a').dataset.cloth);
+        const position = event.target.closest('a').dataset.position;
+
+        console.log("Ключ для сессии:", `outfit_${position}`);
+
+        // Сохраняем выбранную вещь в сессии
+        sessionStorage.setItem(`outfit_${position}`, JSON.stringify(clothData));
+
+        // Возвращаемся на create_image
+        window.location.href = '/create_image';
+      }
+    });
+  </script>
+{% endblock %}

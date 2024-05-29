@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Создать образ
+{% endblock %}
+
+{% block body %}
+  <h1>Создать образ</h1>
+
+  <div class="image-container">
+    <div class="image-area">
+      <a href="#" class="add-button" data-position="top_1" data-person-id="{{ person_id }}">Добавить верх 1</a>
+      <input type="file" id="image-upload-top1" accept="image/*" hidden>
+      <img id="image-top1" src="#" alt="Верх 1" style="display: none;">
+    </div>
+    <div class="image-area">
+      <a href="#" class="add-button" data-position="top_2" data-person-id="{{ person_id }}">Добавить верх 2</a>
+      <input type="file" id="image-upload-top2" accept="image/*" hidden>
+      <img id="image-top2" src="#" alt="Верх 2" style="max-width: 100%; height: auto; display: none;">
+    </div>
+    <div class="image-area">
+      <a href="#" class="add-button" data-position="through" data-person-id="{{ person_id }}">Добавить низ</a>
+      <input type="file" id="image-upload-bottom" accept="image/*" hidden>
+      <img id="image-bottom" src="#" alt="Низ" style="max-width: 100%; height: auto; display: none;">
+    </div>
+    <div class="image-area">
+      <a href="#" class="add-button" data-position="shoes" data-person-id="{{ person_id }}">Добавить обувь</a>
+      <input type="file" id="image-upload-shoes" accept="image/*" hidden>
+      <img id="image-shoes" src="#" alt="Обувь" style="max-width: 100%; height: auto; display: none;">
+    </div>
+  </div>
+
+  <button id="create-outfit">Создать образ</button>
+  <button id="clear-session">Очистить все</button>
+
+  <script>
+    const addButtons = document.querySelectorAll('.add-button');
+    addButtons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        const position = button.dataset.position;
+        const personId = button.dataset.personId;
+        // Перенаправляем на choice.html с параметрами
+        window.location.href = `/choice/${personId}/${position}`;
+      });
+    });
+
+    // Обработчик события storage
+    window.addEventListener('storage', () => {
+      // Обновляем изображения после изменения данных в sessionStorage
+      updateImagesFromSessionStorage();
+    });
+
+    // Функция для обновления изображений из sessionStorage
+    function updateImagesFromSessionStorage() {
+      const top_1_cloth = sessionStorage.getItem('outfit_top_1') ? JSON.parse(sessionStorage.getItem('outfit_top_1')) : null;
+      const top_2_cloth = sessionStorage.getItem('outfit_top_2') ? JSON.parse(sessionStorage.getItem('outfit_top_2')) : null;
+      const through_cloth = sessionStorage.getItem('outfit_through') ? JSON.parse(sessionStorage.getItem('outfit_through')) : null;
+      const shoes_cloth = sessionStorage.getItem('outfit_shoes') ? JSON.parse(sessionStorage.getItem('outfit_shoes')) : null;
+
+      if (top_1_cloth && top_1_cloth.image) {
+        document.getElementById('image-top1').src = `/static/clothes_image/${top_1_cloth.image}`;
+        document.getElementById('image-top1').style.display = 'block';
+      } else {
+        document.getElementById('image-top1').src = '#';
+        document.getElementById('image-top1').style.display = 'none';
+      }
+
+      if (top_2_cloth && top_2_cloth.image) {
+        document.getElementById('image-top2').src = `/static/clothes_image/${top_2_cloth.image}`;
+        document.getElementById('image-top2').style.display = 'block';
+      } else {
+        document.getElementById('image-top2').src = '#';
+        document.getElementById('image-top2').style.display = 'none';
+      }
+
+      if (through_cloth && through_cloth.image) {
+        document.getElementById('image-bottom').src = `/static/clothes_image/${through_cloth.image}`;
+        document.getElementById('image-bottom').style.display = 'block';
+      } else {
+        document.getElementById('image-bottom').src = '#';
+        document.getElementById('image-bottom').style.display = 'none';
+      }
+
+      if (shoes_cloth && shoes_cloth.image) {
+        document.getElementById('image-shoes').src = `/static/clothes_image/${shoes_cloth.image}`;
+        document.getElementById('image-shoes').style.display = 'block';
+      } else {
+        document.getElementById('image-shoes').src = '#';
+        document.getElementById('image-shoes').style.display = 'none';
+      }
+    }
+
+    // Вызываем updateImagesFromSessionStorage() при загрузке страницы
+    updateImagesFromSessionStorage();
+
+    const clearButton = document.getElementById('clear-session');
+
+    clearButton.addEventListener('click', () => {
+      // Очистить все данные из sessionStorage
+      sessionStorage.clear();
+
+      // Обновить изображения
+      document.getElementById('image-top1').src = '#';
+      document.getElementById('image-top2').src = '#';
+      document.getElementById('image-bottom').src = '#';
+      document.getElementById('image-shoes').src = '#';
+    });
+  </script>
+{% endblock %}

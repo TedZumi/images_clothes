@@ -313,3 +313,32 @@ margin: 5px 0; /* Отступы сверху и снизу для текста 
             border: none;
             cursor: pointer;
         }
+
+/* выбор вещи для образа */
+.clothes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Автоматическое определение количества колонок */
+  gap: 20px;
+}
+
+.cloth-item {
+  text-align: center;
+}
+
+.cloth-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.cloth-info {
+  margin-top: 10px;
+}
+.image-area {
+  display: flex;
+  align-items: center; /* Выравнивание по вертикали */
+}
+.image-area img { /* Выбираем все изображения внутри элементов с классом "image-area" */
+  width: 200px;   /* Устанавливаем ширину изображения в 200 пикселей */
+  height: auto;  /* Устанавливаем высоту изображения в 150 пикселей */
+  margin-left: 10px;
+}

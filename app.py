@@ -13,7 +13,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import mimetypes
 import auth
 from profile import get_person_wardrobe, get_clothes_info
-from clothes import get_all_clothes, get_categories, get_brends, get_seasons, get_colors
+from clothes import *
+import json
 
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
@@ -62,6 +63,51 @@ def index():
     colors = get_colors(app, g.db)
     return render_template('index.html', clouthes_all=clouthes_all, categories=categories, brends=brends,
                            seasons=seasons, colors=colors)
+
+
+@app.route('/choice/<int:person_id>/<string:position>', methods=['GET'])
+@login_required
+def choice_item(person_id, position):
+    person_wardrobe = get_person_wardrobe(app, person_id, g.db)
+    if position == 'top_1':
+        clothes = add_top_1_items_list(app, person_wardrobe, g.db)
+        position_name = 'верх 1'
+    elif position == 'top_2':
+        clothes = add_top_2_items_list(app, person_wardrobe, g.db)
+        position_name = 'верх 2'
+    elif position == 'through':
+        clothes = add_through_items_list(app, person_wardrobe, g.db)
+        position_name = 'низ'
+    else:
+        clothes = add_shoes_items_list(app, person_wardrobe, g.db)
+        position_name = 'обувь'
+
+    if not clothes:
+        return render_template('choice.html', error="В вашем гардеробе отсутствуют позиции одежды для ",
+                               position_name=position_name)
+    else:
+        return render_template('choice.html', person_id=person_id, clothes=clothes, position=position, position_name=position_name, json=json)
+
+
+@app.route('/create_image', methods=['GET', 'POST'])
+@login_required
+def create_image():
+    person_id = current_user.get_id()
+
+    # Получаем выбранные позиции из URL (это не нужно, так как мы используем sessionStorage)
+    # top_1_cloth = json.loads(request.args.get('top_1')) if request.args.get('top_1') else None
+    # top_2_cloth = json.loads(request.args.get('top_2')) if request.args.get('top_2') else None
+    # through_cloth = json.loads(request.args.get('through')) if request.args.get('through') else None
+    # shoe_cloth = json.loads(request.args.get('shoes')) if request.args.get('shoes') else None
+
+    return render_template('create_image.html',
+                           person_id=person_id)
+
+
+@app.route('/fashion')
+@login_required
+def fashion():
+    return render_template('fashion.html')
 
 
 @app.route('/profile', methods=['GET', 'POST'])
