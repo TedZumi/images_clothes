@@ -342,3 +342,33 @@ margin: 5px 0; /* Отступы сверху и снизу для текста 
   height: auto;  /* Устанавливаем высоту изображения в 150 пикселей */
   margin-left: 10px;
 }
+/* стили для странички images */
+.outfit-block {
+padding: 10px;
+margin: 10px;
+}
+
+.outfit-info {
+list-style-type: none;
+padding: 0;
+}
+/* стили для странички image */
+.image-container {
+    flex-wrap: wrap; /* Перенос элементов на новую строку, если не хватает места */
+}
+
+.image-item {
+    margin: 1px; /* Отступы между элементами одежды */
+    width: 200px; /* Ширина каждого элемента одежды */
+    text-align: center; /* Выравнивание текста по центру */
+}
+
+.image-item img {
+    max-width: 100%; /* Масштабируем изображения по ширине */
+    height: auto; /* Автоматически подбираем высоту */
+}
+
+.image-type,
+.image-brend {
+    margin-top: 1px; /* Отступ сверху от изображения */
+}

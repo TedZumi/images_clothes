@@ -70,11 +70,9 @@
 
     // Функция для обновления списка товаров
     function updateClothes(clothesData) {
-        console.log("Полученные данные:", clothesData);
         clothesContainer.innerHTML = ''; // Очищаем контейнер
         // Отображаем товары
         clothesData.clothes.forEach(clothes => {
-            console.log("Текущий товар:", clothes);
             // Создаем элемент товара и добавляем в контейнер
             const clothesItem = document.createElement('div');
             clothesItem.classList.add('clothes-item');

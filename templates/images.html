@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Образы
+{% endblock %}
+
+{% block body %}
+    <h1>Мои образы</h1>
+    <div id="outfit-container"></div>
+
+    <script>
+    function updateOutfitBlocks(personImageIds) {
+      const outfitContainer = document.getElementById('outfit-container');
+      outfitContainer.innerHTML = '';
+
+      personImageIds.forEach(imageId => {
+        // Вызов API для получения информации об образе
+        fetch(`/api/v1/image/${imageId}`)
+          .then(response => response.json())
+          .then(outfitData => {
+            // Создаем блок образа
+            const outfitBlock = document.createElement('div');
+            outfitBlock.classList.add('outfit-block');
+
+            // Добавляем заголовок образа (сделаем его ссылкой)
+            const outfitName = document.createElement('a');
+            outfitName.href = `/image?image_id=${imageId}&image_name=${outfitData.image_name}`; // Добавляем ссылку с image_name
+            outfitName.classList.add('outfit-name');
+            outfitName.textContent = outfitData.image_name;
+            outfitBlock.appendChild(outfitName);
+
+            // Добавляем блок с информацией о одежде
+            const outfitInfo = document.createElement('div');
+            outfitInfo.classList.add('outfit-info');
+
+            // Вывод данных о одежде
+            const clothesList = outfitData.clothes_data.map(clothesItem => `
+                    <p>${clothesItem.type} (Бренд: ${clothesItem.brend})</p>
+                `).join('');
+
+            outfitInfo.innerHTML = clothesList;
+
+            // Кнопка "Удалить образ"
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Удалить образ';
+            deleteButton.addEventListener('click', () => {
+              // Отправка запроса DELETE на сервер
+              fetch(`/api/v1/image/delete/${imageId}`, {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ person_id: {{ person_id }} }) // Передача person_id в теле запроса
+              })
+                .then(response => {
+                  if (response.ok) {
+                    // Образ успешно удален
+                    outfitBlock.remove(); // Удаление блока с экрана
+                  } else {
+                    console.error('Ошибка при удалении образа');
+                  }
+                })
+                .catch(error => {
+                  console.error('Ошибка при удалении образа:', error);
+                });
+            });
+
+            // Добавляем блок в контейнер
+            outfitBlock.appendChild(outfitInfo);
+            outfitBlock.appendChild(deleteButton);
+            outfitContainer.appendChild(outfitBlock);
+          })
+          .catch(error => {
+            console.error('Ошибка при получении информации об образе:', error);
+          });
+      });
+    }
+
+    // Вызов функции для обновления блоков при загрузке страницы
+    updateOutfitBlocks({{ person_image_ids | tojson }});
+    </script>
+  <div class="sidebar">
+    <ul>
+      <li><a href="/profile">Личный кабинет</a></li>
+      <li><a href="/wardrobe">Мой гардероб</a></li>
+      <li><a href="images">Мои образы</a></li>
+    </ul>
+  </div>
+{% endblock %}

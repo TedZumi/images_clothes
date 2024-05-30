@@ -5,6 +5,7 @@ from sqlalchemy import create_engine, text, insert, MetaData,\
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from flask_login import UserMixin
+from sqlalchemy.exc import IntegrityError
 
 
 class User(UserMixin):
@@ -26,7 +27,6 @@ class Database:
         self.Session = sessionmaker(bind=self.engine)
         self.metadata = MetaData()
         self.person = Table('person', self.metadata, autoload_with=self.engine)  # Load table from database
-        self.person = Table('person', self.metadata, autoload_with=self.engine)  # Load person table
 
     def getUser(self, user_id):
         with self.Session() as session:
@@ -295,7 +295,6 @@ class Database:
                 return False  # Возникла ошибка
 
     """Добавляет clothes_id в массив wardrobe записи person."""
-
     def add_clothes_to_person_wardrobe(self, person_id, clothes_id):
         with self.Session() as session:
             try:
@@ -311,8 +310,7 @@ class Database:
 
                 # Если вещи нет, добавляем ее в гардероб
                 session.execute(
-                    text(
-                        "UPDATE person SET wardrobe = array_append(wardrobe, :clothes_id) WHERE person_id = :person_id"),
+                    text("UPDATE person SET wardrobe = COALESCE(wardrobe, ARRAY[]::INTEGER[]) || :clothes_id WHERE person_id = :person_id"),
                     {"clothes_id": clothes_id, "person_id": person_id}
                 )
                 session.commit()
@@ -333,6 +331,173 @@ class Database:
                 return result[0]  # Возвращаем массив clothes_id
             else:
                 return []
+
+    """Добавляет образ в таблицу images и связывает его с элементами одежды в clothes_items."""
+    def add_outfit_to_image(self, clothes_ids, image_name):
+        with self.Session() as session:
+            try:
+                # Вставляем образ в таблицу images
+                result = session.execute(
+                    text("INSERT INTO images (image_name) VALUES (:image_name) RETURNING image_id"),
+                    {"image_name": image_name}
+                )
+                image_id = result.fetchone()[0]
+
+                # Вставляем элементы одежды в таблицу clothes_items
+                for clothes_id in clothes_ids:
+                    session.execute(
+                        text("INSERT INTO clothes_items (image_id, clothes_id) VALUES (:image_id, :clothes_id)"),
+                        {"image_id": image_id, "clothes_id": clothes_id}
+                    )
+
+                session.commit()
+                return image_id
+            except IntegrityError as e:
+                print(f"Ошибка добавления образа в таблицу images: {e}")
+                return None
+            except Exception as e:
+                print(f"Ошибка добавления образа в таблицу images: {e}")
+                return None
+
+    """Добавляет image_id к массиву images в таблице person по person_id."""
+    def add_image_to_person(self, person_id, image_id):
+        with self.Session() as session:
+            try:
+                # Получаем текущий массив images для person_id
+                result = session.execute(
+                    text("SELECT images FROM person WHERE person_id = :person_id"),
+                    {"person_id": person_id}
+                )
+                current_images = result.fetchone()[0]
+
+                # Если массив images пустой, создаем новый
+                if current_images is None:
+                    current_images = []
+
+                # Добавляем image_id в массив
+                current_images.append(image_id)
+
+                # Обновляем строку в таблице person
+                session.execute(
+                    text("UPDATE person SET images = :images WHERE person_id = :person_id"),
+                    {"images": current_images, "person_id": person_id}
+                )
+
+                session.commit()
+                return True
+            except IntegrityError as e:
+                print(f"Ошибка добавления изображения к person: {e}")
+                return False
+            except Exception as e:
+                print(f"Ошибка добавления изображения к person: {e}")
+                return False
+
+    """Удаляет образ с image_id из массива images по person_id."""
+    def remove_image_from_person(self, person_id, image_id):
+        with self.Session() as session:
+            try:
+                # Получаем текущий массив images для person_id
+                result = session.execute(
+                    text("SELECT images FROM person WHERE person_id = :person_id"),
+                    {"person_id": person_id}
+                )
+                current_images = result.fetchone()[0]
+
+                # Если массив images не пустой
+                if current_images is not None:
+                    # Удаляем image_id из массива
+                    current_images = [x for x in current_images if x != image_id]
+
+                    # Обновляем строку в таблице person
+                    session.execute(
+                        text("UPDATE person SET images = :images WHERE person_id = :person_id"),
+                        {"images": current_images, "person_id": person_id}
+                    )
+
+                    session.commit()
+                    return True
+
+            except Exception as e:
+                print(f"Ошибка при удалении изображения из person: {e}")
+                return False
+
+    """Удаляет образ по image_id из таблицы images и связанные записи из clothes_items."""
+    def delete_image(self, image_id):
+        with self.Session() as session:
+            try:
+                # Удаляем записи из clothes_items, связанные с image_id
+                session.execute(
+                    text("DELETE FROM clothes_items WHERE image_id = :image_id"),
+                    {"image_id": image_id}
+                )
+
+                # Удаляем запись из images
+                session.execute(
+                    text("DELETE FROM images WHERE image_id = :image_id"),
+                    {"image_id": image_id}
+                )
+
+                session.commit()
+                return True
+            except Exception as e:
+                print(f"Ошибка при удалении образа: {e}")
+                return False
+
+    """Возвращает данные образа по его image_id, включая связанные элементы одежды."""
+    def get_image_by_id(self, image_id):
+        with self.Session() as session:
+            try:
+                # Выполняем запрос для получения данных образа и связанных элементов одежды
+                result = session.execute(
+                    text("""
+                        SELECT 
+                            i.image_name,
+                            array_agg(ci.clothes_id) AS clothes_ids
+                        FROM 
+                            images i
+                        LEFT JOIN 
+                            clothes_items ci ON i.image_id = ci.image_id
+                        WHERE 
+                            i.image_id = :image_id
+                        GROUP BY 
+                            i.image_id, i.image_name
+                    """),
+                    {"image_id": image_id}
+                )
+                image_data = result.fetchone()
+
+                # Если образ найден, возвращаем данные
+                if image_data:
+                    image_name = image_data[0]
+                    clothes_ids = image_data[1]
+                    return {"image_name": image_name, "clothes_ids": clothes_ids}
+                else:
+                    return None  # Образ не найден
+            except Exception as e:
+                print(f"Ошибка получения образа: {e}")
+                return None
+
+    """Возвращает массив images для заданного person_id."""
+    def get_images_by_person_id(self, person_id):
+        with self.Session() as session:
+            try:
+                # Выполняем запрос для получения массива images
+                result = session.execute(
+                    text("SELECT images FROM person WHERE person_id = :person_id"),
+                    {"person_id": person_id}
+                )
+                image_ids = result.fetchone()[0]  # Получаем массив images
+
+                # Если массив images не пустой, возвращаем его
+                if image_ids is not None:
+                    return image_ids
+                else:
+                    return []  # Возвращаем пустой массив, если images не найден
+
+            except Exception as e:
+                print(f"Ошибка получения массива images: {e}")
+                return None
+
 
 # создание БД
 def create_bd():

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Образ
+{% endblock %}
+
+{% block body %}
+    <h1>Образ "{{ image_name }}"</h1>
+    <p>Для получения дополнительной информации, кликните на элемент одежды</p>
+    <div class="image-container">
+        {% for clothesItem in image_data %}
+            <div class="image-item">
+                <a href="/product_card/{{ clothesItem.clothes_id }}" class="image-item">
+                    <img src="/static/clothes_image/{{ clothesItem.image }}" alt="{{ clothesItem.type }}">
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        const imageItems = document.querySelectorAll('.image-item');
+        imageItems.forEach(item => {
+            item.addEventListener('click', (event) => {
+            });
+        });
+    </script>
+{% endblock %}

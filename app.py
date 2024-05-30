@@ -12,7 +12,7 @@ from data_base import Database
 from werkzeug.security import generate_password_hash, check_password_hash
 import mimetypes
 import auth
-from profile import get_person_wardrobe, get_clothes_info
+from profile import *
 from clothes import *
 import json
 
@@ -94,12 +94,6 @@ def choice_item(person_id, position):
 def create_image():
     person_id = current_user.get_id()
 
-    # Получаем выбранные позиции из URL (это не нужно, так как мы используем sessionStorage)
-    # top_1_cloth = json.loads(request.args.get('top_1')) if request.args.get('top_1') else None
-    # top_2_cloth = json.loads(request.args.get('top_2')) if request.args.get('top_2') else None
-    # through_cloth = json.loads(request.args.get('through')) if request.args.get('through') else None
-    # shoe_cloth = json.loads(request.args.get('shoes')) if request.args.get('shoes') else None
-
     return render_template('create_image.html',
                            person_id=person_id)
 
@@ -137,6 +131,31 @@ def wardrobe():
     person_id = current_user.get_id()
     person_wardrobe = get_person_wardrobe(app, person_id, g.db)
     return render_template('wardrobe.html', person_wardrobe=person_wardrobe, person_id=person_id)
+
+
+@app.route('/images', methods=['GET'])
+@login_required
+def images():
+    person_id = current_user.get_id()
+    person_image_ids = get_person_images(app, person_id, g.db)
+    return render_template('images.html', person_image_ids=person_image_ids, person_id=person_id)
+
+
+@app.route('/image', methods=['GET'])
+@login_required
+def image():
+    image_id = request.args.get('image_id')
+    image_name = request.args.get('image_name')
+    image_data = []
+    image = get_image(app, image_id, g.db)
+    print(image)
+    for image_id in image['clothes_ids']:
+        clothes_info = get_clothes_info(app, image_id, g.db)
+        if clothes_info:
+            image_data.append(clothes_info)
+
+    print(image_data)
+    return render_template('image.html', image_name=image_name, image_data=image_data)
 
 
 @app.route('/product_card/<int:clothes_id>')

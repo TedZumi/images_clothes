@@ -73,3 +73,13 @@ def add_shoes_items_list(app, wardrobe, dbase):
             if clothes_data.get('category') in shoes_categories:  # Проверяем категорию
                 shoes_clothes.append(clothes_data)  # Добавляем данные в список
     return shoes_clothes  # Возвращаем список одежды
+
+
+def add_new_image(app, clothes, image_name, dbase):
+    with app.app_context():
+        return dbase.add_outfit_to_image(clothes, image_name)
+
+
+def update_person_images(app, person_id, image_id, dbase):
+    with app.app_context():
+        dbase.add_image_to_person(person_id, image_id)

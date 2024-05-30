@@ -22,3 +22,15 @@ def del_clothes(app, person_id, clothes_id, dbase):
 def add_clothes(app, person_id, clothes_id, dbase):
     with app.app_context():
         dbase.add_clothes_to_person_wardrobe(person_id, clothes_id)
+
+
+def get_image(app, image_id, dbase):
+    with app.app_context():
+        image = dbase.get_image_by_id(image_id)
+        return image
+
+
+def get_person_images(app, person_id, dbase):
+    with app.app_context():
+        images = dbase.get_images_by_person_id(person_id)
+        return images

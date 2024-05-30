@@ -16,18 +16,23 @@
     <div class="image-area">
       <a href="#" class="add-button" data-position="top_2" data-person-id="{{ person_id }}">Добавить верх 2</a>
       <input type="file" id="image-upload-top2" accept="image/*" hidden>
-      <img id="image-top2" src="#" alt="Верх 2" style="max-width: 100%; height: auto; display: none;">
+      <img id="image-top2" src="#" alt="Верх 2" style="display: none;">
     </div>
     <div class="image-area">
       <a href="#" class="add-button" data-position="through" data-person-id="{{ person_id }}">Добавить низ</a>
       <input type="file" id="image-upload-bottom" accept="image/*" hidden>
-      <img id="image-bottom" src="#" alt="Низ" style="max-width: 100%; height: auto; display: none;">
+      <img id="image-bottom" src="#" alt="Низ" style="display: none;">
     </div>
     <div class="image-area">
       <a href="#" class="add-button" data-position="shoes" data-person-id="{{ person_id }}">Добавить обувь</a>
       <input type="file" id="image-upload-shoes" accept="image/*" hidden>
-      <img id="image-shoes" src="#" alt="Обувь" style="max-width: 100%; height: auto; display: none;">
+      <img id="image-shoes" src="#" alt="Обувь" style="display: none;">
     </div>
+  </div>
+
+  <div>
+    <label for="outfit-name">Название образа:</label>
+    <input type="text" id="outfit-name">
   </div>
 
   <button id="create-outfit">Создать образ</button>
@@ -105,6 +110,58 @@
       document.getElementById('image-top2').src = '#';
       document.getElementById('image-bottom').src = '#';
       document.getElementById('image-shoes').src = '#';
+    });
+
+    // Обработчик события для кнопки "Создать образ"
+    const createOutfitButton = document.getElementById('create-outfit');
+    createOutfitButton.addEventListener('click', async () => {
+      const outfitName = document.getElementById('outfit-name').value;
+
+      // Очистка image_ids перед формированием новой строки
+      let image_ids = "";
+
+      // Получаем данные из sessionStorage
+      const top_1_cloth = sessionStorage.getItem('outfit_top_1') ? JSON.parse(sessionStorage.getItem('outfit_top_1')) : null;
+      const top_2_cloth = sessionStorage.getItem('outfit_top_2') ? JSON.parse(sessionStorage.getItem('outfit_top_2')) : null;
+      const through_cloth = sessionStorage.getItem('outfit_through') ? JSON.parse(sessionStorage.getItem('outfit_through')) : null;
+      const shoes_cloth = sessionStorage.getItem('outfit_shoes') ? JSON.parse(sessionStorage.getItem('outfit_shoes')) : null;
+
+      // Формируем строку image_ids
+      if (top_1_cloth) {
+        image_ids += `${top_1_cloth.clothes_id},`;
+      }
+      if (top_2_cloth) {
+        image_ids += `${top_2_cloth.clothes_id},`;
+      }
+      if (through_cloth) {
+        image_ids += `${through_cloth.clothes_id},`;
+      }
+      if (shoes_cloth) {
+        image_ids += `${shoes_cloth.clothes_id},`;
+      }
+
+      // Удаляем лишнюю запятую в конце
+      image_ids = image_ids.slice(0, -1);
+
+      if (outfitName && image_ids) {
+        try {
+          // Отправка POST-запроса на API
+          const response = await fetch('/api/v1/image/add/' + image_ids + '/' + outfitName, {
+            method: 'POST',
+          });
+
+          // Обработка ответа от API
+          if (response.ok) {
+            console.log('Образ успешно создан!');
+          } else {
+            console.error('Ошибка при создании образа');
+          }
+        } catch (error) {
+          console.error('Ошибка:', error);
+        }
+      } else {
+        alert('Пожалуйста, введите название образа и выберите одежду!');
+      }
     });
   </script>
 {% endblock %}

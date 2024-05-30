@@ -3,7 +3,8 @@ from user import User
 from data_base import Database
 from auth import login as auth_login, logout as auth_logout, registration as auth_registration
 from flask_login import current_user
-from profile import get_clothes_info, del_clothes, add_clothes
+from profile import get_clothes_info, del_clothes, add_clothes, get_image
+from clothes import add_new_image, update_person_images
 
 
 # Модель одежды (при необходимости)
@@ -92,17 +93,6 @@ class API:
             else:
                 return jsonify({'authenticated': False})
 
-        # Маршрут для получения информации о гардеробе
-        # @self.app.route('/api/v1/wardrobe/<string:wardrobe_ids>')
-        # def get_wardrobe(wardrobe_ids):
-        #     wardrobe_ids_list = wardrobe_ids.split(',')
-        #     clothes_data = []
-        #     for clothes_id in wardrobe_ids_list:
-        #         clothes_info = self.dbase.get_clothes_by_id(clothes_id)
-        #         if clothes_info:
-        #             clothes_data.append(clothes_info)
-        #     return jsonify(clothes_data)
-
         @self.app.route('/api/v1/wardrobe/<string:wardrobe_ids>')
         def get_wardrobe(wardrobe_ids):
             wardrobe_ids_list = wardrobe_ids.split(',')
@@ -175,3 +165,42 @@ class API:
             )
 
             return jsonify({'clothes': filtered_clothes})
+
+        @self.app.route('/api/v1/image/add/<string:image_ids>/<string:image_name>', methods=['POST'])
+        def add_image(image_ids, image_name):
+            person_id = current_user.get_id()
+            image_ids_list = image_ids.split(',')
+            print(image_ids_list)
+            image_id = add_new_image(self.app, image_ids_list, image_name, self.dbase)
+            if image_id is not None:
+                update_person_images(self.app, person_id, image_id, self.dbase)
+                return jsonify({'message': 'Вещь образ успешно добавлен'}), 200
+            else:
+                return jsonify({'error': 'Образ не был добален'}), 401
+
+        @self.app.route('/api/v1/image/<int:image_id>', methods=['GET'])
+        def get_person_image_data(image_id):
+            image_data = get_image(self.app, image_id, self.dbase)
+            clothes_data = []
+            clothes_ids = image_data['clothes_ids']
+            for clothes_id in clothes_ids:
+                clothes_info = self.dbase.get_clothes_by_id(clothes_id)
+                if clothes_info:
+                    clothes_data.append(clothes_info)
+
+            image_data['clothes_data'] = clothes_data
+            image_data.pop('clothes_ids', None)
+
+            return jsonify(image_data)
+
+        @self.app.route('/api/v1/image/delete/<int:image_id>', methods=['DELETE'])
+        def delete_image_item(image_id):
+            data = request.get_json()  # Получаем данные из тела запроса
+            person_id = data.get('person_id')
+            print(person_id)
+            if person_id:
+                self.dbase.remove_image_from_person(person_id, image_id)
+                self.dbase.delete_image(image_id)
+                return jsonify({'message': 'Образ успешно удален'}), 200
+            else:
+                return jsonify({'error': 'Образ не был удален'}), 400
