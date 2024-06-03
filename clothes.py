@@ -75,9 +75,9 @@ def add_shoes_items_list(app, wardrobe, dbase):
     return shoes_clothes  # Возвращаем список одежды
 
 
-def add_new_image(app, clothes, image_name, dbase):
+def add_new_image(app, clothes, image_name, person_id, dbase):
     with app.app_context():
-        return dbase.add_outfit_to_image(clothes, image_name)
+        return dbase.add_outfit_to_image(clothes, image_name, person_id)
 
 
 def update_person_images(app, person_id, image_id, dbase):

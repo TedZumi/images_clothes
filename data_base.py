@@ -9,13 +9,12 @@ from sqlalchemy.exc import IntegrityError
 
 
 class User(UserMixin):
-    def __init__(self, id, username, email, password_hash, wardrobe=None, images=None):
+    def __init__(self, id, username, email, password_hash, wardrobe=None):
         self.id = id
         self.username = username
         self.email = email
         self.password_hash = password_hash
-        self.wardrobe = wardrobe or []  # Initialize as an empty list if not provided
-        self.images = images or []
+        self.wardrobe = wardrobe or []
 
     def get_id(self):
         return str(self.id)  # Return the id as a string
@@ -42,8 +41,7 @@ class Database:
                     username=result[1],
                     email=result[2],
                     password_hash=result[3],
-                    wardrobe=result[4],  # Assume wardrobe is at index 4 after modification
-                    images=result[5]  # Assume images is at index 5 after modification
+                    wardrobe=result[4]
                 )
                 return user
             else:
@@ -76,8 +74,7 @@ class Database:
                     'username': result[1],
                     'email': result[2],
                     'password_hash': result[3],
-                    'wardrobe': result[4],
-                    'images': result[5]
+                    'wardrobe': result[4]
                 }
             else:
                 return False
@@ -95,8 +92,7 @@ class Database:
                     'username': result[1],
                     'email': result[2],
                     'password_hash': result[3],  # Добавьте поле password_hash
-                    'wardrobe': result[4],
-                    'images': result[5]
+                    'wardrobe': result[4]
                 }
             else:
                 return None
@@ -333,7 +329,7 @@ class Database:
                 return []
 
     """Добавляет образ в таблицу images и связывает его с элементами одежды в clothes_items."""
-    def add_outfit_to_image(self, clothes_ids, image_name):
+    def add_outfit_to_image(self, clothes_ids, image_name, person_id):
         with self.Session() as session:
             try:
                 # Вставляем образ в таблицу images
@@ -349,6 +345,12 @@ class Database:
                         text("INSERT INTO clothes_items (image_id, clothes_id) VALUES (:image_id, :clothes_id)"),
                         {"image_id": image_id, "clothes_id": clothes_id}
                     )
+
+                # Связываем образ с пользователем
+                session.execute(
+                    text("INSERT INTO person_images (image_id, person_id) VALUES (:image_id, :person_id)"),
+                    {"image_id": image_id, "person_id": person_id}
+                )
 
                 session.commit()
                 return image_id
@@ -392,35 +394,6 @@ class Database:
                 print(f"Ошибка добавления изображения к person: {e}")
                 return False
 
-    """Удаляет образ с image_id из массива images по person_id."""
-    def remove_image_from_person(self, person_id, image_id):
-        with self.Session() as session:
-            try:
-                # Получаем текущий массив images для person_id
-                result = session.execute(
-                    text("SELECT images FROM person WHERE person_id = :person_id"),
-                    {"person_id": person_id}
-                )
-                current_images = result.fetchone()[0]
-
-                # Если массив images не пустой
-                if current_images is not None:
-                    # Удаляем image_id из массива
-                    current_images = [x for x in current_images if x != image_id]
-
-                    # Обновляем строку в таблице person
-                    session.execute(
-                        text("UPDATE person SET images = :images WHERE person_id = :person_id"),
-                        {"images": current_images, "person_id": person_id}
-                    )
-
-                    session.commit()
-                    return True
-
-            except Exception as e:
-                print(f"Ошибка при удалении изображения из person: {e}")
-                return False
-
     """Удаляет образ по image_id из таблицы images и связанные записи из clothes_items."""
     def delete_image(self, image_id):
         with self.Session() as session:
@@ -428,6 +401,12 @@ class Database:
                 # Удаляем записи из clothes_items, связанные с image_id
                 session.execute(
                     text("DELETE FROM clothes_items WHERE image_id = :image_id"),
+                    {"image_id": image_id}
+                )
+
+                # Удаляем запись из person_images, связанную с image_id
+                session.execute(
+                    text("DELETE FROM person_images WHERE image_id = :image_id"),
                     {"image_id": image_id}
                 )
 
@@ -481,18 +460,15 @@ class Database:
     def get_images_by_person_id(self, person_id):
         with self.Session() as session:
             try:
-                # Выполняем запрос для получения массива images
+                # Выполняем запрос для получения массива image_id
                 result = session.execute(
-                    text("SELECT images FROM person WHERE person_id = :person_id"),
+                    text("SELECT i.image_id FROM person_images pi JOIN images i ON pi.image_id = i.image_id WHERE pi.person_id = :person_id"),
                     {"person_id": person_id}
                 )
-                image_ids = result.fetchone()[0]  # Получаем массив images
+                image_ids = [row[0] for row in result]  # Получаем список image_id
 
-                # Если массив images не пустой, возвращаем его
-                if image_ids is not None:
-                    return image_ids
-                else:
-                    return []  # Возвращаем пустой массив, если images не найден
+                # Возвращаем список image_id
+                return image_ids
 
             except Exception as e:
                 print(f"Ошибка получения массива images: {e}")

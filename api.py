@@ -171,9 +171,8 @@ class API:
             person_id = current_user.get_id()
             image_ids_list = image_ids.split(',')
             print(image_ids_list)
-            image_id = add_new_image(self.app, image_ids_list, image_name, self.dbase)
+            image_id = add_new_image(self.app, image_ids_list, image_name, person_id, self.dbase)
             if image_id is not None:
-                update_person_images(self.app, person_id, image_id, self.dbase)
                 return jsonify({'message': 'Вещь образ успешно добавлен'}), 200
             else:
                 return jsonify({'error': 'Образ не был добален'}), 401
@@ -199,7 +198,6 @@ class API:
             person_id = data.get('person_id')
             print(person_id)
             if person_id:
-                self.dbase.remove_image_from_person(person_id, image_id)
                 self.dbase.delete_image(image_id)
                 return jsonify({'message': 'Образ успешно удален'}), 200
             else:
