@@ -1,5 +1,7 @@
 import json
 import psycopg2
+from dotenv import load_dotenv
+import os
 from sqlalchemy import create_engine, text, insert, MetaData,\
     Table, Column, Integer, String, ARRAY, update
 from sqlalchemy.orm import sessionmaker
@@ -475,10 +477,54 @@ class Database:
                 return None
 
 
+# Загружаем переменные из .env
+load_dotenv()
+
+# Получаем значения переменных из .env
+db_name = os.getenv("DBNAME")
+db_user = os.getenv("USER")
+db_password = os.getenv("PASSWORD")
+
+
+def add_clothes():
+    connection = psycopg2.connect(dbname=db_name, user=db_user,
+                                  password=db_password, host='127.0.0.1', port="5432")
+
+    cursor = connection.cursor()
+    postgres_insert_query = """ INSERT INTO clothes (clothes_id, type, category, gender, brend, season, color, image) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
+
+    with open('clothes_parse/male_clothes.json', 'r', encoding='utf-8') as json_file:
+        female_clothes = json.load(json_file)
+
+    ind = 309
+    list_1 = ['Обувь', 'Одежда']
+    for type in list_1:
+        if type == 'Обувь':
+            list_2 = ['Ботинки', 'Кроссовки и кеды', 'Мокасины и топсайдеры', 'Сандалии', 'Сапоги', 'Туфли']
+        else:
+            list_2 = ['Брюки', 'Джемперы, свитеры и кардиганы', 'Джинсы', 'Комбинезоны', 'Пиджаки и костюмы',
+                      'Рубашки', 'Спортивные костюмы', 'Футболки и поло', 'Худи и свитшоты', 'Шорты']
+        for category in list_2:
+            for key in female_clothes[type][category]:
+                brend = female_clothes[type][category][key]['Бренд']
+                season = female_clothes[type][category][key]['Сезон']
+                color = female_clothes[type][category][key]['Цвет']
+                image = female_clothes[type][category][key]['Фото']
+                print(ind, type, category, brend, season, color, image)
+
+                record_to_insert = (ind, type, category, 'male', brend, season, color, image)
+                cursor.execute(postgres_insert_query, record_to_insert)
+                ind += 1
+
+    connection.commit()
+    count = cursor.rowcount
+    print(count, "Запись успешно добавлена в таблицу clothes")
+
+
 # создание БД
 def create_bd():
-    connection = psycopg2.connect(dbname='images_clothes', user='postgres',
-                            password='tedzumi', host='127.0.0.1', port="5432")
+    connection = psycopg2.connect(dbname=db_name, user=db_user,
+                                  password=db_password, host='127.0.0.1', port="5432")
     cursor = connection.cursor()
     connection.autocommit = True
 
@@ -519,37 +565,5 @@ def create_bd():
     connection.close()
 
 
-def add_clothes():
-    connection = psycopg2.connect(dbname='images_clothes', user="postgres",
-                                  password="tedzumi", host='127.0.0.1', port="5432")
 
-    cursor = connection.cursor()
-    postgres_insert_query = """ INSERT INTO clothes (clothes_id, type, category, gender, brend, season, color, image) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
-
-    with open('clothes_parse/male_clothes.json', 'r', encoding='utf-8') as json_file:
-        female_clothes = json.load(json_file)
-
-    ind = 309
-    list_1 = ['Обувь', 'Одежда']
-    for type in list_1:
-        if type == 'Обувь':
-            list_2 = ['Ботинки', 'Кроссовки и кеды', 'Мокасины и топсайдеры', 'Сандалии', 'Сапоги', 'Туфли']
-        else:
-            list_2 = ['Брюки', 'Джемперы, свитеры и кардиганы', 'Джинсы', 'Комбинезоны', 'Пиджаки и костюмы',
-                      'Рубашки', 'Спортивные костюмы', 'Футболки и поло', 'Худи и свитшоты', 'Шорты']
-        for category in list_2:
-            for key in female_clothes[type][category]:
-                brend = female_clothes[type][category][key]['Бренд']
-                season = female_clothes[type][category][key]['Сезон']
-                color = female_clothes[type][category][key]['Цвет']
-                image = female_clothes[type][category][key]['Фото']
-                print(ind, type, category, brend, season, color, image)
-
-                record_to_insert = (ind, type, category, 'male', brend, season, color, image)
-                cursor.execute(postgres_insert_query, record_to_insert)
-                ind += 1
-
-    connection.commit()
-    count = cursor.rowcount
-    print(count, "Запись успешно добавлена в таблицу clothes")
 

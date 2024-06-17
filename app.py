@@ -86,7 +86,8 @@ def choice_item(person_id, position):
         return render_template('choice.html', error="В вашем гардеробе отсутствуют позиции одежды для ",
                                position_name=position_name)
     else:
-        return render_template('choice.html', person_id=person_id, clothes=clothes, position=position, position_name=position_name, json=json)
+        return render_template('choice.html', person_id=person_id, clothes=clothes, position=position,
+                               position_name=position_name, json=json)
 
 
 @app.route('/create_image', methods=['GET', 'POST'])
@@ -168,6 +169,5 @@ def product_card(clothes_id):
 
 api = API(app)  # Передаем app в API
 
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
