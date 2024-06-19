@@ -170,4 +170,4 @@ def product_card(clothes_id):
 api = API(app)  # Передаем app в API
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
