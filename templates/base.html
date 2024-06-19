@@ -28,12 +28,31 @@
                 </ul>
             </nav>
 	    </div>
+
         <div class="grid_header">
             <a class="me">
                 <img class="me_img" src="{{ url_for('static', filename='me.png') }}" alt="Личный кабинет" onclick="location.href='/profile'">
             </a>
         </div>
     </header>
+
+    <script>
+        const currentPath = window.location.pathname;
+
+        const menuItems = document.querySelectorAll('.menu_ul li');
+
+        menuItems.forEach(item => {
+            const link = item.querySelector('a');
+            const href = link.getAttribute('href');
+
+            console.log(href);
+            console.log(currentPath);
+
+            if (href === currentPath) {
+                item.classList.add('active');
+            }
+        });
+    </script>
 
     <main class="container mt-5">  <!-- Added main and container -->
         {% block body %}{% endblock %}

@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+<h1 class="heading">Личный кабинет</h1>
 <div class="persona">
 	<div class="prof_grid1">
 		<div id="user-info">
@@ -42,7 +43,7 @@
 						{{ error }}
 					  </div>
 				  {% endif %}
-				<button class="button persona_button" type="submit">Сохранить</button>
+				<button class="save_button persona_button" type="submit">Сохранить</button>
 			</fieldset>
 		</form>
 	</div>
@@ -53,7 +54,7 @@
 				<li class="persona_li"><a class="persona_a" href="/wardrobe">Мой гардероб</a></li>
 				<li class="persona_li"><a class="persona_a" href="/images">Мои образы</a></li>
 				<form method="POST" action="{{ logout_url }}">
-					<button class="button persona_button btn btn-danger" type="submit" id="buttn">Выйти</button>
+					<button class="button persona_button2 btn btn-danger" type="submit" id="buttn">Выйти</button>
 				</form>
 			</ul>
 		</nav>

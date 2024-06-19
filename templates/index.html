@@ -5,62 +5,65 @@
 {% endblock %}
 
 {% block body %}
+<div class="content">
 <h1>Каталог одежды</h1>
-<form action="/api/v1/clothes/filter" method="get">
-    <label for="type">Тип вещи:</label>
-    <select name="type" id="type">
+<form class="filt-form" action="/api/v1/clothes/filter" method="get">
+    <label class="filt-lab" for="type">Тип вещи:</label>
+    <select class="filt-select" name="type" id="type">
         <option value="">Все типы</option>
         <option value="Обувь">Обувь</option>
         <option value="Одежда">Одежда</option>
     </select>
 
-    <label for="category">Категория:</label>
-    <select name="category" id="category">
+    <label class="filt-lab" for="category">Категория:</label>
+    <select class="filt-select" name="category" id="category">
         <option value="">Все категории</option>
         {% for category in categories %}
             <option value="{{ category }}">{{ category }}</option>
         {% endfor %}
     </select>
 
-    <label for="gender">Пол:</label>
-    <select name="gender" id="gender">
+    <label class="filt-lab" for="gender">Пол:</label>
+    <select class="filt-select" name="gender" id="gender">
         <option value="">Все полы</option>
         <option value="male">Мужской</option>
         <option value="female">Женский</option>
     </select>
 
-    <label for="brend">Бренд:</label>
-    <select name="brend" id="brend">
+    <label class="filt-lab" for="brend">Бренд:</label>
+    <select class="filt-select" name="brend" id="brend">
         <option value="">Все бренды</option>
         {% for brend in brends %}
             <option value="{{ brend }}">{{ brend }}</option>
         {% endfor %}
     </select>
 
-    <label for="season">Сезон:</label>
-    <select name="season" id="season">
+    <label class="filt-lab" for="season">Сезон:</label>
+    <select class="filt-select" name="season" id="season">
         <option value="">Все сезоны</option>
         {% for season in seasons %}
             <option value="{{ season }}">{{ season }}</option>
         {% endfor %}
     </select>
 
-    <label for="color">Цвет:</label>
-    <select name="color" id="color">
+    <label class="filt-lab" for="color">Цвет:</label>
+    <select class="filt-select" name="color" id="color">
         <option value="">Все цвета</option>
         {% for color in colors %}
             <option value="{{ color }}">{{ color }}</option>
         {% endfor %}
     </select>
+    <br>
 
-    <button type="submit">Фильтровать</button>
+    <button class="button filt-but" type="submit">Фильтровать</button>
 </form>
 
 <div class="clothes-container">
     <!-- Здесь будет отображаться список товаров -->
 </div>
 
-<button class="show-more">Показать ещё</button>
+<button class="show-more button">Показать ещё</button>
+</div>
 <script>
     const filterForm = document.querySelector('form');
     const clothesContainer = document.querySelector('.clothes-container');
@@ -77,12 +80,14 @@
             const clothesItem = document.createElement('div');
             clothesItem.classList.add('clothes-item');
             clothesItem.innerHTML = `
+
                 <a href="/product_card/${clothes.clothes_id}" data-id="${clothes.clothes_id}">
                   <img src="/static/clothes_image/${clothes.image}" alt="${clothes.type}">
                 </a>
-                <p>${clothes.category}</p>
-                <p>${clothes.brend}</p>
-                <button class="add-button" data-id="${clothes.clothes_id}">Добавить в гардероб</button>
+                <p class="card_text">${clothes.category}</p>
+                <p class="card_text">${clothes.brend}</p>
+                <button class="add-button index-wardrobe-but" data-id="${clothes.clothes_id}">Добавить в гардероб</button>
+
             `;
             clothesContainer.appendChild(clothesItem);
             });

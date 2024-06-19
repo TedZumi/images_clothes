@@ -15,6 +15,12 @@ p{
 	color: #8B0000;
 }
 
+.content{
+	width: 84%;
+	margin: 30px auto;
+	text-align: center;
+}
+
 /*------------------------ HEADER -----------------------------*/
 
 header {
@@ -29,7 +35,6 @@ header {
 	display: flex;
 	justify-content: center;
     align-items: center;
-    cursor: pointer;
 }
 
 .menu_ul{
@@ -40,14 +45,22 @@ header {
 	position: relative;
 }
 
+.menu_ul li.active {
+    border-bottom: 1mm solid #FBB03B;
+}
+
 .menu_li{
 	margin-right: 80px;
-	/*border-bottom*/
+	padding: 3px;
 }
 
 .menu_a{
 	text-decoration: none;
 	font-size: 14px;
+}
+
+.menu_a:hover{
+	color: #FBB03B;
 }
 
 .logo{
@@ -71,13 +84,13 @@ header {
 .me_img{
 	width: 35px;
 	height: 38px;
+	cursor: pointer;
 }
 
 /*-----------------------------------------------------*/
 
 form.reg{
-	padding-top: 160px;
-	padding-left: 470px;
+	margin: 130px auto;
 	width: 300px;
 }
 
@@ -98,7 +111,7 @@ input.reg{
 	border: 0.5mm solid #D4D4D4;
 	border-radius: 20px;
 	padding-left: 30px;
-	font-size: 11px;
+	font-size: 13px;
 }
 
 .button{
@@ -112,6 +125,19 @@ input.reg{
 	cursor: pointer;
 }
 
+.save_button{
+	height: 43px;
+	margin-top: 30px;
+	border: none;
+	border-radius: 20px;
+	font-size: 12px;
+	background-color: #FBB03B;
+	text-align: center;
+	cursor: pointer;
+	width: 155px;
+	margin-left: 110px;
+}
+
 .reg_en_button{
 	width: 335px;
 }
@@ -119,27 +145,29 @@ input.reg{
 .question{
 	font-size: 12px;
 	margin-left: 26%;
-	cursor: pointer;
-	padding-top: 5px;
-	text-decoration: underline ;
 }
-
-/*------*/
 
 .persona{
 	display: grid;
 	grid-template-columns: 1fr 1.5fr 0.8fr;
-	height: 480px;
+	height: 540px;
 	width: 100%;
-	margin-top: 35px;
+	margin-top: 30px;
+}
+
+.heading{
+	position: absolute;
+	top: 110px; 
+	left: 25%;
 }
 
 .persona_grid{
-	/*border: 1mm solid red;*/
 	display: flex;
 	justify-content: center;
     align-items: center;
 }
+
+/*---ПОСМОТРЕТЬ---*/
 
 .prof_grid1{
 	display: flex;
@@ -150,8 +178,11 @@ input.reg{
 
 .right_grid{
 	border-left: 0.5mm solid #E5E5E5;
-	padding-left: 8%;
+	height: 520px;
+	/*padding-left: 8%;*/
 }
+
+/*----------------*/
 
 #info{
 	margin-bottom: 40px;
@@ -175,6 +206,10 @@ input.profile_inp{
 	text-decoration: none;
 }
 
+.persona_a:hover{
+	color: #FBB03B;
+}
+
 .persona_li{
 	margin-top: 20px;
 }
@@ -184,8 +219,179 @@ input.profile_inp{
 	font-size: 18px;
 }
 
-.persona_button{
+.persona_button1{
 	width: 215px;
+}
+
+.persona_button2{
+	width: 125px;
+	background-color: #D4D4D4;
+	border-radius: 20px;
+}
+
+.persona_button2:hover{
+	background-color: #FBB03B;
+}
+
+/*--------------------------- index ---------------------------*/
+
+.filt-form{
+	text-align: center;
+	margin-top: 30px;
+}
+
+.filt-lab{
+	font-size: 13.5px;
+}
+
+.filt-select{
+	margin-right: 15px;
+	border: 0.5mm solid #D4D4D4;
+	border-radius: 20px;
+	padding: 3px;
+}
+
+.filt-but{
+	width: 110px;
+	margin-left: auto;
+    margin-right: 0px;
+}
+
+.clothes-container{
+	width: 85%;
+	margin: 30px auto;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding-left: 30px;
+}
+
+.card{
+	width: 230px;
+	height: 390px;
+	padding: 20px;
+	justify-content: center;
+	border: 0.5mm solid #D4D4D4;
+	display: absolute;
+	margin-right: 30px;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+.card_img{
+	width: 200px;
+	object-fit: contain;
+}
+
+.card_text{
+	font-size: 12.5px;
+	text-align: center;
+}
+
+.add-button{
+	text-align: center;
+	cursor: pointer;
+}
+
+.index-wardrobe-but{
+	height: 30px;
+	width: 230px;
+	border: 0.5mm solid #FBB03B;
+	background-color: #FBB03B;
+	border-radius: 20px;
+	font-size: 12px;
+	text-align: center;
+	cursor: pointer;
+}
+
+/*----------------------- wardrobe -----------------------------*/
+
+.lk_grid{
+	display: grid;
+	grid-template-columns: 2.5fr 0.8fr;
+	height: 540px;
+	width: 100%;
+	margin-top: 15px;
+}
+
+.lk_grid1{
+	text-align: center;
+}
+
+.wardrobe{
+	text-align: center;
+	width: 100%
+}
+
+/*----------------------- product -----------------------------*/
+
+.product{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	height: 500px;
+	width: 700px;
+	margin: 30px auto;
+	background-color: rgba(212,212,212,0.2);
+	border: 0.5mm solid #D4D4D4;
+	box-shadow: 0 0 15px rgba(122,122,122,0.4);
+}
+
+.product_img{
+	width: 270px;
+	object-fit: contain;
+}
+
+.product_grid1{
+	padding-left: 30px;
+}
+
+.product_grid2{
+	padding: 20px;
+    align-items: center;
+	padding-top: 170px;
+}
+
+/*----------------------- create image -----------------------------*/
+
+.cr-image-grid1,
+.cr-image-grid2{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	height: 350px;
+	/*border: 0.5mm solid black;*/
+}
+
+.image-container {
+    flex-wrap: wrap; /* Перенос элементов на новую строку, если не хватает места */
+	width: 600px;
+	margin: 30px auto;
+	padding-right: 10px;
+}
+
+.change-thing{
+	text-decoration: none;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	border: 0.5mm solid black;
+	padding-top: 20px;
+}
+
+.thing-img{
+	margin-top: 10px;
+	width: 100%;
+	object-fit: contain;
+}
+
+/*----------------------- fashion -----------------------------*/
+
+.fashion{
+	width: 65%;
+	margin: 20px auto;
+	font-size: 18px;
 }
 
 /*----------------------- СТИЛИ КАТИ -----------------------------*/
@@ -194,41 +400,6 @@ input.profile_inp{
     margin-top: 230px;
     color: red;
     }
-
-
-/* Меню в профиле */
-.sidebar {
-    position: fixed;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 200px;
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-left: 1px solid #ddd;
-    margin-top: 20px;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar li {
-    margin-bottom: 10px;
-}
-
-.sidebar a {
-    display: block;
-    padding: 10px;
-    color: #333;
-    text-decoration: none;
-    border-bottom: 1px solid #ddd;
-}
-
-.sidebar a:hover {
-    background-color: #eee;
-}
 
 #user-info {
     /* ... Any other styles for the user-info block */
@@ -269,93 +440,107 @@ padding-top: 170%;
 .wardrobe {
 display: flex;
 flex-wrap: wrap;
-justify-content: space-between;
-margin-right: 250px;
+justify-content: center;
+flex-direction: row;
+margin: 30px auto;
+width: 85%;
+padding-left: 30px;
 }
 
-.wardrobe-item {
-border: 1px solid #ccc;
-padding: 10px;
-flex: 1 0 20%;
-margin-bottom: 10px;
-/*width: calc(33.33% - 20px);*/
-box-sizing: border-box;
-text-align: center; /* Выравниваем текст по центру */
+.wardrobe-item{
+	width: 230px;
+	height: 410px;
+	padding: 20px;
+	justify-content: center;
+	border: 0.5mm solid #D4D4D4;
+	display: absolute;
+	margin-right: 30px;
+	margin-bottom: 30px;
+	text-align: center;
 }
 
-.wardrobe-item img {
-max-width: 100%;
-height: auto;
+.wardrobe-item img{
+	width: 200px;
+	object-fit: contain;
 }
 
-.wardrobe-item p {
-margin: 5px 0; /* Отступы сверху и снизу для текста */
+
+.clothes-item{
+	width: 230px;
+	height: 410px;
+	padding: 20px;
+	justify-content: center;
+	border: 0.5mm solid #D4D4D4;
+	display: absolute;
+	margin-right: 30px;
+	margin-bottom: 30px;
+	text-align: center;
 }
 
-/* главная */
-.clothes-item {
-    display: inline-block;
-    width: 200px; /* Ширина блока */
-    margin: 10px; /* Отступы */
-    border: 1px solid #ccc;
-    padding: 10px;
-}
 .clothes-item img {
-    max-width: 100%;
-    height: auto;
+    width: 200px;
+	object-fit: contain;
 }
 .show-more {
-            display: block;
-            margin: 20px auto; /* Центрируем кнопку */
-            padding: 10px 20px;
-            background-color: #4CAF50; /* Зеленый цвет */
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
+    display: block;
+    margin: 20px auto; /* Центрируем кнопку */
+    padding: 10px 20px;
+    
+    border: none;
+    cursor: pointer;
+	width: 300px;
+}
 
 /* выбор вещи для образа */
 .clothes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Автоматическое определение количества колонок */
-  gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Автоматическое определение количества колонок */
+    gap: 20px;
 }
 
 .cloth-item {
-  text-align: center;
-}
+    text-align: center;
+} 
 
 .cloth-image {
-  max-width: 100%;
-  height: auto;
+    max-width: 100%;
+    height: auto;
 }
 
 .cloth-info {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 .image-area {
-  display: flex;
-  align-items: center; /* Выравнивание по вертикали */
+    display: flex;
+    align-items: center; /* Выравнивание по вертикали */
 }
 .image-area img { /* Выбираем все изображения внутри элементов с классом "image-area" */
-  width: 200px;   /* Устанавливаем ширину изображения в 200 пикселей */
-  height: auto;  /* Устанавливаем высоту изображения в 150 пикселей */
-  margin-left: 10px;
+    width: 200px;   /* Устанавливаем ширину изображения в 200 пикселей */
+    height: auto;  /* Устанавливаем высоту изображения в 150 пикселей */
+    margin-left: 10px;
 }
 /* стили для странички images */
+#outfit-container{
+	width: 85%;
+	margin: 30px auto;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
 .outfit-block {
-padding: 10px;
-margin: 10px;
+    padding: 10px;
+    margin: 20px;
+	justify-content: center;
+	border: 0.5mm solid #D4D4D4;
 }
 
 .outfit-info {
-list-style-type: none;
-padding: 0;
+    list-style-type: none;
+    padding: 0;
 }
 /* стили для странички image */
-.image-container {
-    flex-wrap: wrap; /* Перенос элементов на новую строку, если не хватает места */
-}
 
 .image-item {
     margin: 1px; /* Отступы между элементами одежды */
@@ -372,3 +557,5 @@ padding: 0;
 .image-brend {
     margin-top: 1px; /* Отступ сверху от изображения */
 }
+
+

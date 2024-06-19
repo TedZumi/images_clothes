@@ -5,9 +5,24 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Мои образы</h1>
-    <div id="outfit-container"></div>
-
+<div class="lk_grid">
+	<div class="lk_grid1">
+		<h1 style="margin: 30px auto; text-align: center;">Мои образы</h1>
+		<div id="outfit-container"></div>
+	</div>
+	<div class="persona_grid right_grid">
+		<nav>
+			<ul class="persona_ul">
+				<li class="persona_li"><a class="persona_a" href="/profile">Личный кабинет</a></li>
+				<li class="persona_li"><a class="persona_a" href="/wardrobe">Мой гардероб</a></li>
+				<li class="persona_li"><a class="persona_a" href="/images">Мои образы</a></li>
+				<form method="POST" action="{{ logout_url }}">
+					<button class="button persona_button2 btn btn-danger" type="submit" id="buttn">Выйти</button>
+				</form>
+			</ul>
+		</nav>
+	</div>
+</div>
     <script>
     function updateOutfitBlocks(personImageIds) {
       const outfitContainer = document.getElementById('outfit-container');
@@ -35,7 +50,7 @@
 
             // Вывод данных о одежде
             const clothesList = outfitData.clothes_data.map(clothesItem => `
-                    <p>${clothesItem.type} (Бренд: ${clothesItem.brend})</p>
+                    <p>${clothesItem.type} (${clothesItem.category}; Бренд: ${clothesItem.brend})</p>
                 `).join('');
 
             outfitInfo.innerHTML = clothesList;
@@ -43,6 +58,7 @@
             // Кнопка "Удалить образ"
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Удалить образ';
+            deleteButton.classList.add('index-wardrobe-but');
             deleteButton.addEventListener('click', () => {
               // Отправка запроса DELETE на сервер
               fetch(`/api/v1/image/delete/${imageId}`, {
@@ -79,11 +95,4 @@
     // Вызов функции для обновления блоков при загрузке страницы
     updateOutfitBlocks({{ person_image_ids | tojson }});
     </script>
-  <div class="sidebar">
-    <ul>
-      <li><a href="/profile">Личный кабинет</a></li>
-      <li><a href="/wardrobe">Мой гардероб</a></li>
-      <li><a href="images">Мои образы</a></li>
-    </ul>
-  </div>
 {% endblock %}

@@ -5,11 +5,17 @@
 {% endblock %}
 
 {% block body %}
-  <h1>{{ clothes_data.type }}</h1>
-  <img src="/static/clothes_image/{{ clothes_data.image }}" alt="{{ clothes_data.type }}">
-  <p>Категория: {{ clothes_data.category }}</p>
-  <p>Бренд: {{ clothes_data.brend }}</p>
-  <p>Пол: {% if clothes_data.gender == 'female' %}Женский{% elif clothes_data.gender == 'male' %}Мужской{% else %}Неизвестный{% endif %}</p>
-  <p>Сезон: {{ clothes_data.season }}</p>
-  <p>Цвет: {{ clothes_data.color }}</p>
+<div class="product">
+	<div class="product_grid1">
+	    <h1>{{ clothes_data.type }}</h1>
+	    <img class="product_img" src="/static/clothes_image/{{ clothes_data.image }}" alt="{{ clothes_data.type }}">
+	</div>
+	<div class="product_grid2">
+		<p><b>Категория:</b> {{ clothes_data.category }}</p>
+		<p><b>Бренд:</b> {{ clothes_data.brend }}</p>
+		<p><b>Пол:</b> {% if clothes_data.gender == 'female' %}Женский{% elif clothes_data.gender == 'male' %}Мужской{% else %}Неизвестный{% endif %}</p>
+		<p><b>Сезон:</b> {{ clothes_data.season }}</p>
+		<p><b>Цвет:</b> {{ clothes_data.color }}</p>
+	</div>
+</div>
 {% endblock %}

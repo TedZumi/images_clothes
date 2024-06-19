@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Образ "{{ image_name }}"</h1>
-    <p>Для получения дополнительной информации, кликните на элемент одежды</p>
-    <div class="image-container">
+    <h1 style="margin: 30px auto; text-align: center;">Образ "{{ image_name }}"</h1>
+    <p style="margin: 30px auto; text-align: center;">Для получения дополнительной информации, кликните на элемент одежды</p>
+    <div class="clothes-container">
         {% for clothesItem in image_data %}
             <div class="image-item">
                 <a href="/product_card/{{ clothesItem.clothes_id }}" class="image-item">

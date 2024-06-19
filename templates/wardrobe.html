@@ -5,114 +5,122 @@
 {% endblock %}
 
 {% block body %}
-  <h1>Ваш гардероб</h1>
+<div class="lk_grid">
+    <div class="lk_grid1">
+      <h1>Мой гардероб</h1>
 
-  <div class="search-bar">
-    <input type="text" id="search-input" placeholder="Поиск по типу, категории, бренду или сезону...">
-  </div>
+      <div class="search-bar">
+        <input class="reg" type="text" id="search-input" placeholder="Поиск по типу, категории, бренду или сезону...">
+      </div>
 
-  <div class="wardrobe">
-    <script>
-      const personId = {{ person_id }};
-      const wardrobeIds = JSON.parse('{{ person_wardrobe | tojson }}');
+      <div class="wardrobe"></div>
+    </div>
 
-      // Функция для фильтрации гардероба по поисковому запросу
-      function filterWardrobe(searchQuery) {
-        const wardrobeContainer = document.querySelector('.wardrobe');
-        wardrobeContainer.innerHTML = ''; // Очищаем текущий контент
+    <div class="persona_grid right_grid">
+        <nav>
+         <ul class="persona_ul">
+           <li class="persona_li"><a class="persona_a" href="/profile">Личный кабинет</a></li>
+           <li class="persona_li"><a class="persona_a" href="/wardrobe">Мой гардероб</a></li>
+           <li class="persona_li"><a class="persona_a" href="images">Мои образы</a></li>
+           <button class="button persona_button2 btn btn-danger" type="submit" id="buttn">Выйти</button>
+         </ul>
+        </nav>
+    </div>
+</div>
+<script>
+  const personId = {{ person_id }};
+  const wardrobeIds = JSON.parse('{{ person_wardrobe | tojson }}');
 
-        // Добавляем параметры фильтрации в URL
-        const queryParams = new URLSearchParams(); // Создаем пустой объект URLSearchParams
-        queryParams.append('search', searchQuery); // Добавляем поисковый запрос
+  // Функция для фильтрации гардероба по поисковому запросу
+  function filterWardrobe(searchQuery) {
+    const wardrobeContainer = document.querySelector('.wardrobe');
+    wardrobeContainer.innerHTML = ''; // Очищаем текущий контент
 
-        const url = '/api/v1/wardrobe/' + wardrobeIds.join(',') + '?' + queryParams.toString();
+    // Добавляем параметры фильтрации в URL
+    const queryParams = new URLSearchParams(); // Создаем пустой объект URLSearchParams
+    queryParams.append('search', searchQuery); // Добавляем поисковый запрос
 
-        fetch(url)
-          .then(response => response.json())
-          .then(clothesData => {
-            clothesData.forEach(clothesItem => {
-              if (clothesItem.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                  clothesItem.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                  clothesItem.brend.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                  clothesItem.season.toLowerCase().includes(searchQuery.toLowerCase())) {
-                // Отображаем только подходящие элементы
-                const itemDiv = document.createElement('div');
-                itemDiv.classList.add('wardrobe-item');
+    const url = '/api/v1/wardrobe/' + wardrobeIds.join(',') + '?' + queryParams.toString();
 
-                itemDiv.innerHTML = `
-                  <a href="/product_card/${clothesItem.clothes_id}" data-id="${clothesItem.clothes_id}">
-                    <img src="/static/clothes_image/${clothesItem.image}" alt="${clothesItem.type}">
-                  </a>
-                  <p>${clothesItem.category}</p>
-                  <p>${clothesItem.brend}</p>
-                  <button class="delete-button" data-id="${clothesItem.clothes_id}">Удалить из гардероба</button>
-                `;
-
-                wardrobeContainer.appendChild(itemDiv);
-              }
-            });
-          });
-      }
-
-      // Первоначальная загрузка вещей
-      fetch('/api/v1/wardrobe/' + wardrobeIds.join(','))
-        .then(response => response.json())
-        .then(clothesData => {
-          const wardrobeContainer = document.querySelector('.wardrobe');
-
-          clothesData.forEach(clothesItem => {
-            // Создаем и отображаем элементы гардероба
+    fetch(url)
+      .then(response => response.json())
+      .then(clothesData => {
+        clothesData.forEach(clothesItem => {
+          if (clothesItem.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              clothesItem.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              clothesItem.brend.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              clothesItem.season.toLowerCase().includes(searchQuery.toLowerCase())) {
+            // Отображаем только подходящие элементы
             const itemDiv = document.createElement('div');
             itemDiv.classList.add('wardrobe-item');
 
             itemDiv.innerHTML = `
               <a href="/product_card/${clothesItem.clothes_id}" data-id="${clothesItem.clothes_id}">
-                <img src="/static/clothes_image/${clothesItem.image}" alt="${clothesItem.type}">
+                <img class="card_img" src="/static/clothes_image/${clothesItem.image}" alt="${clothesItem.type}">
               </a>
-              <p>${clothesItem.category}</p>
-              <p>${clothesItem.brend}</p>
-              <button class="delete-button" data-id="${clothesItem.clothes_id}">Удалить из гардероба</button>
+              <p class="card_text">${clothesItem.category}</p>
+              <p class="card_text">${clothesItem.brend}</p>
+              <button class="delete-button index-wardrobe-but" data-id="${clothesItem.clothes_id}">Удалить из гардероба</button>
             `;
 
             wardrobeContainer.appendChild(itemDiv);
-          });
-
-          // Добавление обработчика событий для кликов на изображения
-          wardrobeContainer.addEventListener('click', (event) => {
-            if (event.target.tagName === 'IMG') {
-              const anchor = event.target.closest('a');
-              if (anchor) {
-                const clothesId = anchor.dataset.id;
-                window.location.href = `/product_card/${clothesId}`;
-              }
-            } else if (event.target.classList.contains('delete-button')) {
-              const clothesId = event.target.dataset.id;
-              // Отправляем AJAX запрос для удаления вещи из гардероба
-              fetch(`/api/v1/wardrobe/delete/${clothesId}?person_id=${personId}`, { // Передача person_id в URL
-                method: 'DELETE'
-              })
-                .then(response => {
-                  // ... (обработка ответа)
-                });
-            }
-          });
-
-          // Обработчик события для ввода текста в строку поиска
-          const searchInput = document.getElementById('search-input');
-          searchInput.addEventListener('input', () => {
-            const searchQuery = searchInput.value;
-            filterWardrobe(searchQuery);
-          });
+          }
         });
-    </script>
-  </div>
+      });
+  }
 
-  <div class="sidebar">
-    <ul>
-      <li><a href="/profile">Личный кабинет</a></li>
-      <li><a href="/wardrobe">Мой гардероб</a></li>
-      <li><a href="images">Мои образы</a></li>
-    </ul>
-  </div>
+  // Первоначальная загрузка вещей
+  fetch('/api/v1/wardrobe/' + wardrobeIds.join(','))
+    .then(response => response.json())
+    .then(clothesData => {
+      const wardrobeContainer = document.querySelector('.wardrobe');
+
+      clothesData.forEach(clothesItem => {
+        // Создаем и отображаем элементы гардероба
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('wardrobe-item');
+
+        itemDiv.innerHTML = `
+          <a href="/product_card/${clothesItem.clothes_id}" data-id="${clothesItem.clothes_id}">
+            <img class="card_img" src="/static/clothes_image/${clothesItem.image}" alt="${clothesItem.type}">
+          </a>
+          <p class="card_text">${clothesItem.category}</p>
+          <p class="card_text">${clothesItem.brend}</p>
+          <button class="delete-button index-wardrobe-but" data-id="${clothesItem.clothes_id}">Удалить из гардероба</button>
+        `;
+
+        wardrobeContainer.appendChild(itemDiv);
+      });
+
+      // Добавление обработчика событий для кликов на изображения
+      wardrobeContainer.addEventListener('click', (event) => {
+        if (event.target.tagName === 'IMG') {
+          const anchor = event.target.closest('a');
+          if (anchor) {
+            const clothesId = anchor.dataset.id;
+            window.location.href = `/product_card/${clothesId}`;
+          }
+        } else if (event.target.classList.contains('delete-button')) {
+          const clothesId = event.target.dataset.id;
+          // Отправляем AJAX запрос для удаления вещи из гардероба
+          fetch(`/api/v1/wardrobe/delete/${clothesId}?person_id=${personId}`, { // Передача person_id в URL
+            method: 'DELETE'
+          })
+            .then(response => {
+              // ... (обработка ответа)
+            });
+        }
+      });
+
+      // Обработчик события для ввода текста в строку поиска
+      const searchInput = document.getElementById('search-input');
+      searchInput.addEventListener('input', () => {
+        const searchQuery = searchInput.value;
+        filterWardrobe(searchQuery);
+      });
+    });
+
+</script>
+
 
 {% endblock %}

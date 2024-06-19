@@ -8,7 +8,7 @@
   {% if error %}
     <h1>{{ error }}{{ position_name }}</h1>
   {% else %}
-    <h1>Выберите элемент одежды для {{position_name}}</h1>
+    <h1 style="margin: 30px auto; text-align: center;">Выберите элемент одежды для {{position_name}}</h1>
     <div class="clothes-grid">
       {% for cloth in clothes %}
         <div class="cloth-item">
