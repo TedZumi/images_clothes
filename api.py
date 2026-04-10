@@ -1,10 +1,11 @@
-from flask import Flask, request, jsonify, redirect, url_for
+from flask import request, jsonify, redirect, url_for
 from user import User
 from data_base import Database
-from auth import login as auth_login, logout as auth_logout, registration as auth_registration
+from auth import auth_login, logout as auth_logout, registration as auth_registration, auth_register, auth_formula_auth, auth_graphic_auth
 from flask_login import current_user
-from profile import get_clothes_info, del_clothes, add_clothes, get_image
-from clothes import add_new_image, update_person_images
+from user_profile import del_clothes, add_clothes, get_image
+from clothes import add_new_image
+from services import AuthService
 
 
 # Модель одежды (при необходимости)
@@ -20,19 +21,11 @@ class Clothes:
         self.image = image
 
 
-# Фильтр одежды
-# class ClothesFilter(FilterSet):
-#     type = Filter(field='type', method='eq')
-#     category = Filter(field='category', method='eq')
-#     gender = Filter(field='gender', method='eq')
-#     brend = Filter(field='brend', method='eq')
-#     season = Filter(field='season', method='eq')
-
-
 class API:
     def __init__(self, app):
         self.app = app
         self.dbase = Database(app.config['DATABASE'])  # Создайте экземпляр Database
+        self.auth_service = AuthService(self.dbase)
 
         # Маршруты API
         @self.app.route('/api/v1/users', methods=['GET'])
@@ -81,9 +74,21 @@ class API:
         def logout():
             return auth_logout()
 
-        @self.app.route('/registration', methods=['POST', 'GET'])
+        # @self.app.route('/registration', methods=['POST', 'GET'])
+        # def register():
+        #     return auth_registration(app, self.dbase)
+
+        @self.app.route('/register', methods=['GET', 'POST'])
         def register():
-            return auth_registration(app, self.dbase)
+            return auth_register(app, self.dbase)
+
+        @self.app.route('/formula-auth', methods=['GET', 'POST'])
+        def formula_auth():
+            return auth_formula_auth(app, self.dbase, self.auth_service)
+        
+        @self.app.route('/graphic-auth', methods=['GET', 'POST'])
+        def graphic_auth():
+            return auth_graphic_auth(app, self.dbase, self.auth_service)
 
         # Маршрут для проверки авторизации
         @self.app.route('/api/v1/auth')

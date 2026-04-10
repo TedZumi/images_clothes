@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="{{ url_for('static', filename='js/api.js') }}" type="module"></script>
+    <!-- <script src="{{ url_for('static', filename='js/api.js') }}" type="module"></script> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css' ) }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='logo.png') }}">
     <title>{% block title %}{% endblock %}</title>
@@ -57,6 +57,6 @@
     <main class="container mt-5">  <!-- Added main and container -->
         {% block body %}{% endblock %}
     </main>
-
+    {% block scripts %}{% endblock %}
 </body>
 </html>

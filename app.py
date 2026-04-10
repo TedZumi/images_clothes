@@ -1,25 +1,20 @@
 from flask import Flask, render_template, url_for, \
     request, redirect, g
 from api import API
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_login import LoginManager, login_required, current_user
 from UserLogin import UserLogin
-from sqlalchemy import create_engine, MetaData, select, insert, Table
-from sqlalchemy.sql.expression import exists
-import re
 import os
 from data_base import Database
-from werkzeug.security import generate_password_hash, check_password_hash
 import mimetypes
 import auth
-from profile import *
+from user_profile import *
 from clothes import *
 import json
 
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 app.secret_key = os.urandom(24)
-app.config['DATABASE'] = "postgresql+psycopg2://postgres:tedzumi@127.0.0.1/images_clothes"
+app.config['DATABASE'] = "postgresql+psycopg2://postgres:PosRaf975@127.0.0.1/images_clothes"
 app.config['STATIC_URL_PATH'] = '/static'
 
 # Настройка MIME-типов

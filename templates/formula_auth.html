@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Аутентификация - Formula Factor
+{% endblock %}
+
+{% block body %}
+<div class="auth-container">
+    <form method="post" class="reg">
+        <fieldset class="reg_en">
+            <legend align="center">Формульная аутентификация</legend>
+            
+            <div class="user-info">
+                <p><strong>Пользователь:</strong> {{ email }}</p>
+            </div>
+            
+            {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+            {% endif %}
+            
+            {% if success %}
+            <div class="success-message">
+                {{ success }}
+            </div>
+            {% endif %}
+            
+            {% if formula %}
+            <div class="formula-display">
+                <strong>Задание:</strong><br>
+                <div class="formula-text">{{ formula }}</div>
+            </div>
+            {% endif %}
+            
+            <input type="hidden" name="email" value="{{ email }}">
+            <input type="hidden" name="session_id" value="{{ session_id }}">
+            
+            {% if formula %}
+            <div class="input-container">
+                <input class="reg formula-input" name="password" id="password" type="text" required 
+                       placeholder=" " autofocus>
+                <div class="placeholder-text" id="placeholder">
+                    Введите результат преобразования пароля
+                </div>
+            </div>
+            
+            <div class="attempts-info">
+                Осталось попыток: <strong class="attempts-count">{{ attempts_left }}</strong>
+            </div>
+            {% else %}
+            <input class="reg" name="email" id="email" type="email" required 
+                   placeholder="Введите ваш email" value="{{ email if email else '' }}" autofocus>
+            {% endif %}
+            
+            <input class="button reg_en_button" type="submit" 
+                   value="{% if formula %}Подтвердить{% else %}Получить задание{% endif %}">
+                   
+            {% if formula %}
+            <div class="back-link">
+                <a href="/">← Ввести другой email</a>
+            </div>
+            {% endif %}
+        </fieldset>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}

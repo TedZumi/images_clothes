@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Графическая аутентификация - Formula Factor
+{% endblock %}
+
+{% block body %}
+<div class="auth-container">
+    <form method="post" class="reg" enctype="multipart/form-data" id="graphicAuthForm">
+        <fieldset class="reg_en">
+            <legend align="center">Графическая аутентификация</legend>
+            
+            <div class="user-info">
+                <p><strong>Пользователь:</strong> {{ email }}</p>
+                <p><strong>Второй этап защиты</strong></p>
+            </div>
+            
+            {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+            {% endif %}
+            
+            {% if success %}
+            <div class="success-message">
+                <h3>{{ success }}</h3>
+                {% if authenticated %}
+                <p>Добро пожаловать!</p>
+                <p><a href="{{ url_for('success') }}" class="btn-success">Перейти в личный кабинет →</a></p>
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            {% if not success %}
+            <!-- Раздел с изображениями -->
+            <div class="graphic-auth-section">
+                <h3 class="section-title">Восстановите вашу последовательность</h3>
+                <p class="section-description">
+                    Расставьте изображения в правильном порядке и задайте правильные повороты.
+                </p>
+                
+                {% if attempts_left is defined %}
+                <div class="attempts-info">
+                    Осталось попыток: <strong class="attempts-count">{{ attempts_left }}</strong>
+                </div>
+                {% endif %}
+                
+                {% if user_images and display_order and correct_order %}
+                <div class="images-grid-horizontal" id="imagesGrid">
+                    {% for i in range(1, 5) %}
+                    {% set image_index = display_order[loop.index0] - 1 %}
+                    {% set image_name = user_images[image_index] if image_index < user_images|length else '' %}
+                    <div class="image-square-horizontal draggable-item" data-index="{{ loop.index0 }}" data-image-number="{{ display_order[loop.index0] }}">
+                        <div class="image-container-horizontal" id="imageContainer{{ loop.index0 }}">
+                            {% if image_name %}
+                            <img src="{{ url_for('static', filename='user_images/' + image_name) }}" 
+                                id="preview{{ loop.index0 }}" 
+                                class="image-preview-horizontal" 
+                                alt="Изображение {{ display_order[loop.index0] }}">
+                            {% else %}
+                            <div class="empty-state-horizontal">
+                                <span class="plus-icon-horizontal">!</span>
+                                <span class="empty-text-horizontal">{{ loop.index0 + 1 }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <button type="button" class="image-remove-btn-horizontal rotate-btn-auth" 
+                                data-index="{{ loop.index0 }}" title="Повернуть на 90°">↻</button>
+                        <div class="image-info">
+                            <span class="image-rotation">0°</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="sequence-info">
+                    <p>Перетащите изображения чтобы изменить порядок</p>
+                    <p>Нажмите ↻ чтобы повернуть изображение на 90°</p>
+                    <p>Восстановите порядок и повороты, которые вы задали при регистрации</p>
+                </div>
+                {% else %}
+                <div class="no-images-message">
+                    <p>Не удалось загрузить изображения. Пожалуйста, попробуйте снова.</p>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Скрытые поля -->
+            <input type="hidden" name="email" value="{{ email }}">
+            {% if session_id %}
+            <input type="hidden" name="session_id" value="{{ session_id }}">
+            {% endif %}
+            <input type="hidden" name="image_order" id="imageOrderInput" value="[1,2,3,4]">
+            <input type="hidden" name="image_rotations" id="imageRotationsInput" value="[0,0,0,0]">
+            
+            {% if correct_order and correct_rotations %}
+            <input type="hidden" id="correctOrderInput" value="{{ correct_order|tojson }}">
+            <input type="hidden" id="correctRotationsInput" value="{{ correct_rotations|tojson }}">
+            {% endif %}
+            
+            <input class="button reg_en_button" type="submit" value="Подтвердить" id="submitBtn">
+            
+            {% if error and "Превышено количество попыток" in error %}
+            <div class="back-link">
+                <a href="{{ url_for('formula_auth', email=email) }}">← Начать процесс аутентификации заново</a>
+            </div>
+            {% else %}
+            <div class="back-link">
+                <a href="{{ url_for('formula_auth', email=email) }}">← Вернуться к формульному фактору</a>
+            </div>
+            {% endif %}
+            {% endif %}
+        </fieldset>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/drag-and-drop.js') }}"></script>
+<script src="{{ url_for('static', filename='js/graphic_auth.js') }}"></script>
+{% endblock %}

@@ -62,6 +62,21 @@ class Database:
             except Exception as e:
                 # Handle the error
                 print(f"Error inserting data: {e}")
+    
+    """Сохраняет данные графической аутентификации"""
+    def add_graphic_auth(self, person_id, images, image_sequence):
+        with self.Session() as session:
+            stmt = text("""
+                INSERT INTO graphic_auth (person_id, images, image_sequence)
+                VALUES (:person_id, :images, :image_sequence)
+            """)
+            session.execute(stmt, {
+                'person_id': person_id,
+                'images': images,
+                'image_sequence': json.dumps(image_sequence)
+            })
+            session.commit()
+            print(f"[DB] Графическая аутентификация сохранена для person_id={person_id}")
 
     def getUser_email(self, email):
         with self.Session() as session:
@@ -98,6 +113,25 @@ class Database:
                 }
             else:
                 return None
+
+    """Получает данные графической аутентификации пользователя"""
+    def get_graphic_auth(self, person_id):
+        with self.Session() as session:
+            result = session.execute(
+                text("""
+                    SELECT images, image_sequence
+                    FROM graphic_auth
+                    WHERE person_id = :person_id
+                """),
+                {"person_id": person_id}
+            ).fetchone()
+            
+            if result:
+                return {
+                    'images': result[0],
+                    'image_sequence': result[1]
+                }
+            return None
 
     def update_password(self, user_id, new_password_hash):
         with self.Session() as session:
@@ -475,6 +509,8 @@ class Database:
             except Exception as e:
                 print(f"Ошибка получения массива images: {e}")
                 return None
+    
+    
 
 
 # Загружаем переменные из .env
