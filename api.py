@@ -1,7 +1,8 @@
 from flask import request, jsonify, redirect, url_for
 from user import User
 from data_base import Database
-from auth import auth_login, logout as auth_logout, registration as auth_registration, auth_register, auth_formula_auth, auth_graphic_auth
+from auth import auth_login, logout as auth_logout, registration as auth_registration, \
+    auth_register, auth_formula_auth, auth_graphic_auth, auth_change_password, auth_change_images
 from flask_login import current_user
 from user_profile import del_clothes, add_clothes, get_image
 from clothes import add_new_image
@@ -74,10 +75,6 @@ class API:
         def logout():
             return auth_logout()
 
-        # @self.app.route('/registration', methods=['POST', 'GET'])
-        # def register():
-        #     return auth_registration(app, self.dbase)
-
         @self.app.route('/register', methods=['GET', 'POST'])
         def register():
             return auth_register(app, self.dbase)
@@ -89,6 +86,23 @@ class API:
         @self.app.route('/graphic-auth', methods=['GET', 'POST'])
         def graphic_auth():
             return auth_graphic_auth(app, self.dbase, self.auth_service)
+        
+        @self.app.route('/initiate-change/<target>')
+        def initiate_change(target):
+            if target not in ['password', 'images']:
+                return redirect(url_for('profile'))
+            user = User.get(current_user.get_id(), self.dbase)
+            if not user:
+                return redirect(url_for('login'))
+            return redirect(url_for('formula_auth', change_target=target, email=user.email))
+
+        @self.app.route('/change-password', methods=['GET', 'POST'])
+        def change_password():
+            return auth_change_password(app, self.dbase)
+
+        @self.app.route('/change-user-images', methods=['GET', 'POST'])
+        def change_user_images():
+            return auth_change_images(app, self.dbase)
 
         # Маршрут для проверки авторизации
         @self.app.route('/api/v1/auth')

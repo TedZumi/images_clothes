@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Регистрация - Formula Factor
+{% endblock %}
+
+{% block body %}
+<div class="auth-container">
+    <form method="post" class="reg" enctype="multipart/form-data" id="registrationForm">
+        <fieldset class="reg_en">
+            <legend align="center">Смена графической последовательности</legend>
+            
+            {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+            {% endif %}
+            
+            {% if success %}
+            <div class="success-message">
+                {{ success }}
+            </div>
+            {% endif %}
+            
+            <!-- Загрузка изображений -->
+            <div class="graphic-auth-section">
+                <h3 class="section-title">Графическая аутентификация</h3>
+                <p class="section-description">
+                    Выберите 4 изображения для вашей графической аутентификации
+                </p>
+                
+                <div class="images-grid-horizontal">
+                    {% for i in range(1, 5) %}
+                    <div class="image-square-horizontal" data-index="{{ i }}">
+                        <div class="image-container-horizontal" id="imageContainer{{ i }}">
+                            <div class="empty-state-horizontal">
+                                <span class="plus-icon-horizontal">+</span>
+                                <span class="empty-text-horizontal">{{ i }}</span>
+                            </div>
+                            <img id="preview{{ i }}" class="image-preview-horizontal" style="display: none;">
+                        </div>
+                        <input type="file" name="image{{ i }}" class="image-input" id="imageInput{{ i }}" 
+                               accept="image/*" data-index="{{ i }}" style="display: none;">
+                        <button type="button" class="image-remove-btn-horizontal" data-index="{{ i }}" style="display: none;">×</button>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="images-validation" id="imagesValidation">
+                    Необходимо выбрать все 4 изображения
+                </div>
+            </div>
+            
+            <!-- Настройка последовательности (только после загрузки изображений) -->
+            <div class="sequence-section" id="sequenceSection" style="display: none;">
+                <h3 class="section-title">Настройка последовательности</h3>
+                <p class="section-description">
+                    Расставьте изображения в нужном порядке и задайте повороты.<br>
+                    Эта последовательность будет использоваться при каждом входе.
+                </p>
+                <div class="images-grid-horizontal" id="sequenceContainer">
+                    {% for i in range(1, 5) %}
+                    <div class="image-square-horizontal draggable-item" 
+                        data-index="{{ loop.index0 }}" 
+                        data-image-number="{{ i }}">  <!-- Добавить этот атрибут! -->
+                        <div class="image-container-horizontal">
+                            <img class="image-preview-horizontal" 
+                                alt="Изображение {{ i }}"
+                                style="transform: rotate(0deg)">
+                        </div>
+                        <button type="button" class="image-remove-btn-horizontal rotate-btn-auth" 
+                                data-index="{{ loop.index0 }}" 
+                                title="Повернуть на 90°">↻</button>
+                        <div class="image-info">
+                            <span class="image-rotation">0°</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="sequence-info">
+                    <p>Перетащите изображения чтобы изменить порядок</p>
+                    <p>Нажмите ↻ чтобы повернуть изображение на 90°</p>
+                </div>
+                
+                <!-- Скрытые поля для передачи последовательности -->
+                <input type="hidden" name="image_order" id="imageOrderInput" value="[1,2,3,4]">
+                <input type="hidden" name="image_rotations" id="imageRotationsInput" value="[0,0,0,0]">
+
+                <input type="hidden" name="image_names" id="imageNamesInput" value='["img1.jpg", "img2.jpg", "img3.jpg", "img4.jpg"]'>
+            </div>
+
+
+            <div class="form-submit-section">
+                <input class="button reg_en_button" type="submit" value="Зарегистрироваться" id="submitBtn">
+                
+                <div class="login-link">
+                    Уже есть аккаунт? <a href="{{ url_for('login') }}">Войти</a>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<!-- Модальное окно предпросмотра -->
+<div class="simple-crop-modal" id="cropModal" style="display: none;">
+    <div class="simple-crop-modal-content">
+        <h3>Предпросмотр изображения</h3>
+        <div class="simple-crop-preview">
+            <img id="cropImage" src="" alt="Предпросмотр">
+        </div>
+        <p class="crop-hint">Изображение будет сохранено в формате JPEG 150x150px</p>
+        <div class="simple-crop-actions">
+            <button type="button" class="btn-secondary" onclick="cancelCrop()">Отмена</button>
+            <button type="button" class="btn-primary" onclick="applyCrop()">Выбрать это изображение</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/drag-and-drop.js') }}"></script>
+<script src="{{ url_for('static', filename='js/registration.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sequence.js') }}"></script>
+{% endblock %}

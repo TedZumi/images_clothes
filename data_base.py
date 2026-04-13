@@ -143,6 +143,19 @@ class Database:
             except Exception as e:
                 print(f"Error updating password: {e}")
 
+    """Обновляет данные графической аутентификации"""
+    def update_graphic_auth(self, person_id, user_images, image_sequence):
+        with self.Session() as session:
+            session.execute(
+                text("""
+                    UPDATE graphic_auth 
+                    SET images = :user_images, image_sequence = :image_sequence
+                    WHERE person_id = :person_id
+                """),
+                {"user_images": user_images, "image_sequence": json.dumps(image_sequence), "person_id": person_id}
+            )
+            session.commit()
+
     """Получает информацию из таблицы clothes по clothes_id."""
     def get_clothes_by_id(self, clothes_id):
         with self.Session() as session:
