@@ -73,7 +73,7 @@ class Database:
             session.execute(stmt, {
                 'person_id': person_id,
                 'images': images,
-                'image_sequence': json.dumps(image_sequence)
+                'image_sequence': image_sequence
             })
             session.commit()
             print(f"[DB] Графическая аутентификация сохранена для person_id={person_id}")
@@ -152,7 +152,7 @@ class Database:
                     SET images = :user_images, image_sequence = :image_sequence
                     WHERE person_id = :person_id
                 """),
-                {"user_images": user_images, "image_sequence": json.dumps(image_sequence), "person_id": person_id}
+                {"user_images": user_images, "image_sequence": image_sequence, "person_id": person_id}
             )
             session.commit()
 

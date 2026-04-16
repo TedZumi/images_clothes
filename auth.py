@@ -3,11 +3,12 @@ from graphic_factor import process_user_images, validate_images
 from user import User
 from flask_login import logout_user, login_user, current_user
 from UserLogin import UserLogin
-import re
 from werkzeug.security import generate_password_hash, check_password_hash
 from sessions import session_manager
-import json
-import random
+import json, random, re
+from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
+from graph_seq_hash import hash_password, verify_password
 
 
 def auth_login(app, dbase):
@@ -100,46 +101,40 @@ def auth_graphic_auth(app, dbase, auth_service):
     
     if request.method == 'POST':
         # Читаем данные из HTML-формы (то, что отправил пользователь)
-        session_id = request.form.get('session_id', '').strip()
-        
-        # Проверка графического ответа
         order_json = request.form.get('image_order', '[1,2,3,4]')
         rotations_json = request.form.get('image_rotations', '[0,0,0,0]')
-
         try:
             # Превращаем JSON-строки в списки Python (то, что отправил пользователь)
             user_order = json.loads(order_json)
             user_rotations = json.loads(rotations_json)
+            image_sequence_data = str(user_order + user_rotations)
         except Exception as e:
-            print(f"Ошибка парсинга JSON: {e}")
             return render_template('graphic_auth.html', 
                                  email=email,
                                  error="Ошибка в данных последовательности")
         
-        # Получение сессии
-        graphic_session = session_manager.get_session(session_id)
-        if not graphic_session or graphic_session.get('type') != 'graphic':
-            print(f"Сессия истекла или не найдена")
-            return render_template('graphic_auth.html', 
-                                 email=email,
-                                 error="Сессия истекла")    
-        # Проверка email в сессии
-        if graphic_session.get('email') != email:
-            print(f"Несоответствие email в сессии")
-            return render_template('graphic_auth.html', 
-                                 email=email,
-                                 error="Несоответствие сессии")
-
-
-        attempts_left = graphic_session.get('attempts_left', 3)
-        correct_order_from_session = graphic_session.get('correct_order', [1, 2, 3, 4])
-        correct_rotations_from_session = graphic_session.get('correct_rotations', [0, 0, 0, 0])
+        # Получаем попытки из сессии
+        attempts_left = session.get('graphic_attempts_left', 3)
         
-        order_match = (user_order == correct_order_from_session)
-        rotations_match = (user_rotations == correct_rotations_from_session)
+        # Получаем правильные значения из БД
+        user = User.get_by_email(email, dbase)
+        if not user:
+            return render_template('graphic_auth.html', email=email, error="Пользователь не найден")
         
-        if order_match and rotations_match:
-            change_target = request.args.get('change_target') or session.get('change_target')
+        graphic_data = dbase.get_graphic_auth(user.id)
+        if not graphic_data:
+            return render_template('graphic_auth.html', email=email, error="Графика не настроена")
+        
+        image_sequence_db = graphic_data['image_sequence']
+        # Распечатайте ее перед вызовом
+        print(f"Тип: {type(image_sequence_db)}")
+        print(f"Значение: '{image_sequence_db}'")
+        print(f"Длина: {len(image_sequence_db) if image_sequence_db else 0}")
+
+        # Проверка последовательности
+        if verify_password(image_sequence_db, image_sequence_data):
+            # УСПЕХ
+            session.pop('graphic_attempts_left', None)
     
             if change_target == 'password':
                 session.pop('change_target', None)
@@ -147,13 +142,7 @@ def auth_graphic_auth(app, dbase, auth_service):
             elif change_target == 'images':
                 session.pop('change_target', None)
                 return redirect(url_for('change_user_images'))
-            else:
-                user = User.get_by_email(email, dbase)
-                if not user:
-                    return render_template('graphic_auth.html', 
-                                        email=email,
-                                        error="Пользователь не найден")
-                
+            else:                
                 # Вход через Flask-Login (создаёт постоянную сессию)          
                 userlogin = UserLogin().create(user)
                 login_user(userlogin)
@@ -162,72 +151,55 @@ def auth_graphic_auth(app, dbase, auth_service):
                 return redirect(url_for('index'))
         else:
             attempts_left = attempts_left - 1
-            graphic_session['attempts_left'] = attempts_left
+            session['graphic_attempts_left'] = attempts_left
                      
             if attempts_left > 0:
+                # Загружаем изображения из БД и создаём новый порядок
+                user_images = graphic_data['images']
+                new_display_order = list(range(1, 5))
+                random.shuffle(new_display_order)
+                
                 error_msg = "Последовательность неверная"
                 return render_template('graphic_auth.html',
-                                     email=email,
-                                     session_id=session_id,
-                                     user_images=graphic_session.get('user_images', []),
-                                     display_order=graphic_session.get('display_order', [1, 2, 3, 4]),
-                                     correct_order=correct_order_from_session,
-                                     correct_rotations=correct_rotations_from_session,
-                                     attempts_left=attempts_left,
-                                     error=f"{error_msg}. Осталось попыток: {attempts_left}")
+                                    email=email,
+                                    user_images=user_images,
+                                    display_order=new_display_order,
+                                    attempts_left=attempts_left,
+                                    error=f"{error_msg}. Осталось попыток: {attempts_left}")
             else:
+                session.pop('graphic_attempts_left', None)
                 session.pop('auth_email', None)
                 return redirect(url_for('login', error="Превышено количество попыток"))
     
     # Получаем пользователя
     user = User.get_by_email(email, dbase)
     if not user:
-        print(f"Пользователь не найден в БД")
         session.pop('auth_email', None)
         return redirect(url_for('login'))
     
     graphic_data = dbase.get_graphic_auth(user.id)
-    
-    images_from_db  = graphic_data['images']
-    image_sequence_from_db  = graphic_data['image_sequence']
-    
-    # Достаём правильные порядок и повороты из JSON
-    correct_order_from_db  = image_sequence_from_db.get('order', [1, 2, 3, 4])
-    correct_rotations_from_db  = image_sequence_from_db.get('rotations', [0, 0, 0, 0])
-
-    if not images_from_db or len(images_from_db) != 4:
+    if not graphic_data:
         return render_template('graphic_auth.html', 
                              email=email,
                              error="У пользователя не настроена графическая аутентификация")
     
+    images_from_db = graphic_data['images']
+    if not images_from_db or len(images_from_db) != 4:
+        return render_template('graphic_auth.html', 
+                               email=email, 
+                               error="У пользователя не настроена графическая аутентификация")
+
     # Создание случайного порядка для отображения
     display_order = list(range(1, 5))
     random.shuffle(display_order)
     
-    # Создание сессии для графической аутентификации
-    session_id = session_manager.create_graphic_session(
-        email=email,
-        user_data={'user_id': user.id, 'name': user.username, 'email': email},
-        challenge_data={
-            'correct_order': correct_order_from_db,
-            'correct_rotations': correct_rotations_from_db,
-            'user_images': images_from_db,
-            'display_order': display_order
-        }
-    )
-    
-    # Получение информации о сессии
-    graphic_session = session_manager.get_session(session_id)
-    attempts_left = graphic_session.get('attempts_left', 3) if graphic_session else 3
+    session['graphic_attempts_left'] = 3
 
     return render_template('graphic_auth.html',
                          email=email,
-                         session_id=session_id,
                          user_images=images_from_db,
                          display_order=display_order,
-                         correct_order=correct_order_from_db,
-                         correct_rotations=correct_rotations_from_db,
-                         attempts_left=attempts_left)
+                         attempts_left=3)
 
 
 """Регистрация нового пользователя с двухфакторной аутентификацией"""
@@ -246,7 +218,6 @@ def auth_register(app, dbase):
         try:
             order = json.loads(order_json)
             rotations = json.loads(rotations_json)
-            print(f"[REGISTER] Последовательность: order={order}, rotations={rotations}")
         except Exception as e:
             print(f"[REGISTER ERROR] Ошибка парсинга последовательности: {e}")
             order = [1, 2, 3, 4]
@@ -256,7 +227,6 @@ def auth_register(app, dbase):
         image_names_json = request.form.get('image_names', '[]')
         try:
             image_names = json.loads(image_names_json)
-            print(f"[REGISTER] Имена изображений: {image_names}")
         except json.JSONDecodeError as e:
             print(f"[REGISTER ERROR] Ошибка парсинга JSON: {e}")
             image_names = []
@@ -303,9 +273,7 @@ def auth_register(app, dbase):
         # Создание пользователя в таблице person
         try:
             dbase.add_person(name, email, password)
-            print(f"[REGISTER] Пользователь {email} добавлен в БД")
         except Exception as e:
-            print(f"[REGISTER ERROR] Ошибка при создании пользователя: {e}")
             return render_template('registration.html', 
                                  error='Ошибка при создании пользователя',
                                  name=name, email=email)
@@ -337,9 +305,11 @@ def auth_register(app, dbase):
             'rotations': rotations
         }
         
+        image_sequence_data = str(order + rotations)
+        seq_hash = hash_password(image_sequence_data)
+
         try:
-            dbase.add_graphic_auth(person_id, saved_filenames, image_sequence_data)
-            print(f"[REGISTER] Графическая аутентификация сохранена для {email}")
+            dbase.add_graphic_auth(person_id, saved_filenames, seq_hash)
         except Exception as e:
             print(f"[REGISTER ERROR] Ошибка при сохранении графики: {e}")
             # Удаляем пользователя
@@ -429,7 +399,11 @@ def auth_change_images(app, dbase):
         user = User.get(current_user.get_id(), dbase)
         if not user:
             return render_template('change_images.html', error="Пользователь не найден")
-        saved_filenames = process_user_images(user.email, image_files, image_names)
+        # print(f"[DEBUG] image_files = {image_files}")
+        print(f"[DEBUG] user.email = {user.email}")
+        # print(f"[DEBUG] len(image_files) = {len(image_files)}") 
+        saved_filenames = process_user_images(user.email, image_files, [])
+        # print(f"[DEBUG] saved_filenames = {saved_filenames}") 
         
         if not saved_filenames or len(saved_filenames) != 4:
             return render_template('change_user_images.html', error="Ошибка при сохранении изображений")
@@ -445,8 +419,11 @@ def auth_change_images(app, dbase):
             'rotations': sequence_rotations
         }
         
+        graphic_sequence = str(sequence_order + sequence_rotations)
+        seq_hash = hash_password(graphic_sequence)
+
         try:
-            dbase.update_graphic_auth(user.id, saved_filenames, graphic_sequence)
+            dbase.update_graphic_auth(user.id, saved_filenames, seq_hash)
             return redirect(url_for('profile', success="Изображения успешно обновлены!"))
         except Exception as e:
             return render_template('change_user_images.html', error="Ошибка при сохранении")
