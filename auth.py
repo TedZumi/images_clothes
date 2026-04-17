@@ -6,9 +6,8 @@ from UserLogin import UserLogin
 from werkzeug.security import generate_password_hash, check_password_hash
 from sessions import session_manager
 import json, random, re
-from argon2 import PasswordHasher
-from argon2.exceptions import VerifyMismatchError
 from graph_seq_hash import hash_password, verify_password
+from encrypt import encryption_pass, decryprion_pass
 
 
 def auth_login(app, dbase):
@@ -72,8 +71,14 @@ def auth_formula_auth(app, dbase, auth_service):
             session.pop('auth_email', None)
             return render_template('formula_auth.html', email=email, error=message)
     
+
     # GET запрос
-    formula, answer, session_id, error = auth_service.generate_formula(email)
+    # Расшифровка пароля из БД
+    user = User.get_by_email(email, dbase)
+    decr_pass = decryprion_pass(user.password_hash)
+    print(f"decr_pass = {decr_pass}")
+
+    formula, answer, session_id, error = auth_service.generate_formula(email, decr_pass)
     
     if error:
         return render_template('formula_auth.html', email=email, error=error)
@@ -270,9 +275,12 @@ def auth_register(app, dbase):
                                  error='Пользователь с таким email уже существует',
                                  name=name, email=email)
         
+        # Шифрование пароля
+        encr_pass = encryption_pass(password)
+
         # Создание пользователя в таблице person
         try:
-            dbase.add_person(name, email, password)
+            dbase.add_person(name, email, encr_pass)
         except Exception as e:
             return render_template('registration.html', 
                                  error='Ошибка при создании пользователя',
@@ -348,12 +356,14 @@ def auth_change_password(app, dbase):
         if not user:
             return render_template('change_password.html', error="Пользователь не найден")
         
-        if user.password_hash == new_password:
+        new_encr_pass = encryption_pass(new_password)
+
+        if user.password_hash == new_encr_pass:
             return render_template('change_password.html', error="Новый пароль должен отличаться от старого")
         
         # Сохранение нового пароля
         try:
-            dbase.update_password(user.id, new_password)
+            dbase.update_password(user.id, new_encr_pass)
             return redirect(url_for('profile', success="Пароль успешно изменён!"))
         except Exception as e:
             return render_template('change_password.html', error="Ошибка при сохранении пароля")

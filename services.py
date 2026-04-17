@@ -17,14 +17,8 @@ class AuthService:
             print("FormulaFactorEngine не найден")
     
     """Генерация формулы для аутентификации"""
-    def generate_formula(self, email: str) -> Tuple[Optional[str], Optional[str], str, str]:
+    def generate_formula(self, email: str, password: str) -> Tuple[Optional[str], Optional[str], str, str]:
         print(f"[AUTH] Генерация формулы для {email}")
-        
-        user_data = self.dbase.getUser_email(email)  # используем self.dbase
-        if not user_data:
-            return None, None, "", "Пользователь не найден"
-        
-        password = user_data['password_hash']
         
         if not self.use_real_engine:
             return None, None, "", "Система формул временно недоступна"
