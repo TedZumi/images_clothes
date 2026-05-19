@@ -3,11 +3,11 @@ import psycopg2
 from dotenv import load_dotenv
 import os
 from sqlalchemy import create_engine, text, insert, MetaData,\
-    Table, Column, Integer, String, ARRAY, update
+    Table, update
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
 from flask_login import UserMixin
 from sqlalchemy.exc import IntegrityError
+from typing import List
 
 
 class User(UserMixin):
@@ -37,7 +37,6 @@ class Database:
             ).fetchone()
 
             if result:
-                # Create a User object from the database result
                 user = User(
                     id=result[0],
                     username=result[1],
@@ -60,9 +59,27 @@ class Database:
                 session.commit()
                 print(f"Пользователь {name} успешно добавлен.")
             except Exception as e:
-                # Handle the error
                 print(f"Error inserting data: {e}")
     
+    """Возвращает активные задания, отсортированные по сложности"""
+    def get_dynamic_tasks(self):
+        with self.Session() as session:
+            results = session.execute(text("""
+                SELECT transformation_id,
+                    category,
+                    description_template,
+                    function_name,
+                    parameter_schema,
+                    complexity,
+                    applicability_conditions,
+                    is_active
+                FROM formula_transformations  
+                WHERE is_active = TRUE        
+                ORDER BY complexity, transformation_id
+            """)).fetchall()
+        
+        return results
+
     """Сохраняет данные графической аутентификации"""
     def add_graphic_auth(self, person_id, images, image_sequence):
         with self.Session() as session:

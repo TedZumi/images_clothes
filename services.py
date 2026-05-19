@@ -11,7 +11,7 @@ class AuthService:
         self.use_real_engine = False
         
         try:
-            self.engine = FormulaFactorEngine
+            self.engine = FormulaFactorEngine(dbase)
             self.use_real_engine = True
         except ImportError:
             print("FormulaFactorEngine не найден")
@@ -28,10 +28,10 @@ class AuthService:
         # Генерация формулы
         try:
             with self.dbase.Session() as session:
-                raw_conn = session.connection().connection  # .connection даёт psycopg2 соединение
-                engine = self.engine(raw_conn)  
+                # raw_conn = session.connection().connection  # .connection даёт psycopg2 соединение
+                # engine = self.engine(raw_conn)  
                 
-                transforms = engine.get_applicable_transformations(password)
+                transforms = self.engine.get_applicable_transformations(password)
                 if not transforms:
                     return None, None, "", "Для вашего пароля нет доступных преобразований"
             
@@ -42,10 +42,10 @@ class AuthService:
                 # Генерируем параметры
                 params = {}
                 if transform.get('parameter_schema'):
-                    params = engine.generate_random_parameters(transform, password)
+                    params = self.engine.generate_random_parameters(transform, password)
                 
                 # Вычисляем ответ
-                answer = engine.apply_transformation(password, transform, params)
+                answer = self.engine.apply_transformation(password, transform, params)
                 
                 # Форматируем формулу
                 formula = transform['description_template']

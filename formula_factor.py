@@ -10,7 +10,6 @@ from copy import deepcopy
 @dataclass
 class Transformation:
     transformation_id: str
-    base_type: str
     category: str
     description_template: str
     function_name: str
@@ -23,7 +22,6 @@ class Transformation:
         """Конвертация в словарь"""
         return {
             'transformation_id': self.transformation_id,
-            'base_type': self.base_type,
             'category': self.category,
             'description_template': self.description_template,
             'function_name': self.function_name,
@@ -35,8 +33,9 @@ class Transformation:
 
 
 class FormulaFactorEngine:
-    def __init__(self, db_connection):
-        self.db = db_connection
+    def __init__(self, dbase):
+        self.db = dbase
+        print(type(self.db))
         self.transformations_cache = None
         self._safe_eval_globals = {
             'max': max,
@@ -83,34 +82,19 @@ class FormulaFactorEngine:
         if self.transformations_cache is not None:
             return self.transformations_cache
         
-        # TODO: Рефакторинг работы с БД
-        cursor = self.db.cursor()
-        # HACK: Убрать base_type из бд
-        cursor.execute("""
-            SELECT transformation_id,   -- ID преобразования
-                base_type,              -- Тип 
-                category,               -- Категория преобразования
-                description_template,   -- Шаблон описания формулы
-                function_name,          -- Имя функции в коде
-                parameter_schema,       -- JSON-схема параметров
-                complexity,             -- Сложность формулы
-                applicability_conditions, -- JSON-условия
-                is_active               -- Флаг активности
-            FROM formula_transformations  
-            WHERE is_active = TRUE        
-            ORDER BY complexity, transformation_id  -- Сначала простые преобразования
-        """)
+        # Получаем данные через БД
+        tasks = self.db.get_dynamic_tasks()
         
         transformations = []
         
-        for row in cursor.fetchall():
+        for row in tasks:
             try:
                 
                 # Запоминаем ID для сообщений об ошибках
                 transformation_id = row[0]
                 
                 # Обработка JSON параметров
-                param_schema = row[5]
+                param_schema = row[4]
                 if param_schema is None:
                     param_schema = {}
                 elif isinstance(param_schema, str):
@@ -122,7 +106,7 @@ class FormulaFactorEngine:
                         param_schema = {}
                 
                 # Обработка JSON условий
-                applicability_conditions = row[7]
+                applicability_conditions = row[6]
                 
                 if applicability_conditions is None:
                     applicability_conditions = []
@@ -133,17 +117,16 @@ class FormulaFactorEngine:
                     except:
                         applicability_conditions = []
                 
-                # HACK: Убрать base_type из бд
                 transformation = Transformation(
                     transformation_id=transformation_id,
-                    base_type=row[1],
-                    category=row[2],
-                    description_template=row[3],
-                    function_name=row[4],
+
+                    category=row[1],
+                    description_template=row[2],
+                    function_name=row[3],
                     parameter_schema=param_schema,
-                    complexity=row[6],
+                    complexity=row[5],
                     applicability_conditions=applicability_conditions,
-                    is_active=row[8]
+                    is_active=row[7]
                 )
                 
                 # Превращаем в словарь и добавляем в список

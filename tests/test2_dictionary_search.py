@@ -7,10 +7,10 @@ from matplotlib import ticker
 import matplotlib.pyplot as plt
 
 """ ГЛОБАЛЬНЫЕ НАСТРОЙКИ """
-PASSWORD_LENGTH = 16     # длина пароля
+PASSWORD_LENGTH = 8     # длина пароля
 NUM_INTERCEPTS = 1      # количество перехватов
-NUM_USERS = 100         # количество пользователей
-DICT_WEIGHT = 1       # % паролей из словаря
+NUM_USERS = 500         # количество пользователей
+DICT_WEIGHT = 0.5       # % паролей из словаря
 NUM_TASKS = 20          # количество заданий
 
 
