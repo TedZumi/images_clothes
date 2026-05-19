@@ -65,17 +65,17 @@ class Database:
     def get_dynamic_tasks(self):
         with self.Session() as session:
             results = session.execute(text("""
-                SELECT transformation_id,
-                    category,
-                    description_template,
-                    function_name,
-                    parameter_schema,
-                    complexity,
-                    applicability_conditions,
+                SELECT task_id,
+                    task_category,
+                    word_user_template,
+                    func_name,
+                    avail_dynamic_params,
+                    task_complexity,
+                    basic_conditions,
                     is_active
-                FROM formula_transformations  
+                FROM dynamic_tasks  
                 WHERE is_active = TRUE        
-                ORDER BY complexity, transformation_id
+                ORDER BY task_complexity, task_id
             """)).fetchall()
         
         return results
