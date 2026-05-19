@@ -84,7 +84,7 @@ class Database:
     def add_graphic_auth(self, person_id, images, image_sequence):
         with self.Session() as session:
             stmt = text("""
-                INSERT INTO graphic_auth (person_id, images, image_sequence)
+                INSERT INTO graphic_factor (person_id, pictures_items, picture_sequence)
                 VALUES (:person_id, :images, :image_sequence)
             """)
             session.execute(stmt, {
@@ -136,8 +136,8 @@ class Database:
         with self.Session() as session:
             result = session.execute(
                 text("""
-                    SELECT images, image_sequence
-                    FROM graphic_auth
+                    SELECT pictures_items, picture_sequence
+                    FROM graphic_factor
                     WHERE person_id = :person_id
                 """),
                 {"person_id": person_id}
@@ -165,8 +165,8 @@ class Database:
         with self.Session() as session:
             session.execute(
                 text("""
-                    UPDATE graphic_auth 
-                    SET images = :user_images, image_sequence = :image_sequence
+                    UPDATE graphic_factor 
+                    SET pictures_items = :user_images, picture_sequence = :image_sequence
                     WHERE person_id = :person_id
                 """),
                 {"user_images": user_images, "image_sequence": image_sequence, "person_id": person_id}
