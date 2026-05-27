@@ -13,11 +13,9 @@
 	<div class="prof_grid1">
 		<div id="user-info">
 			<script>
-				// Fetch user data from the API
 				fetch(`/api/v1/users/{{ person_id }}`)
 					.then(response => response.json())
 					.then(data => {
-						// Update the user-info div with the fetched data
 						document.getElementById('user-info').innerHTML = `
 							<p class="persona_fieldset">Личная информация</p>
 							<p class="persona_fieldset" >ФИО: ${data.username}</p>
@@ -28,36 +26,17 @@
 			</script>
 		</div>
 
-		<form action="{{ url_for('initiate_change', target='password') }}" method="get" class="persona_form">
-			<button type="submit" class="save_button persona_button">Сменить пароль</button>
-		</form>
-
-		<form action="{{ url_for('initiate_change', target='images') }}" method="get" class="persona_form">
-			<button type="submit" class="save_button persona_button">Сменить изображения</button>
-		</form>
+		<div class="buttons-container">
+			<form action="{{ url_for('initiate_change', target='password') }}" method="get" class="persona_form">
+				<button type="submit" class="save_button persona_button">Изменить пароль</button>
+			</form>
+	
+			<form action="{{ url_for('initiate_change', target='images') }}" method="get" class="persona_form">
+				<button type="submit" class="save_button persona_button">Выбор новой последовательности</button>
+			</form>
+		</div>
 	</div>
-	<!-- <div class="persona_grid">
-		<form class="persona_form" id="change_password_form" method="post">
-			<fieldset class="persona_fieldset">
-				<legend align="center">Изменить пароль</legend>
-
-				<p><label class="profile_lab" for="password">Старый пароль:</label>
-				<input class="reg profile_inp" type="password" id="password" name="password" required placeholder="Старый пароль"></p>
-
-				<p><label class="profile_lab" for="new_password">Новый пароль:</label>
-				<input class="reg profile_inp" type="password" id="new_password" name="new_password" required placeholder="Новый пароль"></p>
-
-				<p><label class="profile_lab" for="repeat_new_password">Повторите пароль:</label>
-				<input class="reg profile_inp" type="password" id="repeat_new_password" name="repeat_new_password" required placeholder="Повторите пароль"></p>
-				  {% if error %}
-					  <div class="error">
-						{{ error }}
-					  </div>
-				  {% endif %}
-				<button class="save_button persona_button" type="submit">Сохранить</button>
-			</fieldset>
-		</form>
-	</div> -->
+	
 	<div class="persona_grid right_grid">
 		<nav>
 			<ul class="persona_ul">

@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Аутентификация - Formula Factor
+Аутентификация - первый этап
 {% endblock %}
 
 {% block body %}
 <div class="auth-container">
     <form method="post" class="reg">
-        <fieldset class="reg_en">
-            <legend align="center">Формульная аутентификация</legend>
+        <legend id="auth-legend" align="center">{{ title if title else "Первый этап аутентификации" }}</legend>
+            {% if description %}
+                <p class="auth-description">{{ description }}</p>
+            {% endif %}
             
             <div class="user-info">
                 <p><strong>Пользователь:</strong> {{ email }}</p>
@@ -58,7 +60,14 @@
                    
             {% if formula %}
             <div class="back-link">
-                <a href="/">← Ввести другой email</a>
+                <!-- <a href="{{ url_for('login') }}">← Ввести другой email</a> -->
+                <a href="{% if change_target %}{{ url_for('profile') }}{% else %}{{ url_for('login') }}{% endif %}">
+                    {% if change_target %}
+                        ← Вернуться в профиль
+                    {% else %}
+                        ← Ввести другой email
+                    {% endif %}
+                </a>
             </div>
             {% endif %}
         </fieldset>

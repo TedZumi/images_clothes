@@ -125,7 +125,7 @@ class Database:
                     'id': result[0],
                     'username': result[1],
                     'email': result[2],
-                    'password_hash': result[3],  # Добавьте поле password_hash
+                    'password_hash': result[3],
                     'wardrobe': result[4]
                 }
             else:

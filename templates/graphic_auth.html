@@ -1,18 +1,20 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Графическая аутентификация - Formula Factor
+Аутентификация - второй этап
 {% endblock %}
 
 {% block body %}
 <div class="auth-container">
     <form method="post" class="reg" enctype="multipart/form-data" id="graphicAuthForm">
         <fieldset class="reg_en">
-            <legend align="center">Графическая аутентификация</legend>
+            <legend id="auth-legend" align="center">{{ title if title else "Второй этап аутентификации" }}</legend>
+            {% if description %}
+                <p class="auth-description">{{ description }}</p>
+            {% endif %}
             
             <div class="user-info">
                 <p><strong>Пользователь:</strong> {{ email }}</p>
-                <p><strong>Второй этап защиты</strong></p>
             </div>
             
             {% if error %}
@@ -36,7 +38,8 @@
             <div class="graphic-auth-section">
                 <h3 class="section-title">Восстановите вашу последовательность</h3>
                 <p class="section-description">
-                    Расставьте изображения в правильном порядке и задайте правильные повороты.
+                    Расположите изображения в порядке, заданном при регистрации
+                     и задайте правильные повороты.
                 </p>
                 
                 {% if attempts_left is defined %}
@@ -74,9 +77,8 @@
                 </div>
                 
                 <div class="sequence-info">
-                    <p>Перетащите изображения чтобы изменить порядок</p>
-                    <p>Нажмите ↻ чтобы повернуть изображение на 90°</p>
-                    <p>Восстановите порядок и повороты, которые вы задали при регистрации</p>
+                    <p>Для перетаскивания удерживайте изображения и тяните</p>
+                    <p>При помощи кнопки ↻ поворачивайте изображения на 90°</p>
                 </div>
                 {% else %}
                 <div class="no-images-message">
@@ -93,11 +95,18 @@
             
             {% if error and "Превышено количество попыток" in error %}
             <div class="back-link">
-                <a href="{{ url_for('formula_auth', email=email) }}">← Начать процесс аутентификации заново</a>
+                <a href="{{ url_for('formula_auth', email=email) }}"> Начать процесс аутентификации заново</a>
             </div>
             {% else %}
             <div class="back-link">
-                <a href="{{ url_for('formula_auth', email=email) }}">← Вернуться к формульному фактору</a>
+                <!-- <a href="{{ url_for('formula_auth', email=email) }}">← Вернуться к предыдущему этапу</a> -->
+                <a href="{% if change_target %}{{ url_for('profile') }}{% else %}{{ url_for('formula_auth', email=email) }}{% endif %}">
+                    {% if change_target %}
+                        ← Вернуться в профиль
+                    {% else %}
+                        ← Вернуться к предыдущему этапу
+                    {% endif %}
+                </a>
             </div>
             {% endif %}
             {% endif %}

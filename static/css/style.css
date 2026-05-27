@@ -1,20 +1,16 @@
 body{
 	font-family: Microsoft Yahei;
 }
-
 a{
 	color: #111111;
 }
-
 p{
 	font-size: 14px;
 }
-
 .error{
 	font-size: 12px;
 	color: #8B0000;
 }
-
 .content{
 	width: 84%;
 	margin: 30px auto;
@@ -22,7 +18,6 @@ p{
 }
 
 /*------------------------ HEADER -----------------------------*/
-
 header {
 	display: grid;
 	grid-template-columns: 1.1fr 1.5fr 1fr;
@@ -30,13 +25,11 @@ header {
 	width: 100%;
 	border-bottom: 0.5mm solid #E5E5E5;
 }
-
 .grid_header{
 	display: flex;
 	justify-content: center;
     align-items: center;
 }
-
 .menu_ul{
 	list-style: none;
     position: absolute;
@@ -44,25 +37,20 @@ header {
 	flex-direction: row;
 	position: relative;
 }
-
 .menu_ul li.active {
     border-bottom: 1mm solid #FBB03B;
 }
-
 .menu_li{
 	margin-right: 80px;
 	padding: 3px;
 }
-
 .menu_a{
 	text-decoration: none;
 	font-size: 14px;
 }
-
 .menu_a:hover{
 	color: #FBB03B;
 }
-
 .logo{
 	text-decoration: none;
     position: absolute;
@@ -70,50 +58,47 @@ header {
 	flex-direction: row;
 	position: relative;
 }
-
 .logo_img{
 	width: 68px;
 	height: 68px;
 }
-
 #logo1{
 	margin-left: 15px;
 	color: #FBB03B;
 }
-
 .me_img{
 	width: 35px;
 	height: 38px;
 	cursor: pointer;
 }
 
-/*-----------------------------------------------------*/
 
 form.reg{
 	margin: 130px auto;
-	width: 300px;
+	width: 500px;
 }
-
 form.filters{
 	padding-top: 170px;
 	width: 300px;
 }
-
 fieldset.reg_en{
 	border: none;
 	font-size: 18px;
 }
-
 input.reg{
 	margin-top: 20px;
-	width: 300px;
+	width: 80%;
 	height: 40px;
 	border: 0.5mm solid #D4D4D4;
 	border-radius: 20px;
 	padding-left: 30px;
 	font-size: 13px;
 }
-
+input.reg {
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
 .button{
 	height: 43px;
 	margin-top: 30px;
@@ -124,139 +109,63 @@ input.reg{
 	text-align: center;
 	cursor: pointer;
 }
-
 .save_button{
 	height: 43px;
 	margin-top: 30px;
+    margin-left: 0;  
 	border: none;
 	border-radius: 20px;
-	font-size: 12px;
+	font-size: 14px;
 	background-color: #FBB03B;
 	text-align: center;
 	cursor: pointer;
-	width: 155px;
-	margin-left: 110px;
+	width: auto;           
+    padding: 0 25px;       
+    white-space: nowrap;
 }
-
+.reg_en legend {
+    font-weight: bold;    
+    font-size: 25px;      
+    padding: 0 15px;      
+}
+#auth-legend {
+    font-weight: bold;
+    font-size: 25px;
+    padding: 0 15px;
+}
+.auth-description {
+    text-align: center;
+}
 .reg_en_button{
-	width: 335px;
+	width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
-
 .question{
 	font-size: 12px;
 	margin-left: 26%;
 }
 
-.persona{
-	display: grid;
-	grid-template-columns: 1fr 1.5fr 0.8fr;
-	height: 540px;
-	width: 100%;
-	margin-top: 30px;
-}
-
-.heading{
-	position: absolute;
-	top: 110px; 
-	left: 25%;
-}
-
-.persona_grid{
-	display: flex;
-	justify-content: center;
-    align-items: center;
-}
-
-/*---ПОСМОТРЕТЬ---*/
-
-.prof_grid1{
-	display: flex;
-	margin-left: 30%;
-	align-items: center;
-	/*border-right: 0.5mm solid #E5E5E5;*/
-}
-
-.right_grid{
-	border-left: 0.5mm solid #E5E5E5;
-	height: 520px;
-	/*padding-left: 8%;*/
-}
-
-/*----------------*/
-
-#info{
-	margin-bottom: 40px;
-	font-size: 18px;
-}
-
-.profile_lab{
-	font-size: 13.5px;
-	margin-right: 12px;
-}
-
-input.profile_inp{
-	width: 200px;
-}
-
-.persona_ul{
-	list-style: none;
-}
-
-.persona_a{
-	text-decoration: none;
-}
-
-.persona_a:hover{
-	color: #FBB03B;
-}
-
-.persona_li{
-	margin-top: 20px;
-}
-
-.persona_fieldset{
-	border: none;
-	font-size: 18px;
-}
-
-.persona_button1{
-	width: 215px;
-}
-
-.persona_button2{
-	width: 125px;
-	background-color: #D4D4D4;
-	border-radius: 20px;
-}
-
-.persona_button2:hover{
-	background-color: #FBB03B;
-}
-
 /*--------------------------- index ---------------------------*/
-
 .filt-form{
 	text-align: center;
 	margin-top: 30px;
 }
-
 .filt-lab{
 	font-size: 13.5px;
 }
-
 .filt-select{
 	margin-right: 15px;
 	border: 0.5mm solid #D4D4D4;
 	border-radius: 20px;
 	padding: 3px;
 }
-
 .filt-but{
 	width: 110px;
 	margin-left: auto;
     margin-right: 0px;
 }
-
 .clothes-container{
 	width: 85%;
 	margin: 30px auto;
@@ -266,7 +175,6 @@ input.profile_inp{
 	justify-content: center;
 	padding-left: 30px;
 }
-
 .card{
 	width: 230px;
 	height: 390px;
@@ -278,22 +186,18 @@ input.profile_inp{
 	margin-bottom: 30px;
 	text-align: center;
 }
-
 .card_img{
 	width: 200px;
 	object-fit: contain;
 }
-
 .card_text{
 	font-size: 12.5px;
 	text-align: center;
 }
-
 .add-button{
 	text-align: center;
 	cursor: pointer;
 }
-
 .index-wardrobe-but{
 	height: 30px;
 	width: 230px;
@@ -306,7 +210,6 @@ input.profile_inp{
 }
 
 /*----------------------- wardrobe -----------------------------*/
-
 .lk_grid{
 	display: grid;
 	grid-template-columns: 2.5fr 0.8fr;
@@ -314,18 +217,15 @@ input.profile_inp{
 	width: 100%;
 	margin-top: 15px;
 }
-
 .lk_grid1{
 	text-align: center;
 }
-
 .wardrobe{
 	text-align: center;
 	width: 100%
 }
 
 /*----------------------- product -----------------------------*/
-
 .product{
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -336,16 +236,13 @@ input.profile_inp{
 	border: 0.5mm solid #D4D4D4;
 	box-shadow: 0 0 15px rgba(122,122,122,0.4);
 }
-
 .product_img{
 	width: 270px;
 	object-fit: contain;
 }
-
 .product_grid1{
 	padding-left: 30px;
 }
-
 .product_grid2{
 	padding: 20px;
     align-items: center;
@@ -353,7 +250,6 @@ input.profile_inp{
 }
 
 /*----------------------- create image -----------------------------*/
-
 .cr-image-grid1,
 .cr-image-grid2{
 	display: grid;
@@ -363,14 +259,12 @@ input.profile_inp{
 	height: 350px;
 	/*border: 0.5mm solid black;*/
 }
-
 .image-container {
     flex-wrap: wrap; /* Перенос элементов на новую строку, если не хватает места */
 	width: 600px;
 	margin: 30px auto;
 	padding-right: 10px;
 }
-
 .change-thing{
 	text-decoration: none;
 	width: 100%;
@@ -379,7 +273,6 @@ input.profile_inp{
 	border: 0.5mm solid black;
 	padding-top: 20px;
 }
-
 .thing-img{
 	margin-top: 10px;
 	width: 100%;
@@ -387,7 +280,6 @@ input.profile_inp{
 }
 
 /*----------------------- fashion -----------------------------*/
-
 .fashion{
 	width: 65%;
 	margin: 20px auto;
@@ -395,48 +287,35 @@ input.profile_inp{
 }
 
 /*----------------------- СТИЛИ КАТИ -----------------------------*/
-
 .btn btn-danger {
     margin-top: 230px;
     color: red;
-    }
-
-#user-info {
-    /* ... Any other styles for the user-info block */
-    font-size: 18px;
-    width: 400px;
 }
-
-
 header {
-    grid-row: 1; /* Header occupies the first row */
+    grid-row: 1;
 }
-
 main {
-    grid-row: 2; /* Main content occupies the second row */
+    grid-row: 2;
 }
-
 .user-info-container {
     display: flex;
-    justify-content: space-between;  /* Distribute space evenly */
-    margin-bottom: 20px;  /* Add spacing below */
+    justify-content: space-between;
+    margin-bottom: 20px;
     position: fixed;
     left: 25%;
     top: 30%;
 }
-
 .change-password {
     /* ... */
     padding-left: 50px;
 }
 .logout-container {
-    justify-content: center; /* Center horizontally */
+    justify-content: center;
 padding-top: 170%;
 }
 
 
 /* .........wardrobe........... */
-
 .wardrobe {
 display: flex;
 flex-wrap: wrap;
@@ -446,7 +325,6 @@ margin: 30px auto;
 width: 85%;
 padding-left: 30px;
 }
-
 .wardrobe-item{
 	width: 230px;
 	height: 410px;
@@ -458,13 +336,10 @@ padding-left: 30px;
 	margin-bottom: 30px;
 	text-align: center;
 }
-
 .wardrobe-item img{
 	width: 200px;
 	object-fit: contain;
 }
-
-
 .clothes-item{
 	width: 230px;
 	height: 410px;
@@ -476,14 +351,13 @@ padding-left: 30px;
 	margin-bottom: 30px;
 	text-align: center;
 }
-
 .clothes-item img {
     width: 200px;
 	object-fit: contain;
 }
 .show-more {
     display: block;
-    margin: 20px auto; /* Центрируем кнопку */
+    margin: 20px auto;
     padding: 10px 20px;
     
     border: none;
@@ -494,19 +368,16 @@ padding-left: 30px;
 /* выбор вещи для образа */
 .clothes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Автоматическое определение количества колонок */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
 }
-
 .cloth-item {
     text-align: center;
 } 
-
 .cloth-image {
     max-width: 100%;
     height: auto;
 }
-
 .cloth-info {
     margin-top: 10px;
 }
@@ -514,11 +385,12 @@ padding-left: 30px;
     display: flex;
     align-items: center; /* Выравнивание по вертикали */
 }
-.image-area img { /* Выбираем все изображения внутри элементов с классом "image-area" */
-    width: 200px;   /* Устанавливаем ширину изображения в 200 пикселей */
-    height: auto;  /* Устанавливаем высоту изображения в 150 пикселей */
+.image-area img { 
+    width: 200px;   
+    height: auto;  
     margin-left: 10px;
 }
+
 /* стили для странички images */
 #outfit-container{
 	width: 85%;
@@ -528,38 +400,36 @@ padding-left: 30px;
 	flex-wrap: wrap;
 	justify-content: center;
 }
-
 .outfit-block {
     padding: 10px;
     margin: 20px;
 	justify-content: center;
 	border: 0.5mm solid #D4D4D4;
 }
-
 .outfit-info {
     list-style-type: none;
     padding: 0;
 }
-/* стили для странички image */
 
+/* стили для странички image */
 .image-item {
     margin: 1px; /* Отступы между элементами одежды */
     width: 200px; /* Ширина каждого элемента одежды */
     text-align: center; /* Выравнивание текста по центру */
 }
-
 .image-item img {
     max-width: 100%; /* Масштабируем изображения по ширине */
     height: auto; /* Автоматически подбираем высоту */
 }
-
 .image-type,
 .image-brend {
     margin-top: 1px; /* Отступ сверху от изображения */
 }
 
 
-/* ФОРМУЛЬНАЯ АУТЕНТИФИКАЦИЯ */
+/* МОДУЛЬ БЕЗОПАСНОЙ АУТЕНТИФИКАЦИИ */
+
+/* Блок формульной аутентификации */
 .formula-display {
     background: #f8f9fa;
     padding: 25px;
@@ -570,50 +440,48 @@ padding-left: 30px;
     border-left: 5px solid #FBB03B;
     text-align: center;
 }
-
 .formula-text {
     margin-top: 10px;
     font-weight: normal;
     word-break: break-word;
 }
-
 .input-container {
     position: relative;
     margin: 25px 0;
 }
-
 .formula-input {
-    width: 100% !important;
-    height: 45px !important;
-    font-size: 14px !important;
-    padding: 0 30px !important;
-    background: white !important;
-}
+    width: 80% ;
+    height: 45px ;
+    font-size: 14px ;
+    padding: 0 30px ;
+    background: white ;
 
+    display: block ;
+    margin-left: auto ;
+    margin-right: auto ;
+
+    text-align: center;
+}
 .placeholder-text {
     position: absolute;
     top: 50%;
-    left: 30px;
-    transform: translateY(-50%);
+    left: 50%;                    
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
     color: #999;
-    font-size: 13px;
+    font-size: 15px;
     pointer-events: none;
     transition: all 0.3s ease;
     background: white;
     padding: 0 5px;
 }
-
-.placeholder-text.hidden {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.formula-input:focus + .placeholder-text {
+.formula-input:focus + .placeholder-text,
+.formula-input:not(:placeholder-shown) + .placeholder-text {
+    top: 0;
     color: #FBB03B;
 }
 
-
-/* ГРАФИЧЕСКАЯ АУТЕНТИФИКАЦИЯ */
+/* Блок графической аутентификации */
 .graphic-auth-section {
     margin: 30px 0;
     padding: 25px 20px;
@@ -624,14 +492,12 @@ padding-left: 30px;
     width: 100%;
     box-sizing: border-box;
 }
-
 .section-title {
     text-align: center;
     color: #333;
     margin-bottom: 10px;
     font-size: 18px;
 }
-
 .section-description {
     text-align: center;
     color: #666;
@@ -642,7 +508,6 @@ padding-left: 30px;
     margin-left: auto;
     margin-right: auto;
 }
-
 .images-grid-horizontal {
     display: flex;
     justify-content: center;
@@ -666,16 +531,13 @@ padding-left: 30px;
     -ms-user-select: none;
     animation: fadeInUp 0.3s ease-out;
 }
-
 .image-square-horizontal:hover {
     transform: translateY(-3px);
 }
-
 .image-square-horizontal.dragging {
     opacity: 0.5;
     cursor: move !important;
 }
-
 .image-container-horizontal {
     width: 100%;
     height: 100%;
@@ -690,15 +552,12 @@ padding-left: 30px;
     position: relative;
     transition: border-color 0.3s;
 }
-
 .image-container-horizontal:hover {
     border-color: #FBB03B;
 }
-
 .image-container-horizontal.empty {
     background: #f8f9fa;
 }
-
 .empty-state-horizontal {
     display: flex;
     flex-direction: column;
@@ -706,19 +565,16 @@ padding-left: 30px;
     color: #999;
     font-size: 12px;
 }
-
 .plus-icon-horizontal {
     font-size: 28px;
     font-weight: 200;
     color: #ccc;
     margin-bottom: 2px;
 }
-
 .empty-text-horizontal {
     font-size: 14px;
     font-weight: bold;
 }
-
 .image-preview-horizontal {
     width: 100%;
     height: 100%;
@@ -746,7 +602,6 @@ padding-left: 30px;
     padding: 0;
     line-height: 1;
 }
-
 .image-remove-btn-horizontal:hover {
     background: #2980b9;
     transform: scale(1.1);
@@ -762,13 +617,11 @@ padding-left: 30px;
     padding: 0 5px;
     width: 100%;
 }
-
 .image-rotation {
     color: #FBB03B;
     font-weight: bold;
     font-size: 13px;
 }
-
 .images-validation {
     text-align: center;
     color: #e74c3c;
@@ -777,13 +630,11 @@ padding-left: 30px;
     min-height: 20px;
     width: 100%;
 }
-
 .images-validation.valid {
     color: #2ecc71;
 }
 
-
-/* ОБРАБОТКА ПОСЛЕДОВАТЕЛЬНОСТИ (РЕГИСТРАЦИЯ) */
+/* Обработка последовательности (регистрация) */
 .sequence-section {
     margin: 30px 0;
     padding: 25px 20px;
@@ -792,7 +643,6 @@ padding-left: 30px;
     border: 2px dashed #e0e0e0;
     text-align: center;
 }
-
 .sequence-info {
     background: #e8f4fc;
     padding: 12px;
@@ -800,35 +650,30 @@ padding-left: 30px;
     margin-top: 20px;
     font-size: 13px;
     color: #3498db;
-    text-align: left;
+    text-align: center;
 }
-
 .sequence-info p {
     margin: 5px 0;
 }
 
-
-/* СТИЛИ ПЕРЕТАСКИВАНИЯ (DRAG AND DROP) */
+/* Перетаскивание элементов (DRAG AND DROP) */
 .draggable-item {
     cursor: pointer;
     user-select: none;
     -webkit-user-drag: element;
     transition: transform 0.2s ease;
 }
-
 .draggable-item.dragging {
     opacity: 0.5;
     cursor: move !important;
     z-index: 1000;
 }
-
 .draggable-item.drag-over {
     border-color: #FBB03B !important;
     background-color: rgba(251, 176, 59, 0.1);
 }
 
-
-/* СООБЩЕНИЯ И УВЕДОМЛЕНИЯ */
+/* Сообщения и уведомления */
 .error-message {
     font-size: 14px;
     color: #8B0000;
@@ -839,7 +684,6 @@ padding-left: 30px;
     text-align: center;
     margin-bottom: 20px;
 }
-
 .success-message {
     color: #155724;
     background: #d4edda;
@@ -850,7 +694,6 @@ padding-left: 30px;
     margin-bottom: 20px;
     font-size: 14px;
 }
-
 .user-info {
     text-align: center;
     margin-bottom: 25px;
@@ -859,26 +702,20 @@ padding-left: 30px;
     border-radius: 8px;
     font-size: 15px;
 }
-
 .user-info p {
     margin: 0;
 }
-
 .attempts-info {
     text-align: center;
     margin: 20px 0;
     font-size: 15px;
     color: #666;
 }
-
 .attempts-count {
     color: #FBB03B;
     font-size: 18px;
     font-weight: bold;
 }
-
-
-/* ВСПЛЫВАЮЩИЕ УВЕДОМЛЕНИЯ */
 .notification {
     position: fixed;
     top: 20px;
@@ -893,27 +730,22 @@ padding-left: 30px;
     transition: opacity 0.3s ease, transform 0.3s ease;
     max-width: 300px;
 }
-
 .notification-info {
     background-color: #3498db;
     border-left: 4px solid #2980b9;
 }
-
 .notification-success {
     background-color: #2ecc71;
     border-left: 4px solid #27ae60;
 }
-
 .notification-error {
     background-color: #e74c3c;
     border-left: 4px solid #c0392b;
 }
-
 .notification-warning {
     background-color: #f39c12;
     border-left: 4px solid #d35400;
 }
-
 .no-images-message {
     background: #fff8e1;
     padding: 20px;
@@ -922,31 +754,26 @@ padding-left: 30px;
     margin: 20px 0;
     border: 1px solid #ffeaa7;
 }
-
 .no-images-message p {
     color: #e74c3c;
     font-weight: 500;
     margin: 0;
 }
 
-
-/* ССЫЛКИ И НАВИГАЦИЯ */
+/* ссылки и навигация */
 .back-link {
     text-align: center;
     margin-top: 20px;
     font-size: 14px;
 }
-
 .back-link a {
     color: #666;
     text-decoration: none;
     transition: color 0.3s;
 }
-
 .back-link a:hover {
     color: #FBB03B;
 }
-
 .registration-link {
     text-align: center;
     margin-top: 30px;
@@ -956,11 +783,9 @@ padding-left: 30px;
     color: #666;
     width: 100%;
 }
-
 .registration-link p {
     margin: 0;
 }
-
 .registration-link a {
     color: #FBB03B;
     font-weight: bold;
@@ -968,37 +793,31 @@ padding-left: 30px;
     transition: color 0.3s;
     margin-left: 5px;
 }
-
 .registration-link a:hover {
     color: #e69a00;
     text-decoration: underline;
 }
-
 .login-link {
     text-align: center;
     margin-top: 25px;
     font-size: 14px;
     color: #666;
 }
-
 .login-link a {
     color: #FBB03B;
     font-weight: bold;
     text-decoration: none;
     transition: color 0.3s;
 }
-
 .login-link a:hover {
     color: #e69a00;
     text-decoration: underline;
 }
 
-
-/* РЕГИСТРАЦИЯ */
+/* Регистрация */
 .registration-section {
     margin-bottom: 30px;
 }
-
 .registration-section .section-title {
     text-align: center;
     color: #333;
@@ -1006,7 +825,98 @@ padding-left: 30px;
     font-size: 18px;
 }
 
-/* МОДАЛЬНЫЕ ОКНА */
+/* Профиль пользователя */
+.persona{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    height: 540px;
+    width: 100%;
+    margin-top: 100px;
+}
+.prof_grid1{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    margin-left: 120px;
+}
+.buttons-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 30px;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 600px;  
+    margin-left: 0;
+    margin-right: auto;       
+}
+.right_grid{
+    border-left: 0.5mm solid #E5E5E5;
+    padding-left: 40px;
+    margin-right: 180px; 
+}
+.persona_grid{
+    display: flex;
+    justify-content: flex-start;  /* меню слева внутри своей колонки */
+    align-items: flex-start;
+}
+.persona_grid.right_grid {
+    justify-self: end;  
+    border-left: 0.5mm solid #E5E5E5;
+    padding-left: 40px;
+    height: auto;
+    min-height: 520px;
+}
+#user-info {
+    font-size: 18px;
+    width: 100%;
+    max-width: 400px;
+    text-align: left;  
+    margin-left: 0;     
+    margin-right: auto; 
+}
+.heading{
+	position: absolute;
+	top: 110px; 
+	left: 25%;
+}
+.profile_lab{
+	font-size: 13.5px;
+	margin-right: 12px;
+}
+input.profile_inp{
+	width: 200px;
+}
+.persona_ul{
+	list-style: none;
+}
+.persona_a{
+	text-decoration: none;
+}
+.persona_a:hover{
+	color: #FBB03B;
+}
+.persona_li{
+	margin-top: 20px;
+}
+.persona_fieldset{
+	border: none;
+	font-size: 18px;
+}
+.persona_button1{
+	width: 215px;
+}
+.persona_button2{
+	width: 125px;
+	background-color: #D4D4D4;
+	border-radius: 20px;
+}
+.persona_button2:hover{
+	background-color: #FBB03B;
+}
+
+/* Модальные окна */
 .simple-crop-modal {
     position: fixed;
     top: 0;
@@ -1019,7 +929,6 @@ padding-left: 30px;
     align-items: center;
     z-index: 1000;
 }
-
 .simple-crop-modal-content {
     background: white;
     padding: 20px;
@@ -1027,14 +936,12 @@ padding-left: 30px;
     max-width: 400px;
     width: 90%;
 }
-
 .simple-crop-modal-content h3 {
     text-align: center;
     margin-bottom: 15px;
     color: #333;
     font-size: 18px;
 }
-
 .simple-crop-preview {
     width: 100%;
     height: 250px;
@@ -1044,37 +951,31 @@ padding-left: 30px;
     margin-bottom: 15px;
     background: #f8f9fa;
 }
-
 .simple-crop-preview img {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
-
 .crop-hint {
     text-align: center;
     font-size: 13px;
     color: #666;
     margin-bottom: 20px;
 }
-
 .simple-crop-actions {
     display: flex;
     justify-content: center;
     gap: 15px;
 }
 
-
-/* АНИМАЦИИ */
+/* Анимации */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
 .graphic-auth-section {
     animation: fadeIn 0.5s ease-out;
 }
-
 @keyframes fadeInUp {
     from {
         opacity: 0;

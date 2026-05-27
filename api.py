@@ -94,7 +94,20 @@ class API:
             user = User.get(current_user.get_id(), self.dbase)
             if not user:
                 return redirect(url_for('login'))
-            return redirect(url_for('formula_auth', change_target=target, email=user.email))
+            
+            # Выбираем заголовок в зависимости от сценария
+            if target == 'password':
+                title = "Изменение пароля"
+                description = "Подтвердите свои учетные данные для смены пароля"
+            else:  # target == 'images'
+                title = "Редактирование последовательности изображений"
+                description = "Подтвердите свои учетные данные для смены изображений"
+            
+            return redirect(url_for('formula_auth', 
+                                change_target=target, 
+                                email=user.email,
+                                title=title,
+                                description=description))
 
         @self.app.route('/change-password', methods=['GET', 'POST'])
         def change_password():

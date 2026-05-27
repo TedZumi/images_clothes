@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Вход - Formula Factor
+Вход
 {% endblock %}
 
 {% block body %}
 <div class="auth-container">
     <form method="post" class="reg">
         <fieldset class="reg_en">
-            <legend align="center">Вход в систему</legend>
+            <legend align="center">Вход</legend>
             
             {% if error %}
             <div class="error-message">
@@ -16,8 +16,15 @@
             </div>
             {% endif %}
             
-            <input class="reg" name="email" id="email" type="email" required 
-                   placeholder="Введите ваш email" autofocus>
+            <!-- <input class="reg formula-input" name="email" id="email" type="email" required 
+                   placeholder="Введите ваш email" autofocus> -->
+            <div class="input-container">
+                <input class="reg formula-input" name="email" id="email" type="email" required 
+                placeholder=" " autofocus>
+                <div class="placeholder-text" id="placeholder-email">
+                    Введите ваш email
+                </div>
+            </div>
             <input class="button reg_en_button" type="submit" value="Получить задание">
         </fieldset>
     </form>

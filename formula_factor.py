@@ -667,3 +667,15 @@ class FormulaFactorEngine:
                     errors.append(f"Ошибка проверки ограничения: {e}")
         
         return errors
+
+
+if __name__ == "__main__":
+    # Создание экземпляра (передаем None как dbase для теста)
+    engine = FormulaFactorEngine(None)
+    
+    test_password = "_MyTestPassword978354_"
+    result = engine.analyze_password(test_password)
+    
+    print(f"Анализ пароля '{test_password}':")
+    for key, value in result.items():
+        print(f"параметр: {key}, значение {value}")

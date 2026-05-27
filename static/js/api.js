@@ -1,5 +1,4 @@
-// api.js
-const apiBaseUrl = '/api/v1'; // Базовый URL вашего API
+const apiBaseUrl = '/api/v1';
 
 
 // Функция для проверки авторизации
@@ -28,7 +27,7 @@ async function fetchApi(endpoint, method = 'GET', body = null, headers = {}) {
 
   if (isAuthenticated) {
     // Пользователь авторизован - выполняем запрос
-    headers['Authorization'] = `Bearer ${getAuthToken()}`; // Добавьте заголовок Authorization
+    headers['Authorization'] = `Bearer ${getAuthToken()}`;
     const response = await fetch(`${apiBaseUrl}${endpoint}`, {
       method,
       headers,
@@ -55,7 +54,6 @@ export async function getUserInfo(userId) {
     return data;
   } catch (error) {
     console.error('Ошибка при получении информации о пользователе:', error);
-    // Добавьте обработку ошибок здесь (например, отображение сообщения об ошибке)
   }
 }
 
@@ -65,8 +63,6 @@ export async function addNewUser(name, email, password) {
     return data;
   } catch (error) {
     console.error('Ошибка при добавлении пользователя:', error);
-    // Добавьте обработку ошибок здесь
   }
 }
 
-// ... (Другие функции для работы с API)

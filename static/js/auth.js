@@ -1,5 +1,3 @@
-
-
 class FormulaAuth {
     constructor() {
         this.passwordInput = document.getElementById('password');
@@ -68,14 +66,14 @@ class FormulaAuth {
                 const email = this.emailInput.value.trim();
                 if (!email) {
                     e.preventDefault();
-                    this.showError('Введите email');
+                    this.sh_error('Введите email');
                     return false;
                 }
                 
                 // Простая валидация email
-                if (!this.isValidEmail(email)) {
+                if (!this.val_em(email)) {
                     e.preventDefault();
-                    this.showError('Введите корректный email');
+                    this.sh_error('Введите корректный email');
                     return false;
                 }
                 
@@ -87,13 +85,13 @@ class FormulaAuth {
         this.emailInput.focus();
     }
     
-    isValidEmail(email) {
+    val_em(email) {
         // Простая проверка email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
     
-    showError(message) {
+    sh_error(message) {
         // Показываем ошибку (можно доработать для красивого отображения)
         alert(message);
     }

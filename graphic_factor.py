@@ -1,8 +1,4 @@
-"""
-Модуль для работы с графической аутентификацией
-"""
 import os
-import json
 import re
 import random
 from werkzeug.utils import secure_filename
@@ -103,8 +99,6 @@ def delete_user_images(filenames):
         print(f"[GRAPHIC ERROR] Ошибка при удалении изображений: {e}")
         return False
 
-
-# ========== ФУНКЦИИ ДЛЯ ГРАФИЧЕСКОЙ АУТЕНТИФИКАЦИИ ==========
 
 def prepare_graphic_challenge(user_data):
     """

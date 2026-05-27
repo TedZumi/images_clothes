@@ -34,6 +34,8 @@ def auth_login(app, dbase):
 """Формульная аутентификация"""
 def auth_formula_auth(app, dbase, auth_service):
     email = request.args.get('email', '').strip().lower()
+    title = request.args.get('title', "")  # забираем title
+    description = request.args.get('description', "")   
 
     if not email:
         email = session.get('auth_email', '').strip().lower()
@@ -42,6 +44,11 @@ def auth_formula_auth(app, dbase, auth_service):
     if change_target:
         session['change_target'] = change_target
     
+    if title:
+        session['formula_title'] = title
+    if description:
+        session['formula_description'] = description
+
     if not email:
         return redirect(url_for('login'))
     
@@ -53,16 +60,24 @@ def auth_formula_auth(app, dbase, auth_service):
         
         if success:
             change_target = session.get('change_target')
+            title = session.get('formula_title', "")
+            description = session.get('formula_description', "")
             if change_target:
-                return redirect(url_for('graphic_auth', change_target=change_target, email=email))
+                return redirect(url_for('graphic_auth', change_target=change_target, title=title,                           # передаём в шаблон
+                                         description=description, email=email))
             else:
                 return redirect(url_for('graphic_auth', email=email))
         else:
             if attempts_left > 0:
                 formula_session = session_manager.get_session(session_id)
                 if formula_session:
+                    title = session.get('formula_title', "")
+                    description = session.get('formula_description', "")
                     return render_template('formula_auth.html',
                                          email=email,
+                                         title=title,                           # передаём в шаблон
+                                         description=description,
+                                         change_target=change_target,   
                                          formula=formula_session.get('formula'),
                                          session_id=session_id,
                                          attempts_left=attempts_left,
@@ -88,6 +103,9 @@ def auth_formula_auth(app, dbase, auth_service):
     
     return render_template('formula_auth.html',
                          email=email,
+                         title=title,                           # передаём в шаблон
+                         description=description,
+                         change_target=change_target,   
                          formula=formula,
                          session_id=session_id,
                          attempts_left=attempts_left)
@@ -100,7 +118,9 @@ def auth_graphic_auth(app, dbase, auth_service):
         email = session.get('auth_email', '').strip().lower()
     
     change_target = request.args.get('change_target') or session.get('change_target')
-    
+    title = request.args.get('title', session.get('formula_title', ""))
+    description = request.args.get('description', session.get('formula_description', ""))
+
     if not email:
         return redirect(url_for('login'))
     
@@ -131,14 +151,12 @@ def auth_graphic_auth(app, dbase, auth_service):
             return render_template('graphic_auth.html', email=email, error="Графика не настроена")
         
         image_sequence_db = graphic_data['image_sequence']
-        # Распечатайте ее перед вызовом
         print(f"Тип: {type(image_sequence_db)}")
         print(f"Значение: '{image_sequence_db}'")
         print(f"Длина: {len(image_sequence_db) if image_sequence_db else 0}")
 
         # Проверка последовательности
         if verify_password(image_sequence_db, image_sequence_data):
-            # УСПЕХ
             session.pop('graphic_attempts_left', None)
     
             if change_target == 'password':
@@ -202,6 +220,9 @@ def auth_graphic_auth(app, dbase, auth_service):
 
     return render_template('graphic_auth.html',
                          email=email,
+                         title=title,
+                         description=description,
+                         change_target=change_target,
                          user_images=images_from_db,
                          display_order=display_order,
                          attempts_left=3)
