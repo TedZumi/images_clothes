@@ -92,12 +92,11 @@
 
 
             <div class="form-submit-section">
-                <input class="button reg_en_button" type="submit" value="Сменить последовательность" id="submitBtn">
-                
-                <div class="login-link">
-                    Уже есть аккаунт? <a href="{{ url_for('login') }}">Войти</a>
-                </div>
+                <input class="button reg_en_button" type="submit" value="Сменить последовательность" id="submitBtn">    
             </div>
+                <div class="back-link">
+                    <a href="{{ url_for('profile') }}">Отмена</a>
+                </div>
         </fieldset>
     </form>
 </div>
