@@ -1,22 +1,20 @@
-"""
-Модуль для управления сессиями аутентификации
-"""
+"""Модуль для управления сессиями аутентификации"""
 import uuid
 import time
 import json
 from typing import Optional, Dict, Tuple, Any, List
 
 
+"""Управляет сессиями аутентификации"""
 class SessionManager:
-    """Управляет сессиями аутентификации"""
     
     def __init__(self, max_attempts: int = 3, session_timeout: int = 300):
         self.sessions: Dict[str, Dict] = {}
         self.max_attempts = max_attempts
         self.session_timeout = session_timeout
     
+    """Создает новую сессию для формульной аутентификации"""
     def create_session(self, email: str, password_hash: str) -> str:
-        """Создает новую сессию для формульной аутентификации"""
         session_id = str(uuid.uuid4())[:12]
         
         self.sessions[session_id] = {
@@ -33,8 +31,8 @@ class SessionManager:
         print(f"[SESSION] Создана сессия {session_id[:8]}... для {email}")
         return session_id
     
+    """Создает новую сессию для графической аутентификации"""
     def create_graphic_session(self, email: str, user_data: Dict, challenge_data: Dict) -> str:
-        """Создает новую сессию для графической аутентификации"""
         session_id = str(uuid.uuid4())[:12]
         
         self.sessions[session_id] = {
@@ -50,8 +48,8 @@ class SessionManager:
         print(f"[SESSION] Создана графическая сессия {session_id[:8]}... для {email}")
         return session_id
     
+    """Получает сессию по ID"""
     def get_session(self, session_id: str) -> Optional[Dict]:
-        """Получает сессию по ID"""
         if session_id not in self.sessions:
             return None
         
@@ -64,8 +62,8 @@ class SessionManager:
         
         return session
     
+    """Обновляет данные сессии"""
     def update_session(self, session_id: str, **kwargs) -> bool:
-        """Обновляет данные сессии"""
         session = self.get_session(session_id)
         if not session:
             return False
@@ -76,8 +74,8 @@ class SessionManager:
         
         return True
     
+    """Удаляет сессию"""
     def remove_session(self, session_id: str) -> bool:
-        """Удаляет сессию"""
         if session_id in self.sessions:
             session_type = self.sessions[session_id].get('type', 'unknown')
             del self.sessions[session_id]
@@ -85,8 +83,8 @@ class SessionManager:
             return True
         return False
     
+    """Проверяет ответ пользователя для формульной аутентификации"""
     def verify_answer(self, session_id: str, user_answer: str) -> Tuple[bool, str, int]:
-        """Проверяет ответ пользователя для формульной аутентификации"""
         session = self.get_session(session_id)
         
         if not session:
@@ -107,8 +105,8 @@ class SessionManager:
                 message = f"Неверный ответ. Осталось попыток: {session['attempts_left']}"
                 return False, message, session['attempts_left']
     
+    """Проверяет графический ответ пользователя"""
     def verify_graphic_answer(self, session_id: str, user_order: List[int], user_rotations: List[int]) -> Tuple[bool, str, int]:
-        """Проверяет графический ответ пользователя"""
         session = self.get_session(session_id)
         
         if not session:
@@ -148,32 +146,32 @@ class SessionManager:
                 message = f"{error_msg}. Осталось попыток: {session['attempts_left']}"
                 return False, message, session['attempts_left']
     
+    """Получает данные для графического этапа"""
     def get_graphic_challenge_data(self, session_id: str) -> Optional[Dict]:
-        """Получает данные для графического challenge"""
         session = self.get_session(session_id)
         if not session or session.get('type') != 'graphic':
             return None
         
         return session.get('challenge_data')
     
+    """Проверяет, есть ли еще попытки"""
     def can_attempt(self, session_id: str) -> bool:
-        """Проверяет, можно ли еще пытаться"""
         session = self.get_session(session_id)
         if not session:
             return False
         
         return session.get('attempts_left', 0) > 0
     
+    """Получает количество оставшихся попыток"""
     def get_attempts_left(self, session_id: str) -> int:
-        """Получает количество оставшихся попыток"""
         session = self.get_session(session_id)
         if not session:
             return 0
         
         return session.get('attempts_left', 0)
     
+    """Удаляет старые сессии"""
     def cleanup_old_sessions(self):
-        """Удаляет старые сессии"""
         now = time.time()
         expired = [
             sid for sid, session in self.sessions.items()
@@ -186,8 +184,8 @@ class SessionManager:
         if expired:
             print(f"[SESSION] Удалено {len(expired)} старых сессий")
     
+    """Возвращает статистику по сессиям"""
     def get_stats(self) -> Dict:
-        """Возвращает статистику по сессиям"""
         self.cleanup_old_sessions()
         
         formula_sessions = [s for s in self.sessions.values() if s.get('type') == 'formula']
@@ -220,8 +218,8 @@ class SessionManager:
             ]
         }
 
+    """Создает новую сессию для графической аутентификации"""
     def create_graphic_session(self, email: str, user_data: Dict, challenge_data: Dict) -> str:
-        """Создает новую сессию для графической аутентификации"""
         session_id = str(uuid.uuid4())[:12]
         
         # Сохраняем правильную последовательность в сессии

@@ -1,4 +1,3 @@
-// sequence.js - для регистрации
 let sequenceOrder = [1, 2, 3, 4];
 let sequenceRotations = [0, 0, 0, 0];
 let sequenceInitialized = false;
@@ -17,9 +16,8 @@ function checkAllImagesLoaded() {
     if (loadedCount === 4) {
         document.getElementById('sequenceSection').style.display = 'block';
         
-        // Инициализируем только ОДИН РАЗ
         if (!sequenceInitialized) {
-            console.log('ПЕРВИЧНАЯ инициализация последовательности');
+            console.log('Первичная инициализация последовательности');
             loadImagesToSequence();
             initSequence();
             sequenceInitialized = true;
@@ -29,7 +27,7 @@ function checkAllImagesLoaded() {
     }
 }
 
-// Загрузка изображений в последовательность - КОПИРУЕМ ИЗОБРАЖЕНИЯ
+// Загрузка изображений в последовательность
 function loadImagesToSequence() {
     console.log('Загрузка изображений в последовательность');
     
@@ -82,7 +80,7 @@ function initSequence() {
             
             console.log('Новый порядок:', sequenceOrder);
             
-            // КРИТИЧНО ВАЖНО: Обновляем src изображений после перетаскивания
+            // Обновляем src изображений после перетаскивания
             updateImageSrcAfterDrag();
             updateSequenceHiddenFields();
         });
@@ -106,7 +104,7 @@ function initSequence() {
     updateSequenceHiddenFields();
 }
 
-// ОБНОВЛЯЕМ src изображений после перетаскивания
+// Обновляем src изображений после перетаскивания
 function updateImageSrcAfterDrag() {
     console.log('Обновление src изображений после перетаскивания');
     
@@ -127,7 +125,6 @@ function updateImageSrcAfterDrag() {
             }
         }
         
-        // Обновляем data-image-number
         item.dataset.imageNumber = imageNumber;
     });
 }

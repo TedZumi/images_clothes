@@ -1,8 +1,7 @@
-// registration.js - ТОЛЬКО загрузка изображений
 let imageFilesMap = {};
 
+// Инициализация кликов на квадраты
 document.addEventListener('DOMContentLoaded', function() {
-    // Инициализация кликов на квадраты
     for (let i = 1; i <= 4; i++) {
         const square = document.querySelector(`.image-square-horizontal[data-index="${i}"]`);
         const input = document.getElementById(`imageInput${i}`);
@@ -27,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Обновление имен файлов при изменении email
     document.getElementById('email').addEventListener('input', updateImageNames);
     
-    // ВАЖНО: Вызываем при загрузке страницы, чтобы инициализировать значения
+    // Вызываем при загрузке страницы, чтобы инициализировать значения
     updateImageNames();
     
     console.log('registration.js инициализирован');

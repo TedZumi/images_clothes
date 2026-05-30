@@ -670,7 +670,6 @@ class DynamicTasksTool:
 
 
 if __name__ == "__main__":
-    # Создание экземпляра (передаем None как dbase для теста)
     engine = DynamicTasksTool(None)
     
     test_password = "_MyTestPassword978354_"

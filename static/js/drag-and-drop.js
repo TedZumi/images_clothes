@@ -1,6 +1,4 @@
-/**
- * Инициализация перетаскивания для контейнера
- */
+// Инициализация перетаскивания для контейнера
 function initDragAndDrop(containerId, onDropCallback = null) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -69,9 +67,7 @@ function initDragAndDrop(containerId, onDropCallback = null) {
     });
 }
 
-/**
- * Обновление индексов элементов
- */
+// Обновление индексов элементов
 function updateItemIndices(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -81,7 +77,6 @@ function updateItemIndices(containerId) {
     items.forEach((item, newIndex) => {
         item.dataset.index = newIndex;
         
-        // Обновляем data-index на кнопках
         const buttons = item.querySelectorAll('button[data-index]');
         buttons.forEach(button => {
             button.dataset.index = newIndex;
@@ -89,14 +84,12 @@ function updateItemIndices(containerId) {
     });
 }
 
-/**
- * Инициализация кнопок поворота
- */
+// Инициализация кнопок поворота 
 function initRotationButtons(containerId, onRotateCallback = null) {
     const container = document.getElementById(containerId);
     if (!container) return;
     
-    // Ищем ВСЕ кнопки поворота в контейнере
+    // Ищем все кнопки поворота в контейнере
     const rotateButtons = container.querySelectorAll('.rotate-btn, .image-remove-btn-horizontal');
     
     rotateButtons.forEach(button => {
@@ -118,16 +111,13 @@ function initRotationButtons(containerId, onRotateCallback = null) {
             if (onRotateCallback && typeof onRotateCallback === 'function') {
                 onRotateCallback(index);
             } else {
-                // Базовая логика поворота
                 rotateImageBasic(this);
             }
         });
     });
 }
 
-/**
- * Базовая логика поворота
- */
+// Базовая логика поворота
 function rotateImageBasic(button) {
     const index = parseInt(button.dataset.index);
     const container = button.closest('.draggable-item, .image-square-horizontal, .sequence-item');
@@ -152,9 +142,7 @@ function rotateImageBasic(button) {
     return 0;
 }
 
-/**
- * Обновление индексов элементов
- */
+// Обновление индексов элементов
 function updateItemIndices(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -164,7 +152,6 @@ function updateItemIndices(containerId) {
     items.forEach((item, newIndex) => {
         item.dataset.index = newIndex;
         
-        // Обновляем data-index на кнопках
         const buttons = item.querySelectorAll('button[data-index]');
         buttons.forEach(button => {
             button.dataset.index = newIndex;

@@ -92,7 +92,7 @@ class DinamicTaskAuth {
     }
     
     sh_error(message) {
-        // Показываем ошибку (можно доработать для красивого отображения)
+        // Показываем ошибку
         alert(message);
     }
     
@@ -117,9 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAnimations();
 });
 
-/**
- * Анимации и дополнительные эффекты
- */
+// Анимации и дополнительные эффекты
 function initAnimations() {
     // Анимация кнопок
     const buttons = document.querySelectorAll('.button');
@@ -151,9 +149,7 @@ function initAnimations() {
     });
 }
 
-/**
- * Утилиты для работы с DOM
- */
+// Утилиты для работы с DOM
 const DOMUtils = {
     createElement(tag, className, text = '') {
         const element = document.createElement(tag);

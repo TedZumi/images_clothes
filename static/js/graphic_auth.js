@@ -1,4 +1,3 @@
-// graphic_auth.js - УПРОЩЕННЫЙ
 let sequenceOrder = [1, 2, 3, 4];
 let sequenceRotations = [0, 0, 0, 0];
 
