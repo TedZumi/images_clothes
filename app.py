@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 from flask import Flask, render_template, url_for, \
     request, redirect, g
 from api import API
@@ -12,9 +13,13 @@ from clothes import *
 import json
 
 
+load_dotenv()
+
+
 app = Flask(__name__, static_folder='static', template_folder='templates')
 app.secret_key = os.urandom(24)
-app.config['DATABASE'] = "postgresql+psycopg2://postgres:PosRaf975@127.0.0.1/images_clothes"
+db_url = os.getenv('DATABASE_URL')
+app.config['DATABASE'] = db_url
 app.config['STATIC_URL_PATH'] = '/static'
 
 # Настройка MIME-типов

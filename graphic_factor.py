@@ -28,13 +28,21 @@ def save_user_image(file, filename):
         return None
 
 # Генерация имен изображений на основе email
-def generate_image_names(email):
+def set_picture_names(email):
     email_parts = email.split('@')
+    print(f"Часть почты: {email_parts}")
     if email_parts and email_parts[0]:
         username = re.sub(r'[^a-zA-Z0-9_]', '_', email_parts[0]).lower()
     else:
         username = 'user'
     
+    print(f"Имя пользователя: {username}")
+    print("Картинки: ")
+    print()
+    print(username + "_img1.jpg")
+    print(username + "_img2.jpg")
+    print(username + "_img3.jpg")
+    print(username + "_img4.jpg")
     return [
         f"{username}_img1.jpg",
         f"{username}_img2.jpg",
@@ -69,7 +77,7 @@ def process_user_images(email, image_files, image_names):
         if i-1 < len(image_names):
             filename = image_names[i-1]
         else:
-            generated_names = generate_image_names(email)
+            generated_names = set_picture_names(email)
             filename = generated_names[i-1] if i-1 < len(generated_names) else f"user_img{i}.jpg"
         
         saved_filename = save_user_image(file, filename)
@@ -101,15 +109,6 @@ def delete_user_images(filenames):
 
 
 def prepare_graphic_challenge(user_data):
-    """
-    Подготавливает данные для графической аутентификации
-    
-    Args:
-        user_data: данные пользователя из БД
-    
-    Returns:
-        dict: данные для отображения на странице аутентификации
-    """
     # Извлекаем правильную последовательность
     sequence = user_data.get('sequence', {
         'order': [1, 2, 3, 4],
@@ -166,17 +165,6 @@ def prepare_graphic_challenge(user_data):
     return challenge_data
 
 def validate_graphic_response(challenge_data, user_order, user_rotations):
-    """
-    Проверяет правильность ответа пользователя
-    
-    Args:
-        challenge_data: данные challenge
-        user_order: порядок, указанный пользователем [1,2,3,4]
-        user_rotations: повороты, указанные пользователем [0,90,180,270]
-    
-    Returns:
-        tuple: (bool, str) - результат проверки и сообщение
-    """
     correct_order = challenge_data['correct_order']
     correct_rotations = challenge_data['correct_rotations']
     
@@ -195,3 +183,6 @@ def validate_graphic_response(challenge_data, user_order, user_rotations):
         return False, "Неправильные повороты изображений"
     
     return True, "Успешная аутентификация"
+
+
+set_picture_names("my_email_test36@mail.ru")

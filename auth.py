@@ -91,7 +91,6 @@ def auth_formula_auth(app, dbase, auth_service):
     # Расшифровка пароля из БД
     user = User.get_by_email(email, dbase)
     decr_pass = decryprion_pass(user.password_hash)
-    print(f"decr_pass = {decr_pass}")
 
     formula, answer, session_id, error = auth_service.generate_formula(email, decr_pass)
     

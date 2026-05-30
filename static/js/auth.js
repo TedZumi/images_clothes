@@ -1,4 +1,4 @@
-class FormulaAuth {
+class DinamicTaskAuth {
     constructor() {
         this.passwordInput = document.getElementById('password');
         this.placeholder = document.getElementById('placeholder');
@@ -10,16 +10,16 @@ class FormulaAuth {
     init() {
         // Инициализация для страницы с формулой
         if (this.passwordInput && this.placeholder) {
-            this.initFormulaInput();
+            this.taskInput();
         }
         
         // Инициализация для страницы ввода email
         if (this.emailInput) {
-            this.initEmailInput();
+            this.emailInput();
         }
     }
     
-    initFormulaInput() {
+    taskInput() {
         // Фокусировка на поле ввода
         this.passwordInput.focus();
         
@@ -58,7 +58,7 @@ class FormulaAuth {
         });
     }
     
-    initEmailInput() {
+    emailInput() {
         // Валидация формы входа
         const form = document.querySelector('form.reg');
         if (form) {
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Проверяем, есть ли элементы аутентификации на странице
     const authForm = document.querySelector('form.reg');
     if (authForm) {
-        new FormulaAuth();
+        new DinamicTaskAuth();
     }
     
     // Дополнительные обработчики событий
@@ -187,5 +187,5 @@ const DOMUtils = {
 
 // Экспорт для возможного использования в других модулях
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { FormulaAuth, DOMUtils };
+    module.exports = { FormulaAuth: DinamicTaskAuth, DOMUtils };
 }

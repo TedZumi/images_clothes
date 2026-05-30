@@ -1,41 +1,40 @@
-{% extends 'base.html' %}
-
-{% block title %}
-Вход
-{% endblock %}
-
-{% block body %}
+{% extends 'base.html' %} {% block title %} Вход {% endblock %} {% block body %}
 <div class="auth-container">
-    <form method="post" class="reg">
-        <fieldset class="reg_en">
-            <legend align="center">Вход</legend>
-            
-            {% if error %}
-            <div class="error-message">
-                {{ error }}
-            </div>
-            {% endif %}
-            
-            <!-- <input class="reg formula-input" name="email" id="email" type="email" required 
-                   placeholder="Введите ваш email" autofocus> -->
-            <div class="input-container">
-                <input class="reg formula-input" name="email" id="email" type="email" required 
-                placeholder=" " autofocus>
-                <div class="placeholder-text" id="placeholder-email">
-                    Введите ваш email
-                </div>
-            </div>
-            <input class="button reg_en_button" type="submit" value="Получить задание">
-        </fieldset>
-    </form>
-    
-    <!-- Добавляем ссылку на регистрацию -->
-    <div class="registration-link">
-        <p>Нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрироваться</a></p>
-    </div>
-</div>
-{% endblock %}
+  <form method="post" class="reg">
+    <fieldset class="reg_en">
+      <legend align="center">Вход</legend>
 
-{% block scripts %}
+      {% if error %}
+      <div class="error-message">{{ error }}</div>
+      {% endif %}
+
+      <!-- <input class="reg formula-input" name="email" id="email" type="email" required 
+                   placeholder="Введите ваш email" autofocus> -->
+      <div class="input-container">
+        <input
+          class="reg formula-input"
+          name="email"
+          id="email"
+          type="email"
+          required
+          placeholder=" "
+          autofocus
+        />
+        <div class="placeholder-text" id="placeholder-email">
+          Введите ваш email
+        </div>
+      </div>
+      <input class="button reg_en_button" type="submit" value="Войти" />
+    </fieldset>
+  </form>
+
+  <!-- Добавляем ссылку на регистрацию -->
+  <div class="registration-link">
+    <p>
+      Нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрироваться</a>
+    </p>
+  </div>
+</div>
+{% endblock %} {% block scripts %}
 <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
 {% endblock %}

@@ -8,7 +8,7 @@ from copy import deepcopy
 
 # Хранение информации о преобразовании
 @dataclass
-class Transformation:
+class DynamicTask:
     transformation_id: str
     category: str
     description_template: str
@@ -32,7 +32,7 @@ class Transformation:
         }
 
 
-class FormulaFactorEngine:
+class DynamicTasksTool:
     def __init__(self, dbase):
         self.db = dbase
         print(type(self.db))
@@ -117,7 +117,7 @@ class FormulaFactorEngine:
                     except:
                         applicability_conditions = []
                 
-                transformation = Transformation(
+                transformation = DynamicTask(
                     transformation_id=transformation_id,
 
                     category=row[1],
@@ -671,7 +671,7 @@ class FormulaFactorEngine:
 
 if __name__ == "__main__":
     # Создание экземпляра (передаем None как dbase для теста)
-    engine = FormulaFactorEngine(None)
+    engine = DynamicTasksTool(None)
     
     test_password = "_MyTestPassword978354_"
     result = engine.analyze_password(test_password)

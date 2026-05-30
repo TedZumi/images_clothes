@@ -1,7 +1,7 @@
 import random
 from typing import Optional, Tuple
 from sessions import session_manager
-from formula_factor import FormulaFactorEngine
+from formula_factor import DynamicTasksTool
 
 
 class AuthService:    
@@ -11,7 +11,7 @@ class AuthService:
         self.use_real_engine = False
         
         try:
-            self.engine = FormulaFactorEngine(dbase)
+            self.engine = DynamicTasksTool(dbase)
             self.use_real_engine = True
         except ImportError:
             print("FormulaFactorEngine не найден")
