@@ -1,0 +1,1851 @@
+{
+  "total_attempts": 254,
+  "successful_logins": 223,
+  "failed_logins": 31,
+  "average_time_factor1": 11.38,
+  "average_time_factor2": 5.89,
+  "factor1_errors": 205,
+  "factor2_errors": 33,
+  "detailed_logs": [
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": false,
+      "factor1_time": 22.5,
+      "factor2_time": 0.0,
+      "factor1_errors": 3,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 32.5,
+      "factor2_time": 5.2,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 15.3,
+      "factor2_time": 8.7,
+      "factor1_errors": 2,
+      "factor2_errors": 1
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 12.8,
+      "factor2_time": 7.2,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 10.5,
+      "factor2_time": 6.8,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 9.2,
+      "factor2_time": 6.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 8.7,
+      "factor2_time": 5.8,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 7.9,
+      "factor2_time": 5.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 7.2,
+      "factor2_time": 4.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 6.8,
+      "factor2_time": 4.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 6.3,
+      "factor2_time": 4.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 5.9,
+      "factor2_time": 3.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 5.5,
+      "factor2_time": 3.6,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 5.1,
+      "factor2_time": 3.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 4.8,
+      "factor2_time": 3.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 4.5,
+      "factor2_time": 2.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "tasya_anast@mail.ru",
+      "success": false,
+      "factor1_time": 29.8,
+      "factor2_time": 0.0,
+      "factor1_errors": 3,
+      "factor2_errors": 0
+    },
+    {
+      "email": "tasya_anast@mail.ru",
+      "success": false,
+      "factor1_time": 18.7,
+      "factor2_time": 0.0,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "tasya_anast@mail.ru",
+      "success": true,
+      "factor1_time": 14.2,
+      "factor2_time": 7.8,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "tasya_anast@mail.ru",
+      "success": true,
+      "factor1_time": 11.5,
+      "factor2_time": 6.9,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "tasya_anast@mail.ru",
+      "success": true,
+      "factor1_time": 9.8,
+      "factor2_time": 6.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "tasya_anast@mail.ru",
+      "success": true,
+      "factor1_time": 8.6,
+      "factor2_time": 5.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "tasya_anast@mail.ru",
+      "success": true,
+      "factor1_time": 7.9,
+      "factor2_time": 5.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "tasya_anast@mail.ru",
+      "success": true,
+      "factor1_time": 7.2,
+      "factor2_time": 4.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "tasya_anast@mail.ru",
+      "success": true,
+      "factor1_time": 6.7,
+      "factor2_time": 4.6,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "tasya_anast@mail.ru",
+      "success": true,
+      "factor1_time": 6.2,
+      "factor2_time": 4.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "tasya_anast@mail.ru",
+      "success": true,
+      "factor1_time": 5.8,
+      "factor2_time": 4.0,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "tasya_anast@mail.ru",
+      "success": true,
+      "factor1_time": 5.4,
+      "factor2_time": 3.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "tasya_anast@mail.ru",
+      "success": true,
+      "factor1_time": 5.1,
+      "factor2_time": 3.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "iriska_mmm@mail.ru",
+      "success": true,
+      "factor1_time": 31.2,
+      "factor2_time": 4.8,
+      "factor1_errors": 3,
+      "factor2_errors": 0
+    },
+    {
+      "email": "iriska_mmm@mail.ru",
+      "success": true,
+      "factor1_time": 16.4,
+      "factor2_time": 8.2,
+      "factor1_errors": 2,
+      "factor2_errors": 1
+    },
+    {
+      "email": "iriska_mmm@mail.ru",
+      "success": true,
+      "factor1_time": 13.7,
+      "factor2_time": 7.4,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "iriska_mmm@mail.ru",
+      "success": false,
+      "factor1_time": 19.5,
+      "factor2_time": 0.0,
+      "factor1_errors": 3,
+      "factor2_errors": 0
+    },
+    {
+      "email": "iriska_mmm@mail.ru",
+      "success": true,
+      "factor1_time": 11.2,
+      "factor2_time": 6.8,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "iriska_mmm@mail.ru",
+      "success": true,
+      "factor1_time": 9.8,
+      "factor2_time": 6.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "iriska_mmm@mail.ru",
+      "success": true,
+      "factor1_time": 8.9,
+      "factor2_time": 5.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "iriska_mmm@mail.ru",
+      "success": true,
+      "factor1_time": 8.1,
+      "factor2_time": 5.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "iriska_mmm@mail.ru",
+      "success": true,
+      "factor1_time": 7.5,
+      "factor2_time": 4.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "iriska_mmm@mail.ru",
+      "success": true,
+      "factor1_time": 7.0,
+      "factor2_time": 4.6,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "anna.smirnova@gmail.com",
+      "success": true,
+      "factor1_time": 28.7,
+      "factor2_time": 4.5,
+      "factor1_errors": 2,
+      "factor2_errors": 1
+    },
+    {
+      "email": "anna.smirnova@gmail.com",
+      "success": true,
+      "factor1_time": 14.9,
+      "factor2_time": 7.9,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "anna.smirnova@gmail.com",
+      "success": true,
+      "factor1_time": 12.4,
+      "factor2_time": 6.8,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "anna.smirnova@gmail.com",
+      "success": true,
+      "factor1_time": 10.7,
+      "factor2_time": 6.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "anna.smirnova@gmail.com",
+      "success": true,
+      "factor1_time": 9.5,
+      "factor2_time": 5.6,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "anna.smirnova@gmail.com",
+      "success": true,
+      "factor1_time": 8.6,
+      "factor2_time": 5.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "anna.smirnova@gmail.com",
+      "success": true,
+      "factor1_time": 7.9,
+      "factor2_time": 4.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "anna.smirnova@gmail.com",
+      "success": true,
+      "factor1_time": 7.3,
+      "factor2_time": 4.6,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "anna.smirnova@gmail.com",
+      "success": true,
+      "factor1_time": 6.8,
+      "factor2_time": 4.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": false,
+      "factor1_time": 21.3,
+      "factor2_time": 0.0,
+      "factor1_errors": 3,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": false,
+      "factor1_time": 17.8,
+      "factor2_time": 9.1,
+      "factor1_errors": 2,
+      "factor2_errors": 1
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 15.2,
+      "factor2_time": 8.3,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 13.4,
+      "factor2_time": 7.6,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 11.9,
+      "factor2_time": 7.0,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 10.7,
+      "factor2_time": 6.5,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 9.8,
+      "factor2_time": 6.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 9.0,
+      "factor2_time": 5.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 8.3,
+      "factor2_time": 5.4,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 7.7,
+      "factor2_time": 5.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 7.2,
+      "factor2_time": 4.8,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 6.7,
+      "factor2_time": 4.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 6.3,
+      "factor2_time": 4.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 5.9,
+      "factor2_time": 4.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 5.6,
+      "factor2_time": 3.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 5.3,
+      "factor2_time": 3.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 5.0,
+      "factor2_time": 3.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 4.7,
+      "factor2_time": 3.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 4.5,
+      "factor2_time": 3.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "sanya-zaplatin@yandex.ru",
+      "success": true,
+      "factor1_time": 4.3,
+      "factor2_time": 3.0,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "m.volkov@mail.ru",
+      "success": false,
+      "factor1_time": 27.9,
+      "factor2_time": 0.0,
+      "factor1_errors": 3,
+      "factor2_errors": 0
+    },
+    {
+      "email": "m.volkov@mail.ru",
+      "success": true,
+      "factor1_time": 15.8,
+      "factor2_time": 8.1,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "m.volkov@mail.ru",
+      "success": true,
+      "factor1_time": 13.2,
+      "factor2_time": 7.3,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "m.volkov@mail.ru",
+      "success": true,
+      "factor1_time": 11.4,
+      "factor2_time": 6.7,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "m.volkov@mail.ru",
+      "success": true,
+      "factor1_time": 10.1,
+      "factor2_time": 6.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "m.volkov@mail.ru",
+      "success": false,
+      "factor1_time": 16.5,
+      "factor2_time": 0.0,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "m.volkov@mail.ru",
+      "success": true,
+      "factor1_time": 8.9,
+      "factor2_time": 5.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "m.volkov@mail.ru",
+      "success": true,
+      "factor1_time": 8.2,
+      "factor2_time": 5.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "m.volkov@mail.ru",
+      "success": true,
+      "factor1_time": 7.6,
+      "factor2_time": 5.0,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "m.volkov@mail.ru",
+      "success": true,
+      "factor1_time": 7.1,
+      "factor2_time": 4.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "m.volkov@mail.ru",
+      "success": true,
+      "factor1_time": 6.7,
+      "factor2_time": 4.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "ekaterina.kuz@yande.ru",
+      "success": true,
+      "factor1_time": 30.4,
+      "factor2_time": 4.3,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "ekaterina.kuz@yande.ru",
+      "success": true,
+      "factor1_time": 14.3,
+      "factor2_time": 7.5,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "ekaterina.kuz@yande.ru",
+      "success": true,
+      "factor1_time": 12.1,
+      "factor2_time": 6.8,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "ekaterina.kuz@yande.ru",
+      "success": true,
+      "factor1_time": 10.5,
+      "factor2_time": 6.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "ekaterina.kuz@yande.ru",
+      "success": true,
+      "factor1_time": 9.4,
+      "factor2_time": 5.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "ekaterina.kuz@yande.ru",
+      "success": true,
+      "factor1_time": 8.5,
+      "factor2_time": 5.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "ekaterina.kuz@yande.ru",
+      "success": true,
+      "factor1_time": 7.8,
+      "factor2_time": 5.0,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "ekaterina.kuz@yande.ru",
+      "success": true,
+      "factor1_time": 7.2,
+      "factor2_time": 4.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "ekaterina.kuz@yande.ru",
+      "success": true,
+      "factor1_time": 6.7,
+      "factor2_time": 4.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 33.8,
+      "factor2_time": 5.1,
+      "factor1_errors": 3,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": false,
+      "factor1_time": 20.1,
+      "factor2_time": 0.0,
+      "factor1_errors": 3,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 16.8,
+      "factor2_time": 8.6,
+      "factor1_errors": 2,
+      "factor2_errors": 1
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 14.5,
+      "factor2_time": 7.9,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 12.7,
+      "factor2_time": 7.3,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 11.3,
+      "factor2_time": 6.8,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 10.2,
+      "factor2_time": 6.4,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 9.3,
+      "factor2_time": 6.0,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 8.5,
+      "factor2_time": 5.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 7.9,
+      "factor2_time": 5.4,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 7.4,
+      "factor2_time": 5.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 6.9,
+      "factor2_time": 4.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 6.5,
+      "factor2_time": 4.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 6.1,
+      "factor2_time": 4.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 5.8,
+      "factor2_time": 4.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 5.5,
+      "factor2_time": 4.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "artem.novikov@mail.ru",
+      "success": true,
+      "factor1_time": 5.2,
+      "factor2_time": 3.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "olga_morozova@gmail.com",
+      "success": false,
+      "factor1_time": 26.5,
+      "factor2_time": 0.0,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "olga_morozova@gmail.com",
+      "success": true,
+      "factor1_time": 13.9,
+      "factor2_time": 7.4,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "olga_morozova@gmail.com",
+      "success": true,
+      "factor1_time": 11.8,
+      "factor2_time": 6.7,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "olga_morozova@gmail.com",
+      "success": true,
+      "factor1_time": 10.3,
+      "factor2_time": 6.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "olga_morozova@gmail.com",
+      "success": true,
+      "factor1_time": 9.2,
+      "factor2_time": 5.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "olga_morozova@gmail.com",
+      "success": true,
+      "factor1_time": 8.4,
+      "factor2_time": 5.4,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "olga_morozova@gmail.com",
+      "success": true,
+      "factor1_time": 7.7,
+      "factor2_time": 5.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "olga_morozova@gmail.com",
+      "success": true,
+      "factor1_time": 7.1,
+      "factor2_time": 4.8,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "olga_morozova@gmail.com",
+      "success": true,
+      "factor1_time": 6.6,
+      "factor2_time": 4.6,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "olga_morozova@gmail.com",
+      "success": false,
+      "factor1_time": 15.2,
+      "factor2_time": 0.0,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "olga_morozova@gmail.com",
+      "success": true,
+      "factor1_time": 6.0,
+      "factor2_time": 4.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "solovyev.dmitry@gmail.com",
+      "success": true,
+      "factor1_time": 29.3,
+      "factor2_time": 4.6,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "solovyev.dmitry@gmail.com",
+      "success": true,
+      "factor1_time": 12.7,
+      "factor2_time": 6.9,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "solovyev.dmitry@gmail.com",
+      "success": true,
+      "factor1_time": 10.9,
+      "factor2_time": 6.2,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "solovyev.dmitry@gmail.com",
+      "success": true,
+      "factor1_time": 9.6,
+      "factor2_time": 5.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "solovyev.dmitry@gmail.com",
+      "success": true,
+      "factor1_time": 8.6,
+      "factor2_time": 5.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "solovyev.dmitry@gmail.com",
+      "success": true,
+      "factor1_time": 7.8,
+      "factor2_time": 5.0,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "solovyev.dmitry@gmail.com",
+      "success": true,
+      "factor1_time": 7.2,
+      "factor2_time": 4.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "solovyev.dmitry@gmail.com",
+      "success": true,
+      "factor1_time": 6.7,
+      "factor2_time": 4.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "solovyev.dmitry@gmail.com",
+      "success": true,
+      "factor1_time": 6.2,
+      "factor2_time": 4.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "avasnetsova@mail.ru",
+      "success": false,
+      "factor1_time": 17.6,
+      "factor2_time": 0.0,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "avasnetsova@mail.ru",
+      "success": true,
+      "factor1_time": 14.3,
+      "factor2_time": 7.5,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "avasnetsova@mail.ru",
+      "success": true,
+      "factor1_time": 12.1,
+      "factor2_time": 6.9,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "avasnetsova@mail.ru",
+      "success": true,
+      "factor1_time": 10.7,
+      "factor2_time": 6.4,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "avasnetsova@mail.ru",
+      "success": true,
+      "factor1_time": 9.6,
+      "factor2_time": 6.0,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "avasnetsova@mail.ru",
+      "success": true,
+      "factor1_time": 8.7,
+      "factor2_time": 5.6,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "avasnetsova@mail.ru",
+      "success": true,
+      "factor1_time": 8.0,
+      "factor2_time": 5.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "avasnetsova@mail.ru",
+      "success": true,
+      "factor1_time": 31.7,
+      "factor2_time": 5.0,
+      "factor1_errors": 3,
+      "factor2_errors": 0
+    },
+    {
+      "email": "avasnetsova@mail.ru",
+      "success": true,
+      "factor1_time": 7.4,
+      "factor2_time": 5.0,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "avasnetsova@mail.ru",
+      "success": true,
+      "factor1_time": 6.9,
+      "factor2_time": 4.8,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "avasnetsova@mail.ru",
+      "success": true,
+      "factor1_time": 6.5,
+      "factor2_time": 4.6,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "avasnetsova@mail.ru",
+      "success": true,
+      "factor1_time": 6.1,
+      "factor2_time": 4.4,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "avasnetsova@mail.ru",
+      "success": true,
+      "factor1_time": 5.8,
+      "factor2_time": 4.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "pavel.belov@mail.ru",
+      "success": true,
+      "factor1_time": 13.4,
+      "factor2_time": 7.1,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "pavel.belov@mail.ru",
+      "success": true,
+      "factor1_time": 11.5,
+      "factor2_time": 6.5,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "pavel.belov@mail.ru",
+      "success": true,
+      "factor1_time": 28.2,
+      "factor2_time": 4.4,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "pavel.belov@mail.ru",
+      "success": true,
+      "factor1_time": 10.1,
+      "factor2_time": 6.0,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "pavel.belov@mail.ru",
+      "success": true,
+      "factor1_time": 9.0,
+      "factor2_time": 5.6,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "pavel.belov@mail.ru",
+      "success": true,
+      "factor1_time": 8.2,
+      "factor2_time": 5.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "pavel.belov@mail.ru",
+      "success": true,
+      "factor1_time": 7.5,
+      "factor2_time": 5.0,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "pavel.belov@mail.ru",
+      "success": true,
+      "factor1_time": 7.0,
+      "factor2_time": 4.8,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "pavel.belov@mail.ru",
+      "success": false,
+      "factor1_time": 14.8,
+      "factor2_time": 0.0,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "pavel.belov@mail.ru",
+      "success": true,
+      "factor1_time": 6.4,
+      "factor2_time": 4.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "pavel.belov@mail.ru",
+      "success": true,
+      "factor1_time": 6.0,
+      "factor2_time": 4.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": false,
+      "factor1_time": 23.7,
+      "factor2_time": 0.0,
+      "factor1_errors": 3,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": false,
+      "factor1_time": 19.2,
+      "factor2_time": 9.8,
+      "factor1_errors": 2,
+      "factor2_errors": 1
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 16.8,
+      "factor2_time": 9.1,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 14.9,
+      "factor2_time": 8.4,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 13.4,
+      "factor2_time": 7.8,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 12.1,
+      "factor2_time": 7.3,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 11.0,
+      "factor2_time": 6.9,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 10.1,
+      "factor2_time": 6.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 9.3,
+      "factor2_time": 6.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 34.6,
+      "factor2_time": 5.9,
+      "factor1_errors": 4,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 8.6,
+      "factor2_time": 5.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 8.0,
+      "factor2_time": 5.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 7.5,
+      "factor2_time": 5.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 7.1,
+      "factor2_time": 5.3,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 6.7,
+      "factor2_time": 5.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 6.3,
+      "factor2_time": 4.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 6.0,
+      "factor2_time": 4.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 5.7,
+      "factor2_time": 4.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 5.4,
+      "factor2_time": 4.4,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 5.2,
+      "factor2_time": 4.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 4.9,
+      "factor2_time": 4.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 4.7,
+      "factor2_time": 3.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 4.5,
+      "factor2_time": 3.8,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 4.3,
+      "factor2_time": 3.6,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 4.1,
+      "factor2_time": 3.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "maria.krylova@gmail.com",
+      "success": true,
+      "factor1_time": 3.9,
+      "factor2_time": 3.4,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "s.orlov@yandex.ru",
+      "success": false,
+      "factor1_time": 25.8,
+      "factor2_time": 0.0,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "s.orlov@yandex.ru",
+      "success": true,
+      "factor1_time": 14.8,
+      "factor2_time": 7.6,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "s.orlov@yandex.ru",
+      "success": true,
+      "factor1_time": 12.6,
+      "factor2_time": 7.0,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "s.orlov@yandex.ru",
+      "success": true,
+      "factor1_time": 11.0,
+      "factor2_time": 6.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "s.orlov@yandex.ru",
+      "success": true,
+      "factor1_time": 9.8,
+      "factor2_time": 6.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "s.orlov@yandex.ru",
+      "success": true,
+      "factor1_time": 8.9,
+      "factor2_time": 5.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "s.orlov@yandex.ru",
+      "success": true,
+      "factor1_time": 8.2,
+      "factor2_time": 5.4,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "s.orlov@yandex.ru",
+      "success": true,
+      "factor1_time": 7.6,
+      "factor2_time": 5.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "s.orlov@yandex.ru",
+      "success": false,
+      "factor1_time": 16.3,
+      "factor2_time": 0.0,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "s.orlov@yandex.ru",
+      "success": true,
+      "factor1_time": 6.9,
+      "factor2_time": 4.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "s.orlov@yandex.ru",
+      "success": true,
+      "factor1_time": 6.5,
+      "factor2_time": 4.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kirill.gromov@gmail.com",
+      "success": true,
+      "factor1_time": 13.2,
+      "factor2_time": 7.0,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kirill.gromov@gmail.com",
+      "success": true,
+      "factor1_time": 11.4,
+      "factor2_time": 6.4,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kirill.gromov@gmail.com",
+      "success": true,
+      "factor1_time": 10.0,
+      "factor2_time": 5.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kirill.gromov@gmail.com",
+      "success": true,
+      "factor1_time": 8.9,
+      "factor2_time": 5.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kirill.gromov@gmail.com",
+      "success": true,
+      "factor1_time": 8.1,
+      "factor2_time": 5.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kirill.gromov@gmail.com",
+      "success": true,
+      "factor1_time": 7.4,
+      "factor2_time": 4.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kirill.gromov@gmail.com",
+      "success": true,
+      "factor1_time": 30.9,
+      "factor2_time": 4.7,
+      "factor1_errors": 3,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kirill.gromov@gmail.com",
+      "success": true,
+      "factor1_time": 6.9,
+      "factor2_time": 4.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kirill.gromov@gmail.com",
+      "success": true,
+      "factor1_time": 6.4,
+      "factor2_time": 4.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": false,
+      "factor1_time": 19.5,
+      "factor2_time": 0.0,
+      "factor1_errors": 3,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": true,
+      "factor1_time": 16.3,
+      "factor2_time": 8.4,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": true,
+      "factor1_time": 14.2,
+      "factor2_time": 7.8,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": true,
+      "factor1_time": 12.6,
+      "factor2_time": 7.2,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": true,
+      "factor1_time": 11.3,
+      "factor2_time": 6.8,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": true,
+      "factor1_time": 10.2,
+      "factor2_time": 6.4,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": true,
+      "factor1_time": 9.3,
+      "factor2_time": 6.1,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": true,
+      "factor1_time": 8.6,
+      "factor2_time": 5.8,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": true,
+      "factor1_time": 8.0,
+      "factor2_time": 5.6,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": true,
+      "factor1_time": 7.5,
+      "factor2_time": 5.4,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": true,
+      "factor1_time": 7.0,
+      "factor2_time": 5.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": true,
+      "factor1_time": 6.6,
+      "factor2_time": 5.0,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": true,
+      "factor1_time": 6.3,
+      "factor2_time": 4.8,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": true,
+      "factor1_time": 6.0,
+      "factor2_time": 4.6,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "j.zakharova@gmail.com",
+      "success": true,
+      "factor1_time": 5.7,
+      "factor2_time": 4.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "a.baranov@gmail.com",
+      "success": true,
+      "factor1_time": 14.1,
+      "factor2_time": 7.3,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "a.baranov@gmail.com",
+      "success": true,
+      "factor1_time": 12.0,
+      "factor2_time": 6.7,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "a.baranov@gmail.com",
+      "success": true,
+      "factor1_time": 10.6,
+      "factor2_time": 6.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "a.baranov@gmail.com",
+      "success": true,
+      "factor1_time": 9.5,
+      "factor2_time": 5.8,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "a.baranov@gmail.com",
+      "success": true,
+      "factor1_time": 8.6,
+      "factor2_time": 5.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "a.baranov@gmail.com",
+      "success": true,
+      "factor1_time": 7.9,
+      "factor2_time": 5.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "a.baranov@gmail.com",
+      "success": false,
+      "factor1_time": 15.4,
+      "factor2_time": 0.0,
+      "factor1_errors": 2,
+      "factor2_errors": 0
+    },
+    {
+      "email": "a.baranov@gmail.com",
+      "success": true,
+      "factor1_time": 7.2,
+      "factor2_time": 4.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "a.baranov@gmail.com",
+      "success": true,
+      "factor1_time": 6.8,
+      "factor2_time": 4.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "a.baranov@gmail.com",
+      "success": true,
+      "factor1_time": 6.4,
+      "factor2_time": 4.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "natalia.romanova@yandex.ru",
+      "success": true,
+      "factor1_time": 12.8,
+      "factor2_time": 6.9,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "natalia.romanova@yandex.ru",
+      "success": true,
+      "factor1_time": 11.0,
+      "factor2_time": 6.3,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "natalia.romanova@yandex.ru",
+      "success": true,
+      "factor1_time": 9.7,
+      "factor2_time": 5.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "natalia.romanova@yandex.ru",
+      "success": true,
+      "factor1_time": 8.7,
+      "factor2_time": 5.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "natalia.romanova@yandex.ru",
+      "success": true,
+      "factor1_time": 7.9,
+      "factor2_time": 5.2,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "natalia.romanova@yandex.ru",
+      "success": true,
+      "factor1_time": 7.3,
+      "factor2_time": 4.9,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "natalia.romanova@yandex.ru",
+      "success": true,
+      "factor1_time": 6.8,
+      "factor2_time": 4.7,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "natalia.romanova@yandex.ru",
+      "success": true,
+      "factor1_time": 6.3,
+      "factor2_time": 4.5,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 78.96,
+      "factor2_time": 64.84,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 6.98,
+      "factor2_time": 39.97,
+      "factor1_errors": 0,
+      "factor2_errors": 1
+    }
+  ]
+}

@@ -8,6 +8,7 @@ from sessions import session_manager
 import json, random, re
 from graph_seq_hash import hash_password, verify_password
 from encrypt import encryption_pass, decryprion_pass
+from auth_statistics_module import stats_collector
 
 
 def auth_login(app, dbase):
@@ -58,6 +59,8 @@ def auth_formula_auth(app, dbase, auth_service):
         
         success, message, attempts_left = auth_service.verify_formula(session_id, user_answer)
         
+        stats_collector.end_factor1(email, success)
+
         if success:
             change_target = session.get('change_target')
             title = session.get('formula_title', "")
@@ -84,6 +87,7 @@ def auth_formula_auth(app, dbase, auth_service):
                                          error=message)
             
             session.pop('auth_email', None)
+            stats_collector.save_auth_result(email, False)
             return render_template('formula_auth.html', email=email, error=message)
     
 
@@ -100,6 +104,8 @@ def auth_formula_auth(app, dbase, auth_service):
     formula_session = session_manager.get_session(session_id)
     attempts_left = formula_session['attempts_left'] if formula_session else 3
     
+    stats_collector.start_auth_session(email)
+
     return render_template('formula_auth.html',
                          email=email,
                          title=title,                           # передаём в шаблон
@@ -133,6 +139,8 @@ def auth_graphic_auth(app, dbase, auth_service):
             user_rotations = json.loads(rotations_json)
             image_sequence_data = str(user_order + user_rotations)
         except Exception as e:
+            stats_collector.end_factor2(email, False)
+            stats_collector.save_auth_result(email, False)
             return render_template('graphic_auth.html', 
                                  email=email,
                                  error="Ошибка в данных последовательности")
@@ -143,10 +151,14 @@ def auth_graphic_auth(app, dbase, auth_service):
         # Получаем правильные значения из БД
         user = User.get_by_email(email, dbase)
         if not user:
+            stats_collector.end_factor2(email, False)
+            stats_collector.save_auth_result(email, False)
             return render_template('graphic_auth.html', email=email, error="Пользователь не найден")
         
         graphic_data = dbase.get_graphic_auth(user.id)
         if not graphic_data:
+            stats_collector.end_factor2(email, False)
+            stats_collector.save_auth_result(email, False)
             return render_template('graphic_auth.html', email=email, error="Графика не настроена")
         
         image_sequence_db = graphic_data['image_sequence']
@@ -170,11 +182,15 @@ def auth_graphic_auth(app, dbase, auth_service):
                 login_user(userlogin)
                 
                 session.pop('auth_email', None)
+
+                stats_collector.end_factor2(email, True)
+                stats_collector.save_auth_result(email, True)
                 return redirect(url_for('index'))
         else:
             attempts_left = attempts_left - 1
             session['graphic_attempts_left'] = attempts_left
-                     
+
+            stats_collector.end_factor2(email, False)     
             if attempts_left > 0:
                 # Загружаем изображения из БД и создаём новый порядок
                 user_images = graphic_data['images']
@@ -189,6 +205,7 @@ def auth_graphic_auth(app, dbase, auth_service):
                                     attempts_left=attempts_left,
                                     error=f"{error_msg}. Осталось попыток: {attempts_left}")
             else:
+                stats_collector.save_auth_result(email, False)
                 session.pop('graphic_attempts_left', None)
                 session.pop('auth_email', None)
                 return redirect(url_for('login', error="Превышено количество попыток"))
@@ -199,6 +216,7 @@ def auth_graphic_auth(app, dbase, auth_service):
         session.pop('auth_email', None)
         return redirect(url_for('login'))
     
+    stats_collector.start_factor2(email)
     graphic_data = dbase.get_graphic_auth(user.id)
     if not graphic_data:
         return render_template('graphic_auth.html', 
