@@ -1,14 +1,20 @@
+"""Тестирование: восстановление пароля от типа заданий в базе"""
 import random
 import string
 import hashlib
 
-# ========== НАСТРОЙКИ ==========
+# Настройки тестирования
 PASSWORD_LENGTH = 10
-N_TASKS = 20
+NUM_TASKS = 20
 NUM_USERS = 100
 MAX_ATTEMPTS = 1
 
-# ========== ПРОСТЫЕ ЗАДАНИЯ (ВАШИ) ==========
+# Генерация паролей
+def generate_password():
+    chars = string.ascii_lowercase + string.digits
+    return ''.join(random.choice(chars) for _ in range(PASSWORD_LENGTH))
+
+# Простые задачи
 def generate_simple_tasks(n_tasks):
     tasks = []
     for i in range(n_tasks):
@@ -51,11 +57,10 @@ def generate_simple_tasks(n_tasks):
     
     return tasks
 
-# ========== СЛОЖНЫЕ ЗАДАНИЯ (50% хеш, 50% простые) ==========
+# Комбинация простые и сложные задачи
 def generate_complex_tasks(n_tasks):
     tasks = []
     for i in range(n_tasks):
-        # 50% сложных (хеш), 50% простых
         if random.random() < 1:
             # Сложное задание: хеш
             salt = random.randint(1000, 9999)
@@ -89,7 +94,8 @@ def generate_complex_tasks(n_tasks):
     
     return tasks
 
-# ========== ПРИМЕНЕНИЕ ЗАДАНИЙ ==========
+
+# Применение заданий
 def apply_task(password, task):
     if task['type'] == 'swap':
         p1, p2 = task['params']
@@ -128,7 +134,7 @@ def apply_task(password, task):
     
     return password
 
-# ========== ОБРАТНОЕ ПРЕОБРАЗОВАНИЕ ==========
+# Обратное применений заданий
 def reverse_task(task, observed):
     if task['type'] == 'swap':
         p1, p2 = task['params']
@@ -171,14 +177,10 @@ def reverse_task(task, observed):
     
     return set()
 
-# ========== ГЕНЕРАЦИЯ ПАРОЛЕЙ ==========
-def generate_password():
-    chars = string.ascii_lowercase + string.digits
-    return ''.join(random.choice(chars) for _ in range(PASSWORD_LENGTH))
 
-# ========== ТЕСТ ДЛЯ ОДНОГО ТИПА ЗАДАНИЙ ==========
+# Запуск теста для одного типа задания
 def run_test(tasks_db, test_name):
-    print(f"\nТЕСТ: {test_name}")
+    print(f"\nТест: {test_name}")
     
     buckets = {i: 0 for i in range(1, MAX_ATTEMPTS + 1)}
     not_cracked = 0
@@ -194,7 +196,7 @@ def run_test(tasks_db, test_name):
             transformed = apply_task(real_password, task)
             intercepts.append((task, transformed))
             
-            # Пытаемся восстановить
+            # Восстановление
             candidates = None
             for t, obs in intercepts:
                 cand = reverse_task(t, obs)
@@ -217,8 +219,8 @@ def run_test(tasks_db, test_name):
     
     # Вывод результатов
     total_cracked = sum(buckets.values())
-    print(f"\nВзломано всего: {total_cracked} из {NUM_USERS} ({total_cracked/NUM_USERS*100:.1f}%)")
-    print(f"Не взломано: {not_cracked} ({not_cracked/NUM_USERS*100:.1f}%)")
+    print(f"\nРазгадано всего: {total_cracked} из {NUM_USERS} ({total_cracked/NUM_USERS*100:.1f}%)")
+    print(f"Не разгадано: {not_cracked} ({not_cracked/NUM_USERS*100:.1f}%)")
     
     for attempt in range(1, MAX_ATTEMPTS + 1):
         if buckets[attempt] > 0:
@@ -231,45 +233,27 @@ def run_test(tasks_db, test_name):
         'not_cracked': not_cracked
     }
 
-# ========== ЗАПУСК ==========
-def main():
-    print("СРАВНЕНИЕ: ПРОСТЫЕ ЗАДАНИЯ vs СЛОЖНЫЕ (ХЕШ)")
+def test_simple_hard():
+    print("Сравнение восстановлений при простых и сложных заданиях")
     
-    # Создаём базы заданий
-    simple_tasks = generate_simple_tasks(N_TASKS)
-    complex_tasks = generate_complex_tasks(N_TASKS)
-    
-    """ # Подсчёт типов в сложных заданиях
-    hash_count = sum(1 for t in complex_tasks if t['type'] == 'hash')
-    print(f"\nСложные задания: {hash_count} хеш-заданий ({hash_count/N_TASKS*100:.0f}%), остальные — простые")
-     """
-    # Запускаем тесты
-    result_simple = run_test(simple_tasks, "ПРОСТЫЕ ЗАДАНИЯ (swap, shift, reverse и др.)")
-    result_complex = run_test(complex_tasks, "СЛОЖНЫЕ ЗАДАНИЯ (необратимые хеш-задания)")
-    
-    # Сравнение
-    print("\nСРАВНЕНИЕ РЕЗУЛЬТАТОВ")
-    
-    print(f"\n┌─────────────────────┬──────────────┬──────────────┐")
-    print(f"│                     │ Простые      │ Сложные      │")
-    print(f"├─────────────────────┼──────────────┼──────────────┤")
-    print(f"│ Взломано            │ {result_simple['cracked_percent']:>11.1f}% │ {result_complex['cracked_percent']:>11.1f}% │")
-    print(f"│ Не взломано         │ {100 - result_simple['cracked_percent']:>11.1f}% │ {100 - result_complex['cracked_percent']:>11.1f}% │")
-    print(f"└─────────────────────┴──────────────┴──────────────┘")
-    
+    # Генерация баз заданий
+    simple_tasks = generate_simple_tasks(NUM_TASKS)
+    complex_tasks = generate_complex_tasks(NUM_TASKS)
+
+    # Запуск тестов
+    result_simple = run_test(simple_tasks, "обратимые задания (перестановки, сдвиги)")
+    result_complex = run_test(complex_tasks, "необратимые задания (применение хеш-функций)")
+      
     improvement = result_simple['cracked_percent'] - result_complex['cracked_percent']
-    print(f"\nУлучшение: {improvement:.1f}% меньше взломов")
+    print(f"\nУлучшение на {improvement:.1f}% меньше взломов")
     
     # Вывод
-    print("\nВЫВОД:")
-    print(f"Простые задания:     взломано {result_simple['cracked_percent']:.1f}% пользователей")
-    print(f"Сложные задания:     взломано {result_complex['cracked_percent']:.1f}% пользователей")
+    print("\nИтоги:")
+    print(f"Задания с обратной функцией:     разгадано {result_simple['cracked_percent']:.1f}% пользователей")
+    print(f"Задания без обратной функции:     разгадано {result_complex['cracked_percent']:.1f}% пользователей")
     print(f"Разница:             {improvement:.1f}%")
-    
-    if result_complex['cracked_percent'] < 20:
-        print("\nСложные задания дают хорошую защиту (взломано <20%)")
 
 
 if __name__ == "__main__":
-    random.seed(42)
-    main()
+    random.seed(43)
+    test_simple_hard()

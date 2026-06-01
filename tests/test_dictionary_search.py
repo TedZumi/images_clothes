@@ -1,12 +1,9 @@
-"""Тест: влияние размера базы динамических заданий на восстановление пароля
-Длина пароля: 8 символов 
-Метод атаки: словарь популярных паролей
-"""
+"""Тестирование: восстановление пароля от числа заданий в базе и перехватов"""
 import os, string, random, time, re
 from matplotlib import ticker
 import matplotlib.pyplot as plt
 
-""" ГЛОБАЛЬНЫЕ НАСТРОЙКИ """
+# Настройки тестирования
 PASSWORD_LENGTH = 8     # длина пароля
 NUM_INTERCEPTS = 1      # количество перехватов
 NUM_USERS = 500         # количество пользователей
@@ -14,7 +11,7 @@ DICT_WEIGHT = 0.5       # % паролей из словаря
 NUM_TASKS = 20          # количество заданий
 
 
-""" Загрузка словаря популярных паролей """
+# Получение словаря популярных паролей
 def load_dictionary(filepath="tests/common_passwords.txt", max_passwords=10000):
     if not os.path.exists(filepath):
         print(f"Файл {filepath} не найден. Используется тестовый словарь")
@@ -34,8 +31,7 @@ def load_dictionary(filepath="tests/common_passwords.txt", max_passwords=10000):
     print(f"Загружено {len(passwords)} паролей из словаря")
     return passwords
 
-
-""" Генерация случайного пароля (буквы нижнего регистра и цифры) """
+# Генерация случайного пароля (буквы нижнего регистра и цифры)
 def generate_random_password(length=PASSWORD_LENGTH):
     # string.ascii_lowercase = "abcdefghijklmnopqrstuvwxyz"
     # string.digits = "0123456789"
@@ -45,8 +41,7 @@ def generate_random_password(length=PASSWORD_LENGTH):
         result = result + random.choice(chars)
     return result
 
-
-""" Генерация более реалистичного пароля (часть из словаря, часть случайных) """
+# Генерация реалистичного пароля (часть из словаря, часть случайных)
 def generate_realistic_password(dictionary):
     if random.random() < DICT_WEIGHT:
         # Случайный пароль из словаря + его мутация
@@ -64,21 +59,20 @@ def generate_realistic_password(dictionary):
         return generate_random_password(PASSWORD_LENGTH)
 
 
-"""Увеличение каждой цифры на X (циклически)"""
+# Динамические задания
+# Увеличение каждой цифры на X (циклически)
 def inc_digits_forward(s: str, x: int) -> str:
     def shift(d: str) -> str:
         return str((int(d) + x) % 10)
     return re.sub(r'\d', lambda m: shift(m.group()), s)
 
-
-"""Удаление X символа"""
+# Удаление X символа
 def delete_char_forward(s: str, x: int) -> str:
     if 0 <= x < len(s):
         return s[:x] + s[x+1:]
     return s
 
-
-"""Замена каждой буквы на ее номер в алфавите"""
+# Замена каждой буквы на ее номер в алфавите
 def letter_to_number_forward(s: str) -> str:
     result = []
     for ch in s:
@@ -88,8 +82,7 @@ def letter_to_number_forward(s: str) -> str:
             result.append(ch)
     return ''.join(result)
 
-
-"""Замена X-й буквы на цифру N """
+# Замена X-й буквы на цифру N
 def replace_letter_with_digit_forward(s: str, x: int, n: int) -> str:
     if not 0 <= n <= 9:
         raise ValueError("N должно быть 0-9")
@@ -103,8 +96,7 @@ def replace_letter_with_digit_forward(s: str, x: int, n: int) -> str:
                 break
     return ''.join(result)
 
-
-"""Замена X-й цифры на букву N"""
+# Замена X-й цифры на букву N
 def replace_digit_with_letter_forward(s: str, x: int, letter: str) -> str:
     if len(letter) != 1 or not letter.isalpha():
         raise ValueError("Буква должна быть одна")
@@ -118,13 +110,11 @@ def replace_digit_with_letter_forward(s: str, x: int, letter: str) -> str:
                 break
     return ''.join(result)
 
-
-"""Сортировка символов в строке по алфавиту"""
+# Сортировка символов в строке по алфавиту
 def sort_chars_forward(s: str) -> str:
     return ''.join(sorted(s))
 
-
-"""Постановка X-й буквы заглавной, остальные строчные"""
+# Постановка X-й буквы заглавной, остальные строчные
 def make_xth_letter_case_forward(s: str, x: int) -> str:
     letters_found = 0
     result = []
@@ -140,75 +130,7 @@ def make_xth_letter_case_forward(s: str, x: int) -> str:
     return ''.join(result)
 
 
-"""Генерация базы из N заданий (старая)"""
-""" def generate_tasks(n_tasks):
-    tasks = []
-    for i in range(n_tasks):
-        task_type = random.choice(['swap', 'shift', 'reverse'])
-        # task_type = random.choice(['swap', 'shift', 'reverse', 'delete'])
-        
-        if task_type == 'swap':
-            pos1 = random.randint(0, PASSWORD_LENGTH-1)
-            pos2 = random.randint(0, PASSWORD_LENGTH-1)
-            while pos2 == pos1:
-                pos2 = random.randint(0, PASSWORD_LENGTH-1)
-            tasks.append({
-                'id': i,
-                'type': 'swap',
-                'params': (pos1, pos2)
-            })
-        
-        elif task_type == 'shift':
-            delta = random.choice([1, 2, 3, -1, -2])
-            tasks.append({
-                'id': i,
-                'type': 'shift',
-                'params': delta
-            })
-        
-        elif task_type == 'reverse':
-            tasks.append({
-                'id': i,
-                'type': 'reverse',
-                'params': None
-            })
-        
-        elif task_type == 'delete':
-            pos = random.randint(0, PASSWORD_LENGTH-1)
-            tasks.append({
-                'id': i,
-                'type': 'delete',
-                'params': pos
-            })
-        # Замена каждой буквы на ее номер в алфавите
-        elif task_type == 'letter_to_number_forward':
-            tasks.append({
-                'id': i,
-                'type': 'letter_to_number_forward',
-                'params': None
-            })
-        # Замена X-й буквы на цифру N
-        elif task_type == 'replace_letter_with_digit_forward':
-            x = random.randint(0, PASSWORD_LENGTH-1)
-            n = random.randint(0, 9)
-            tasks.append({
-                'id': i,
-                'type': 'replace_letter_with_digit_forward',
-                'params': (x, n)
-            })
-        # Замена X-й цифры на букву N
-        elif task_type == 'replace_digit_with_letter_forward':
-            x = random.randint(0, PASSWORD_LENGTH-1)
-            n = random.randint(0, 9)
-            tasks.append({
-                'id': i,
-                'type': 'replace_digit_with_letter_forward',
-                'params': (x, n)
-            })
-    
-    return tasks """
-
-"""Генерация базы из N заданий (новая)"""
+# Генерация базы из N заданий
 def generate_tasks(n_tasks: int, stroke = PASSWORD_LENGTH) -> list:
     tasks = []
     
@@ -221,6 +143,11 @@ def generate_tasks(n_tasks: int, stroke = PASSWORD_LENGTH) -> list:
         'replace_digit_with_letter',
         'sort_chars',
         'make_xth_letter_case'
+    ]
+
+    # Список всех доступных типов заданий (один тип)
+    task_types = [
+        'delete_char'
     ]
     
     for i in range(n_tasks):
@@ -284,43 +211,7 @@ def generate_tasks(n_tasks: int, stroke = PASSWORD_LENGTH) -> list:
     
     return tasks
 
-"""Преобразование пароля по заданию (старая)"""
-""" def apply_task(password, task):
-    if task['type'] == 'swap':
-        p1, p2 = task['params']
-        lst = list(password)
-        if p1 < len(lst) and p2 < len(lst):
-            lst[p1], lst[p2] = lst[p2], lst[p1]
-        return ''.join(lst)
-    
-    elif task['type'] == 'shift':
-        delta = task['params']
-        result = []
-        for c in password:
-            if c.isalpha():
-                base = ord('a')
-                new_ord = (ord(c) - base + delta) % 26 + base
-                result.append(chr(new_ord))
-            elif c.isdigit():
-                new_digit = (int(c) + delta) % 10
-                result.append(str(new_digit))
-            else:
-                result.append(c)
-        return ''.join(result)
-    
-    elif task['type'] == 'reverse':
-        return password[::-1]
-    
-    elif task['type'] == 'delete':
-        pos = task['params']
-        if pos < len(password):
-            return password[:pos] + password[pos+1:]
-        return password
-    
-    return password """
-
-
-"""Преобразование пароля по заданию (новая)"""
+# Преобразование по заданию
 def apply_task(stroke: str, task: dict) -> str:    
     if task['type'] == 'inc_digits':
         x = task['params']
@@ -355,53 +246,7 @@ def apply_task(stroke: str, task: dict) -> str:
     else:
         raise ValueError(f"Неизвестный тип задания: {task['type']}")
 
-
-"""Обратное преобразование к модернизированному паролю
-Возвращает множество возможных исходных паролей
-"""
-""" def reverse_task(task, observed):
-    if task['type'] == 'swap':
-        # swap (без изменений)
-        p1, p2 = task['params']
-        lst = list(observed)
-        if p1 < len(lst) and p2 < len(lst):
-            lst[p1], lst[p2] = lst[p2], lst[p1]
-        return {''.join(lst)}
-    
-    elif task['type'] == 'shift':
-        # shift - противоположный сдвиг
-        delta = -task['params']
-        result = []
-        for c in observed:
-            if c.isalpha():
-                base = ord('a')
-                new_ord = (ord(c) - base + delta) % 26 + base
-                result.append(chr(new_ord))
-            elif c.isdigit():
-                new_digit = (int(c) + delta) % 10
-                result.append(str(new_digit))
-            else:
-                result.append(c)
-        return {''.join(result)}
-    
-    elif task['type'] == 'reverse':
-        # reverse обратим
-        return {observed[::-1]}
-    
-    elif task['type'] == 'delete':
-        # delete - перебор всех возможных вставок
-        pos = task['params']
-        candidates = set()
-        chars = string.ascii_lowercase + string.digits
-        for c in chars:
-            candidate = observed[:pos] + c + observed[pos:]
-            if len(candidate) == 8:  # только правильной длины
-                candidates.add(candidate)
-        return candidates
-    
-    return set() """
-
-
+# Обратное преобразование
 def reverse_task(task: dict, observed: str, original_length: int = PASSWORD_LENGTH):    
     if task['type'] == 'inc_digits':
         x = task['params']
@@ -604,10 +449,10 @@ def reverse_task(task: dict, observed: str, original_length: int = PASSWORD_LENG
         return set()
 
 
-"""Комбинированный метод:
-1. Сначала обратное преобразование (мгновенно)
-2. Если кандидатов много — фильтруем по словарю
-3. Если словарь не дал результатов — расширяем поиск
+"""Поиск возможных паролей
+Применение обратного преобразования
+Если возможных ответов много - фильтруем по словарю
+Если результатов нет - увеличиваем область поиска
 """
 def find_candidates_with_dictionary(task, observed, dictionary, max_candidates=1000):
     # 1: обратное преобразование
@@ -630,20 +475,16 @@ def find_candidates_with_dictionary(task, observed, dictionary, max_candidates=1
     
     return candidates
 
-
-"""Восстанавление пароля по перехватам, используя словарь
-intercepts — список перехваченных входов (задание + преобразовынный пароль)
-dictionary — словарь популярных паролей
-"""
+# Восстановление пароял по перехватам при помощи словаря
 def recover_password_from_intercepts(intercepts, dictionary):
     if not intercepts:
         return None, 0
     
-    # Начинаем с кандидатов от первого перехвата
+    # Начало с вариантов от первого перехвата
     task1, obs1 = intercepts[0]
     possible_passwords = find_candidates_with_dictionary(task1, obs1, dictionary)
     
-    # Пересекаем с кандидатами от остальных перехватов
+    # Пересечение с вариантами от остальных перехватов
     for task, observed in intercepts[1:]:
         candidates_this = find_candidates_with_dictionary(task, observed, dictionary)
         possible_passwords = possible_passwords.intersection(candidates_this)
@@ -651,7 +492,7 @@ def recover_password_from_intercepts(intercepts, dictionary):
         if len(possible_passwords) <= 1:
             break
         if len(possible_passwords) > 1000:
-            # Слишком много кандидатов — ограничиваем
+            # Слишком много вариантов, ставим границу
             possible_passwords = set(list(possible_passwords)[:1000])
     
     if len(possible_passwords) == 1:
@@ -660,11 +501,11 @@ def recover_password_from_intercepts(intercepts, dictionary):
         return None, len(possible_passwords)
 
 
-""" ЗАПУСК ТЕСТА """
-def run_experiment(n_tasks, dictionary, num_users=NUM_USERS, num_intercepts=NUM_INTERCEPTS):
+# Запуск импровизированной атаки
+def run_attak(n_tasks, dictionary, num_users=NUM_USERS, num_intercepts=NUM_INTERCEPTS):
     print(f"Запуск: заданий = {n_tasks}, пользователей = {num_users}, перехватов = {num_intercepts}")
     
-    # Создаём базу заданий
+    # Генерация базы заданий
     tasks_db = generate_tasks(n_tasks)
     
     recovered_count = 0     # количество восстановленных паролей
@@ -702,9 +543,6 @@ def run_experiment(n_tasks, dictionary, num_users=NUM_USERS, num_intercepts=NUM_
         
         # Сбор статистики по всем пользователям
         total_candidates += candidate_count
-        
-        # if (user_id + 1) % 20 == 0:
-        #     print(f"    Прогресс: {user_id + 1}/{num_users}")
     
     recovery_rate = (recovered_count / num_users) * 100
     avg_candidates = total_candidates / num_users
@@ -720,12 +558,7 @@ def run_experiment(n_tasks, dictionary, num_users=NUM_USERS, num_intercepts=NUM_
     }
 
 
-""" Построение столбчатой диаграммы восстановления в зависимости от числа заданий 
-results: список словарей с ключами 'n_tasks' и 'recovery_rate'
-title: заголовок диаграммы
-save_path: путь для сохранения
-show_values: показывать ли значения над столбцами
-"""
+# Столбчатая диаграмма восстановления в зависимости от числа заданий
 def attak_tasks_sucsess_graph(results, title=None, save_path=None, show_values=True):
     x_values = [r['n_tasks'] for r in results]
     y_values = [r['recovery_rate'] for r in results]
@@ -752,13 +585,7 @@ def attak_tasks_sucsess_graph(results, title=None, save_path=None, show_values=T
     
     plt.show()
 
-
-""" Построение столбчатой диаграммы восстановления в зависимости от числа перехватов 
-results: список словарей с ключами 'n_intercepts' и 'recovery_rate'
-title: заголовок диаграммы
-save_path: путь для сохранения
-show_values: показывать ли значения над столбцами
-"""
+# Столбчатая диаграмма восстановления в зависимости от числа перехватов 
 def attak_intercepts_sucsess_graph(results, title=None, save_path=None, show_values=True):
     x_values = [r['n_intercepts'] for r in results]
     y_values = [r['recovery_rate'] for r in results]
@@ -786,14 +613,13 @@ def attak_intercepts_sucsess_graph(results, title=None, save_path=None, show_val
     plt.show()
 
 
-def main_tasks():
-    print("ТЕСТ - ВОССТАНОВЛЕНИЕ ПАРОЛЯ СО СЛОВАРЁМ")
-
-    # Загружаем словарь
+# Восстановление пароля от числа заданий в базе
+def test_num_tasks():
+    print("Тестирование восстановления пароля при помощи словаря в зависимости от числа заданий в базе")
     dictionary = load_dictionary("tests/common_passwords.txt", max_passwords=10000)
 
     # Параметры
-    tasks_variants = [5, 10, 20, 50, 100]    # общее число заданий
+    tasks_variants = [5, 10, 20, 50, 100]           # общее число заданий
     num_users = NUM_USERS                           # число пользователей
     num_intercepts = NUM_INTERCEPTS                 # количество перехватов
     
@@ -803,7 +629,7 @@ def main_tasks():
         print(f"Тест с числом заданий = {n_tasks}")
         start_time = time.time()
         
-        result = run_experiment(n_tasks, dictionary, num_users, num_intercepts)
+        result = run_attak(n_tasks, dictionary, num_users, num_intercepts)
         results.append(result)
         
         elapsed = time.time() - start_time
@@ -811,16 +637,10 @@ def main_tasks():
         print(f"    Точно восстановлено: {result['exact_recovered']}/{num_users}")
         print(f"    Время: {elapsed:.1f} сек")
     
-    print("\nИТОГОВЫЕ РЕЗУЛЬТАТЫ\n")
+    print("\nИтоги:\n")
     for r in results:
         print(f"Количество заданий = {r['n_tasks']} \
               Восстановлено паролей = {r['recovery_rate']:.2f}%")
-    
-    # Диаграмма
-    # for r in results:
-    #     bar_length = int(r['recovery_rate'] / 2)
-    #     bar = "█" * bar_length
-    #     print(f"   {r['n_tasks']:>3} заданий: [{bar:<50}] {r['recovery_rate']:.1f}%")
     
     attak_tasks_sucsess_graph(results, "Процент востановления паролей в зависимости от количества заданий")
 
@@ -828,17 +648,15 @@ def main_tasks():
     print(f"\nПри длине пароля {PASSWORD_LENGTH} символов и использовании словаря атакующий\
     восстанавливает {results[-1]['recovery_rate']:.1f}% паролей")
 
-
-def main_intercepts():
-    print("ТЕСТ - ВОССТАНОВЛЕНИЕ ПАРОЛЯ СО СЛОВАРЁМ")
-
-    # Загружаем словарь
+# Восстановление пароля от числа перехватов
+def test_num_intercepts():
+    print("Тестирование восстановления пароля при помощи словаря в зависимости от числа перехватов")
     dictionary = load_dictionary("tests/common_passwords.txt", max_passwords=10000)
 
     # Параметры
     tasks_variants = NUM_TASKS                  # общее число заданий
     num_users = NUM_USERS                       # число пользователей
-    num_intercepts = [1, 2, 3, 4, 5, 10]      # число перехватов
+    num_intercepts = [1, 2, 3, 4, 5, 10]        # число перехватов
     
     results = []
     
@@ -846,7 +664,7 @@ def main_intercepts():
         print(f"Тест с количеством перехватов = {n_intercepts}")
         start_time = time.time()
         
-        result = run_experiment(tasks_variants, dictionary, num_users, n_intercepts)
+        result = run_attak(tasks_variants, dictionary, num_users, n_intercepts)
         results.append(result)
         
         elapsed = time.time() - start_time
@@ -854,16 +672,10 @@ def main_intercepts():
         print(f"    Точно восстановлено: {result['exact_recovered']}/{num_users}")
         print(f"    Время: {elapsed:.1f} сек")
     
-    print("\nИТОГОВЫЕ РЕЗУЛЬТАТЫ\n")
+    print("\nИтоги:\n")
     for r in results:
         print(f"Количество перехватов = {r['n_intercepts']} \
               Восстановлено паролей = {r['recovery_rate']:.2f}%")
-    
-    # Диаграмма
-    # for r in results:
-    #     bar_length = int(r['recovery_rate'] / 2)
-    #     bar = "█" * bar_length
-    #     print(f"   {r['n_intercepts']:>3} перехватов: [{bar:<50}] {r['recovery_rate']:.1f}%")
     
     attak_intercepts_sucsess_graph(results, "Процент востановления паролей в зависимости от количества перехватов атакующего")
 
@@ -873,5 +685,5 @@ def main_intercepts():
 
 
 if __name__ == "__main__":
-    main_tasks()
-    main_intercepts()
+    test_num_tasks()
+    test_num_intercepts()

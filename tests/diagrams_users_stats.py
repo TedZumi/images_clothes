@@ -213,7 +213,7 @@ def auth_time_vs_attempts(json_file_path):
 
 
 # График тренда времени по попыткам (с обработкой аномалий)
-def plot_simple_time_trend_anom(json_file_path):
+def plot_time_trend_anom(json_file_path):
     with open(json_file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
 
@@ -432,7 +432,7 @@ if __name__ == "__main__":
     # auth_time_vs_attempts(json_file)
 
     # Тренд времени по попыткам
-    # plot_simple_time_trend_anom(json_file)
+    # plot_time_trend_anom(json_file)
     
     # Аномалии
     error_data(json_file)
