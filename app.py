@@ -14,15 +14,13 @@ import json
 
 
 load_dotenv()
-
-
 app = Flask(__name__, static_folder='static', template_folder='templates')
 app.secret_key = os.urandom(24)
 db_url = os.getenv('DATABASE_URL')
 app.config['DATABASE'] = db_url
 app.config['STATIC_URL_PATH'] = '/static'
 
-# Настройка MIME-типов
+
 mimetypes.add_type('text/javascript', '.js', True)
 mimetypes.add_type('text/css', '.css', True)
 
@@ -33,14 +31,14 @@ login_manager.login_view = 'login'
 @app.before_request
 def before_request():
     g.db = Database(app.config['DATABASE'])
-    g.db.session = g.db.Session() # Создаем сессию SQLAlchemy
+    g.db.session = g.db.Session()
 
 
 @app.teardown_appcontext
 def close_connection(exception):
     db = g.pop('db', None)
     if db is not None:
-        db.session.close() # Закрываем сессию SQLAlchemy
+        db.session.close()
 
 
 @login_manager.user_loader
@@ -167,7 +165,7 @@ def product_card(clothes_id):
     return render_template('product_card.html', clothes_data=clothes_data, person_id=person_id)
 
 
-api = API(app)  # Передаем app в API
+api = API(app)
 
 if __name__ == '__main__':
     app.run(debug=False)
