@@ -332,16 +332,6 @@ class DynamicTasksTool:
     
     # Генерация случайных параметров для преобразований
     def generate_random_parameters(self, transform: Dict, password: str) -> Dict:
-        """
-        Генерирует случайные параметры для преобразования.
-        
-        Args:
-            transform: описание преобразования
-            password: пароль для которого генерируем параметры
-            
-        Returns:
-            Словарь с параметрами или пустой словарь если параметры не нужны
-        """
         L = len(password)
         param_schema = transform.get('parameter_schema', {})
         
@@ -350,7 +340,7 @@ class DynamicTasksTool:
         
         params = {}
         
-        # T2: rotate - случайный сдвиг
+        # T2
         if transform['transformation_id'] == 'T2':
             min_val = param_schema.get('n', {}).get('min', 1)
             max_val = param_schema.get('n', {}).get('max', L-1)
@@ -359,52 +349,100 @@ class DynamicTasksTool:
             else:
                 params['n'] = 1
         
-        # T3: swap - случайные индексы для обмена
+        # T3
         elif transform['transformation_id'] == 'T3':
-            # Получаем ограничения из схемы
             i_min = param_schema.get('i', {}).get('min', 1)
             i_max = param_schema.get('i', {}).get('max', L)
             j_min = param_schema.get('j', {}).get('min', 1)
             j_max = param_schema.get('j', {}).get('max', L)
             
-            # Генерируем i
             i = random.randint(i_min, i_max)
             
-            # Генерируем j, учитывая constraint "j != i"
             attempts = 0
             max_attempts = 10
             while attempts < max_attempts:
                 j = random.randint(j_min, j_max)
-                if j != i:  # Проверяем constraint
+                if j != i:
                     params['i'] = i
                     params['j'] = j
                     break
                 attempts += 1
             
-            # Если не удалось найти j != i, берем противоположные индексы
             if 'i' not in params:
                 params['i'] = 1
                 params['j'] = L if L > 1 else 2
         
-        # T5, T6: increment/decrement digits - случайное увеличение/уменьшение
+        # T5, T6
         elif transform['transformation_id'] in ['T5', 'T6']:
             min_val = param_schema.get('d', {}).get('min', 1)
             max_val = param_schema.get('d', {}).get('max', 3)
             params['d'] = random.randint(min_val, max_val)
         
+        # T11
+        elif transform['transformation_id'] == 'T11':
+            min_val = param_schema.get('d', {}).get('min', 1)
+            max_val = param_schema.get('d', {}).get('max', 9)
+            params['d'] = random.randint(min_val, max_val)
+        
+        # T12
+        elif transform['transformation_id'] == 'T12':
+            min_val = param_schema.get('x', {}).get('min', 0)
+            max_val = param_schema.get('x', {}).get('max', L-1)
+            if max_val >= min_val and L > 0:
+                params['x'] = random.randint(min_val, max_val)
+            else:
+                params['x'] = 0
+        
+        # T13
+        elif transform['transformation_id'] == 'T13':
+            pass  # Нет параметров
+        
+        # T14
+        elif transform['transformation_id'] == 'T14':
+            # x - номер буквы
+            x_min = param_schema.get('x', {}).get('min', 1)
+            x_max = param_schema.get('x', {}).get('max', L)
+            if x_max >= x_min:
+                params['x'] = random.randint(x_min, x_max)
+            else:
+                params['x'] = 1
+            
+            # n - цифра от 0 до 9
+            n_min = param_schema.get('n', {}).get('min', 0)
+            n_max = param_schema.get('n', {}).get('max', 9)
+            params['n'] = random.randint(n_min, n_max)
+        
+        # T15
+        elif transform['transformation_id'] == 'T15':
+            # x - номер цифры
+            x_min = param_schema.get('x', {}).get('min', 1)
+            x_max = param_schema.get('x', {}).get('max', L)
+            if x_max >= x_min:
+                params['x'] = random.randint(x_min, x_max)
+            else:
+                params['x'] = 1
+            
+            # letter - случайная буква
+            import string
+            params['letter'] = random.choice(string.ascii_letters)
+        
+        # T16
+        elif transform['transformation_id'] == 'T16':
+            pass  # Нет параметров
+        
+        # T17
+        elif transform['transformation_id'] == 'T17':
+            min_val = param_schema.get('x', {}).get('min', 1)
+            max_val = param_schema.get('x', {}).get('max', L)
+            if max_val >= min_val and L > 0:
+                params['x'] = random.randint(min_val, max_val)
+            else:
+                params['x'] = 1
+        
         return params
     
     # Получение списка преобразований, применимых к паролю с параметрами
     def get_transformations_with_parameters(self, password: str) -> List[Dict]:
-        """
-        Возвращает применимые преобразования с уже сгенерированными параметрами.
-        
-        Args:
-            password: пароль для анализа
-            
-        Returns:
-            Список преобразований с добавленным полем 'generated_parameters'
-        """
         applicable = self.get_applicable_transformations(password)
         
         for transform in applicable:
@@ -419,18 +457,6 @@ class DynamicTasksTool:
     
     # Выбор случайного преобразования, генерация параметров, активация
     def apply_random_transformation(self, password: str) -> Dict[str, Any]:
-        """
-        Выбирает случайное преобразование, генерирует параметры и применяет его.
-        
-        Returns:
-            Словарь с результатом: {
-                'original': исходный пароль,
-                'transformed': преобразованный пароль,
-                'transformation_id': ID преобразования,
-                'description': описание,
-                'parameters': использованные параметры
-            }
-        """
         applicable = self.get_applicable_transformations(password)
         
         if not applicable:
@@ -491,6 +517,18 @@ class DynamicTasksTool:
             return self._keyboard_en_ru(password, params)
         elif func_name == 'vowel_next':
             return self._vowel_next(password, params)
+        elif func_name == 'delete_char_forward':
+            return self._delete_char_forward(password, params)
+        elif func_name == 'letter_to_number_forward':
+            return self._letter_to_number_forward(password, params)
+        elif func_name == 'replace_letter_with_digit_forward':
+            return self._replace_letter_with_digit_forward(password, params)
+        elif func_name == 'replace_digit_with_letter_forward':
+            return self._replace_digit_with_letter_forward(password, params)
+        elif func_name == 'sort_chars_forward':
+            return self._sort_chars_forward(password, params)
+        elif func_name == 'make_xth_letter_case_forward':
+            return self._make_xth_letter_case_forward(password, params)
         else:
             raise ValueError(f"Неизвестное преобразование: {func_name}")
     
@@ -538,7 +576,7 @@ class DynamicTasksTool:
     
     # Увеличение цифр
     def _increment_digits(self, password: str, params: Dict) -> str:
-        d = params.get('d', 1)
+        d = params.get('d', 1) 
         result = []
         for char in password:
             if char.isdigit():
@@ -627,6 +665,77 @@ class DynamicTasksTool:
                 result.append(char)
         return ''.join(result)
     
+
+    # Новые функции
+    # Удаление символа
+    def _delete_char_forward(self, password: str, params: Dict) -> str:
+        x = params.get('x', 0)
+        if 0 <= x < len(password):
+            return password[:x] + password[x+1:]
+        return password
+    
+    # Замена букв на их номера в алфавите
+    def _letter_to_number_forward(self, password: str, params: Dict) -> str:
+        result = []
+        for ch in password:
+            if ch.isalpha():
+                result.append(str(ord(ch.lower()) - ord('a') + 1))
+            else:
+                result.append(ch)
+        return ''.join(result)
+
+    # Замена буквы на цифру
+    def _replace_letter_with_digit_forward(self, password: str, params: Dict) -> str:
+        x = params.get('x', 1)
+        n = params.get('n', 0)
+        if not 0 <= n <= 9:
+            return password
+        letters_found = 0
+        result = list(password)
+        for i, ch in enumerate(result):
+            if ch.isalpha():
+                letters_found += 1
+                if letters_found == x:
+                    result[i] = str(n)
+                    break
+        return ''.join(result)
+
+    # Замена цифры на букву
+    def _replace_digit_with_letter_forward(self, password: str, params: Dict) -> str:
+        x = params.get('x', 1)
+        letter = params.get('letter', 'A')
+        if len(letter) != 1 or not letter.isalpha():
+            return password
+        digits_found = 0
+        result = list(password)
+        for i, ch in enumerate(result):
+            if ch.isdigit():
+                digits_found += 1
+                if digits_found == x:
+                    result[i] = letter
+                    break
+        return ''.join(result)
+
+    # Сортировка символов по алфавиту
+    def _sort_chars_forward(self, password: str, params: Dict) -> str:
+        return ''.join(sorted(password))    
+
+    # Одна буква заглавная остальные строчные
+    def _make_xth_letter_case_forward(self, password: str, params: Dict) -> str:
+        x = params.get('x', 1)
+        letters_found = 0
+        result = []
+        for ch in password:
+            if ch.isalpha():
+                letters_found += 1
+                if letters_found == x:
+                    result.append(ch.upper())
+                else:
+                    result.append(ch.lower())
+            else:
+                result.append(ch)
+        return ''.join(result)
+
     # Валидация параметров преобразования
     def validate_parameters(self, transform: Dict, params: Dict) -> List[str]:
 

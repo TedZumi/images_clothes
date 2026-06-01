@@ -1,11 +1,11 @@
 {
-  "total_attempts": 254,
-  "successful_logins": 223,
+  "total_attempts": 257,
+  "successful_logins": 226,
   "failed_logins": 31,
-  "average_time_factor1": 11.38,
-  "average_time_factor2": 5.89,
-  "factor1_errors": 205,
-  "factor2_errors": 33,
+  "average_time_factor1": 12.06,
+  "average_time_factor2": 7.63,
+  "factor1_errors": 206,
+  "factor2_errors": 34,
   "detailed_logs": [
     {
       "email": "kate_ovcharenko@mail.ru",
@@ -1844,6 +1844,30 @@
       "success": true,
       "factor1_time": 6.98,
       "factor2_time": 39.97,
+      "factor1_errors": 0,
+      "factor2_errors": 1
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 24.43,
+      "factor2_time": 9.81,
+      "factor1_errors": 1,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 26.84,
+      "factor2_time": 62.54,
+      "factor1_errors": 0,
+      "factor2_errors": 0
+    },
+    {
+      "email": "kate_ovcharenko@mail.ru",
+      "success": true,
+      "factor1_time": 135.05,
+      "factor2_time": 339.51,
       "factor1_errors": 0,
       "factor2_errors": 1
     }
